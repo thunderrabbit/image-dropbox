@@ -5,8 +5,8 @@ require "/var/www/dropbox/core/conf.php";
 $stats_file = "/var/www/dropbox/core/stats.php";
 $stats_date = filemtime( $stats_file );
 
-// GENERATE STATISTICS (always)
-if ( ( time() - $stats_date <= 43200 ) ) {
+// GENERATE STATISTICS (once an hour)
+if ( ( time() - $stats_date >= 3600 ) ) {
 
 $sql = "SELECT count(*) count FROM entries";
 $result = $db->query( $sql );
