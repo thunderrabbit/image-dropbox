@@ -6,7 +6,7 @@ $stats_file = "/var/www/dropbox/core/stats.php";
 $stats_date = filemtime( $stats_file );
 
 // GENERATE STATISTICS (always)
-if ( ( time() - filemtime( $stats_file ) <= 43200 ) ) {
+if ( ( time() - $stats_date <= 43200 ) ) {
 
 $sql = "SELECT count(*) count FROM entries";
 $result = $db->query( $sql );
