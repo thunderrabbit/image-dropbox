@@ -3,6 +3,7 @@
 --
 CREATE DATABASE `photos`;
 
+GRANT ALL ON photos.* TO photos@localhost IDENTIFIED BY 'photos';
 --
 -- Table structure for table `data`
 --
