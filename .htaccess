@@ -6,7 +6,7 @@ RewriteBase /dropbox
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^image/([^/]*)/?$ image.php?mode=image&id=$1 [L,QSA]
+RewriteRule ^image/([^/]*)/?(dummy.jpg)?$ image.php?mode=image&id=$1 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
