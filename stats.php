@@ -121,6 +121,7 @@ require "/var/www/dropbox/core/header.php";
 
 <div id="statistics">
 <h2>Statistics</h2>
+<p>Stats are generated once an hour</p>
 <p>stats last generated: <?=date( 'Y-m-d @ H:i:s', $stats_date );?> UTC</p>
 <table>
 	<tr>
