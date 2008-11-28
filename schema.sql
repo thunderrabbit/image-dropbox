@@ -1,4 +1,9 @@
 --
+-- Database
+--
+CREATE DATABASE `photos`;
+
+--
 -- Table structure for table `data`
 --
 CREATE TABLE `data` (
