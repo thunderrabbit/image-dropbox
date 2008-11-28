@@ -75,6 +75,12 @@ $row = $result->fetch_array();
 $num_views = $row[0];
 $result->close();
 
+$sql = "SELECT id,title,views FROM entries ORDER BY views DESC LIMIT 1";
+$result = $db->query( $sql );
+$row = $result->fetch_array();
+$most_views = $row;
+$result->close();
+
 // Date of oldest image
 $sql = "SELECT date,id FROM entries order by date limit 1";
 $result = $db->query( $sql );
@@ -100,6 +106,7 @@ $stats_data .= sprintf( '%s = "%s";', '$tag_min', $tag_min );
 $stats_data .= sprintf( '%s = "%s";', '$tag_max', $tag_max );
 $stats_data .= sprintf( '%s = %s;', '$oldest_image', var_export( $oldest_image, true ) );
 $stats_data .= sprintf( '%s = %s;', '$newest_image', var_export( $newest_image, true ) );
+$stats_data .= sprintf( '%s = %s;', '$most_views', var_export( $most_views, true ) );
 $stats_data .= '?>';
 
 file_put_contents( $stats_file, $stats_data );
@@ -131,6 +138,10 @@ require "/var/www/dropbox/core/header.php";
 	<tr>
 		<td>Number of image views:</td>
 		<td><?=$num_views;?></td>
+	</tr>
+	<tr>
+		<td>Image with most views:</td>
+		<td><a href="<?=$loc;?>/view/<?=$most_views[0];?>/"><?=$most_views[2];?> - <?=$most_views[1];?></a></td>
 	</tr>
 	<tr>
 		<td>Oldest image uploaded on:</td>
