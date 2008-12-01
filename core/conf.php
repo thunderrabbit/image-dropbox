@@ -1,7 +1,7 @@
 <?php
 
-$loc = '/dropbox';
-$dataloc = '/var/www-data/dropbox/';
+$loc = '';
+$dataloc = '/var/vhosts/dropbox/core/';
 
 $db = new mysqli("localhost", "photos", "photos", "photos");
 if ( mysqli_connect_errno() ) {

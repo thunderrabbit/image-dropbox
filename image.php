@@ -1,6 +1,6 @@
 <?php
 
-require "/var/www/dropbox/core/conf.php";
+require "/var/vhosts/dropbox/core/conf.php";
 
 switch ( $_GET['mode'] ) {
 	case 'thumb':

@@ -1,6 +1,6 @@
 <?php
-require "/var/www/dropbox/core/conf.php";
-require "/var/www/dropbox/core/header.php";
+require "/var/vhosts/dropbox/core/conf.php";
+require "/var/vhosts/dropbox/core/header.php";
 ?>
 	<div id="form">
 
@@ -31,5 +31,5 @@ require "/var/www/dropbox/core/header.php";
 </form>
 	</div>
 <?php
-require "/var/www/dropbox/core/footer.php";
+require "/var/vhosts/dropbox/core/footer.php";
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-require "/var/www/dropbox/core/conf.php";
+require "/var/vhosts/dropbox/core/conf.php";
 
 if ( $_POST ) {
 	if ( is_uploaded_file( $_FILES['image']['tmp_name'] ) ) {
