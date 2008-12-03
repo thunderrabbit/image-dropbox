@@ -34,9 +34,9 @@ require "/var/vhosts/dropbox/core/header.php";
 ?>
 	<div id="content">
 	<h2>View</h2>
-	URL: http://local.cube16.com<?=$loc;?>/view/<?=$id;?>/
+	URL: http://dropbox.easytospell.net<?=$loc;?>/view/<?=$id;?>/
 	<br/>
-	Direct: http://local.cube16.com<?=$loc;?>/image/<?=$id;?>/
+	Direct: http://dropbox.easytospell.net<?=$loc;?>/image/<?=$id;?>/
 	<br/>
 	Tags: 
 	<?
