@@ -34,9 +34,9 @@ require $path . "/core/header.php";
 ?>
 	<div id="content">
 	<h2>View</h2>
-	URL: http://dropbox.easytospell.net<?=$loc;?>/view/<?=$id;?>/
+	URL: <?=$url;?><?=$loc;?>/view/<?=$id;?>/
 	<br/>
-	Direct: http://dropbox.easytospell.net<?=$loc;?>/image/<?=$id;?>/
+	Direct: <?=$url;?><?=$loc;?>/image/<?=$id;?>/
 	<br/>
 	Title: <?=$entry['title'];?>
 	<br/>
