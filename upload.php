@@ -14,8 +14,9 @@ if ( $_POST ) {
 		$height_orig = $img[1];
 		$password = strval( $_POST['password'] );
 		$host = gethostbyaddr( $_SERVER['REMOTE_ADDR'] ) . ' (' . $_SERVER['REMOTE_ADDR'] . ')';
+
 		if ( $_POST['tags'] ) {
-			$tags = explode( ',', strval( $_POST['tags'] ) );
+			$tags = explode( ',', trim( strval( $_POST['tags'] ) ) );
 			$tag_count = count( $tags );
 		} else {
 			$tags[] = 'none';

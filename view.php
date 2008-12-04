@@ -38,6 +38,8 @@ require "/var/vhosts/dropbox/core/header.php";
 	<br/>
 	Direct: http://dropbox.easytospell.net<?=$loc;?>/image/<?=$id;?>/
 	<br/>
+	Title: <?=$entry['title'];?>
+	<br/>
 	Tags: 
 	<?
 	for($i = 0; $row = $result->fetch_assoc(); $i++ ) {
