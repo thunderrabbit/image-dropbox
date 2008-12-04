@@ -1,6 +1,7 @@
 	<div id="footer">
 	<a href="<?=$loc;?>/">home</a> 
-	<a href="<?=$loc;?>/upload/">upload</a> 
+	<a href="<?=$loc;?>/upload/">upload</a>
+	<a href="<?=$loc;?>/tagmap/">tags</a>
 	<a href="<?=$loc;?>/stats/">statistics</a> 
 	<a href="<?=$loc;?>/about/">about</a>
 	<br/>

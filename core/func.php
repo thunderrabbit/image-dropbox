@@ -1,10 +1,11 @@
 <?php
 
-function tagField($db)
+function tagField($db,$limit=null)
 {
 	global $loc;
 
 	$sql = "select t.name, m.tag, count(m.tag) as num from tagmap as m, tags as t where t.id=m.tag group by tag order by name";
+	$sql .= (!is_null($limit)) ? ' LIMIT ' . $limit : null;
 	$max_size = 250;
 	$min_size = 100;
 

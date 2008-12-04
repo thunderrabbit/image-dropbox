@@ -19,7 +19,7 @@ if ( ! $result ) die("Failed Query");
 include $path . "/core/header.php";
 
 ?>
-	<?php tagField( $db ); ?>
+	<?php tagField( $db, 50 ); ?>
 	<div id="images">
 	<? for($i = 1; $row = $result->fetch_assoc(); $i++ ) { ?>	
 		<a title="<?=$row['title'];?>" href="<?=$loc;?>/view/<?=$row['id'];?>/">
