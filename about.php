@@ -1,6 +1,6 @@
-<?php 
-require "/var/vhosts/dropbox/core/conf.php"; 
-require "/var/vhosts/dropbox/core/header.php";
+<?php
+require getcwd() . '/core/conf.php'; 
+require $path . '/core/header.php';
 ?>
 <h2>About</h2>
 <div id="about">
@@ -15,5 +15,5 @@ Implemented by:
 </ul>
 </div>
 <?php
-require "/var/vhosts/dropbox/core/footer.php";
+require $path . "/core/footer.php";
 ?>

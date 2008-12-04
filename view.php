@@ -1,5 +1,5 @@
 <?php
-require "/var/vhosts/dropbox/core/conf.php";
+require getcwd() . "/core/conf.php";
 
 $id = intval( $_GET['id'] );
 
@@ -30,7 +30,7 @@ if ( ! $result = $db->query( $sql ) ) {
 	die( "Query Error" );
 }
 
-require "/var/vhosts/dropbox/core/header.php";
+require $path . "/core/header.php";
 ?>
 	<div id="content">
 	<h2>View</h2>
@@ -61,5 +61,5 @@ require "/var/vhosts/dropbox/core/header.php";
 	<a href="<?=$loc;?>/image/<?=$id;?>/"><img alt="<?=$title;?>" width="<?=$width?>" height="<?=$height?>" src="<?=$loc;?>/image/<?=$id;?>/" /></a>
 	</div>
 <?php
-require "/var/vhosts/dropbox/core/footer.php";
+require $path . "/core/footer.php";
 ?>

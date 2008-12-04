@@ -1,8 +1,9 @@
 <?php
 
 $loc = '';
-$dataloc = '/var/vhosts/dropbox/core/';
-$version = '0.0.1a';
+$path = '/var/vhosts/dropbox';
+$version = '0.0.2a';
+
 
 $db = new mysqli("localhost", "photos", "photos", "photos");
 if ( mysqli_connect_errno() ) {

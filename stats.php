@@ -1,8 +1,8 @@
 <?php
 
-require "/var/vhosts/dropbox/core/conf.php";
+require getcwd() . "/core/conf.php";
 
-$stats_file = "/var/vhosts/dropbox/core/stats.php";
+$stats_file = $path . "/core/stats.php";
 $stats_date = filemtime( $stats_file );
 
 // GENERATE STATISTICS (once an hour)
@@ -114,7 +114,7 @@ file_put_contents( $stats_file, $stats_data );
 } else {
 	include $stats_file;
 }
-require "/var/vhosts/dropbox/core/header.php";
+require $path . "/core/header.php";
 
 
 ?>
@@ -178,6 +178,6 @@ require "/var/vhosts/dropbox/core/header.php";
 
 <?php
 
-require "/var/vhosts/dropbox/core/footer.php";
+require $path . "/core/footer.php";
 ?>
 

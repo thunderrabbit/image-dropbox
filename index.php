@@ -1,6 +1,6 @@
 <?php
-require "/var/vhosts/dropbox/core/conf.php";
-require "/var/vhosts/dropbox/core/func.php";
+require getcwd() . "/core/conf.php";
+require $path . "/core/func.php";
 
 if ( $_GET['tags'] ) {
 	$sql = sprintf( "select e.id,e.title 
@@ -16,7 +16,7 @@ $result = $db->query( $sql );
 
 if ( ! $result ) die("Failed Query");
 
-include "/var/vhosts/dropbox/core/header.php";
+include $path . "/core/header.php";
 
 ?>
 	<?php tagField( $db ); ?>
@@ -30,5 +30,5 @@ include "/var/vhosts/dropbox/core/header.php";
 <?
 $result->close();
 
-include "/var/vhosts/dropbox/core/footer.php";
+include $path . "/core/footer.php";
 ?>
