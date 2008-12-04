@@ -4,7 +4,7 @@
 	<a href="<?=$loc;?>/stats/">statistics</a> 
 	<a href="<?=$loc;?>/about/">about</a>
 	<br/>
-	<span id="copy">&copy;<?=date('Y');?> <a href="http://www.easytospell.net">Richard Marshall</a></span>
+	<span id="copy">&copy;<?=date('Y');?> <a href="http://www.easytospell.net">Richard Marshall</a> v<?=$version;?></span>
 	</div>
 	</div>
 	<script type="text/javascript">
