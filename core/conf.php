@@ -2,7 +2,7 @@
 
 $loc = '';
 $path = '/var/vhosts/dropbox-stage';
-$version = '0.0.2a';
+$version = '0.0.3a';
 $url = 'http://dropbox-stage.easytospell.net';
 
 $db = new mysqli("localhost", "photos", "photos", "photos");
