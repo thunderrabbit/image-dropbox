@@ -1,5 +1,6 @@
 <?php
 
+
 require '../core/conf.php';
 
 if ( $_POST ) {
