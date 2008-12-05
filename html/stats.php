@@ -1,6 +1,6 @@
 <?php
 
-require getcwd() . "/core/conf.php";
+require '../core/conf.php';
 
 $stats_file = $path . "/core/stats.php";
 $stats_date = filemtime( $stats_file );

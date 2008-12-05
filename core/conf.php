@@ -1,7 +1,7 @@
 <?php
 
 $loc = '';
-$path = '/var/vhosts/dropbox';
+$path = '/var/vhosts/dropbox-stage';
 $version = '0.0.2a';
 $url = 'http://dropbox-stage.easytospell.net';
 

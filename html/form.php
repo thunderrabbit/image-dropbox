@@ -1,5 +1,5 @@
 <?php
-require getcwd() . "/core/conf.php";
+require '../core/conf.php';
 require $path . "/core/header.php";
 ?>
 	<div id="form">

@@ -1,5 +1,5 @@
 <?php
-require getcwd() . "/core/conf.php";
+require '../core/conf.php';
 
 $id = intval( $_GET['id'] );
 
@@ -57,6 +57,8 @@ require $path . "/core/header.php";
 	Size: <?=floor($entry['size']/1024)?>kb
 	<br/>
 	Uploaded by: <?=$entry['ip'];?>
+	<br/>
+	<a href="<?=$loc;?>/edit/<?=$id;?>/">Edit Info</a>
 	<br/>
 	<a href="<?=$loc;?>/image/<?=$id;?>/"><img alt="<?=$title;?>" width="<?=$width?>" height="<?=$height?>" src="<?=$loc;?>/image/<?=$id;?>/" /></a>
 	</div>

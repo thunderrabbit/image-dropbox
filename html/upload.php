@@ -1,6 +1,6 @@
 <?php
 
-require getcwd() . "/core/conf.php";
+require '../core/conf.php';
 
 if ( $_POST ) {
 	if ( is_uploaded_file( $_FILES['image']['tmp_name'] ) ) {
