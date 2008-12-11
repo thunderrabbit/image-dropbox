@@ -1,9 +1,9 @@
 <?php
 
 $loc = '';
-$path = '/var/vhosts/dropbox-stage';
+$path = '/var/vhosts/dropbox';
 $version = '0.0.4a';
-$url = 'http://dropbox-stage.easytospell.net';
+$url = 'http://dropbox.easytospell.net';
 
 $db = new mysqli("localhost", "photos", "photos", "photos");
 if ( mysqli_connect_errno() ) {

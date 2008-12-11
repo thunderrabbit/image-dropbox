@@ -69,7 +69,7 @@ if ( $_POST ) {
 
 
 		for ( $i = 0; $i < $tag_count; $i++ ) {
-			$cur = strtolower( $tags[$i] );
+			$cur = strtolower( trim( $tags[$i] ) );
 			$sql = sprintf( "select id from tags where name='%s'", $cur );
 			$result = $db->query( $sql );
 			if ( $result->num_rows < 1 ) {
