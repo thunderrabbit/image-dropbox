@@ -24,7 +24,7 @@ if ( ! $result = $db->query( $sql ) ) {
 
 $tags = '';
 for($i = 0; $row = $result->fetch_assoc(); $i++ ) {
-	$tags .= ( $i > 0 ) ? ',' . $row['name'] : $row['name'];
+	$tags .= ( $i > 0 ) ? ',' . str_replace('_',' ',$row['name']) : str_replace('_',' ',$row['name']);
 }
 require $path . "/core/header.php";
 ?>

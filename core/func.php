@@ -1,5 +1,10 @@
 <?php
 
+function fail()
+{
+	die("oops");
+}
+
 function tagField($db,$limit=null)
 {
 	global $loc;
@@ -27,7 +32,7 @@ function tagField($db,$limit=null)
 	foreach ( $tags as $key => $value ) {
 		$size = ceil( $min_size + (($value - $min_value) * $step) );
 	?>
-		<a style="font-size: <?=$size;?>%" href="<?=$loc;?>/tags/<?=urlencode($key);?>/"><?=$key;?></a>(<?=$value;?>), <? } ?> <a href="<?=$loc;?>/">all</a>
+		<a style="font-size: <?=$size;?>%" href="<?=$loc;?>/tags/<?=urlencode($key);?>/"><?=str_replace('_',' ',$key);?></a>(<?=$value;?>), <? } ?> <a href="<?=$loc;?>/">all</a>
 	</div>
 	<?php
 }

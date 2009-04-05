@@ -47,6 +47,14 @@ input {
 	text-align: justified;
 }
 
+#search {
+	margin-top: 20px;
+}
+
+#search input {
+	border: 1px solid;
+}
+
 #tags {
 	line-height: 1.5em;
 }

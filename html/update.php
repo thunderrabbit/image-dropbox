@@ -30,7 +30,7 @@ if ( $_POST ) {
 		die('error in query');
 
 	for ( $i = 0; $i < $tag_count; $i++ ) {
-		$cur = strtolower( $tags[$i] );
+		$cur = str_replace( ' ', '_', strtolower( $tags[$i] ) );
 		$sql = sprintf( "select id from tags where name='%s'", $cur );
 		$result = $db->query( $sql );
 		if ( $result->num_rows < 1 ) {

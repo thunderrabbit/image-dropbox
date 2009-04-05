@@ -2,6 +2,8 @@
 
 require '../core/conf.php';
 
+var_dump($_POST);
+
 if ( $_POST ) {
 	if ( is_uploaded_file( $_FILES['image']['tmp_name'] ) ) {
 		$data = file_get_contents( $_FILES['image']['tmp_name'] );
@@ -14,6 +16,9 @@ if ( $_POST ) {
 		$height_orig = $img[1];
 		$password = strval( $_POST['password'] );
 		$host = gethostbyaddr( $_SERVER['REMOTE_ADDR'] ) . ' (' . $_SERVER['REMOTE_ADDR'] . ')';
+
+		printf("<pre>image size: %s\nfilename: %s\ntype: %s\n</pre>",
+			$size, $_FILES['image']['tmp_name'], $size[2] );
 
 		if ( $_POST['tags'] ) {
 			$tags = explode( ',', trim( strval( $_POST['tags'] ) ) );
@@ -69,7 +74,7 @@ if ( $_POST ) {
 
 
 		for ( $i = 0; $i < $tag_count; $i++ ) {
-			$cur = strtolower( $tags[$i] );
+			$cur = str_replace( ' ', '_', strtolower( $tags[$i] ) );
 			$sql = sprintf( "select id from tags where name='%s'", $cur );
 			$result = $db->query( $sql );
 			if ( $result->num_rows < 1 ) {
@@ -83,12 +88,19 @@ if ( $_POST ) {
 			$sql = sprintf( "insert into tagmap (tag,entry) values (%d,%d)", $tag_id, $id );
 			$db->query( $sql );
 		}
+	} else {
+	var_dump( $_FILES['image'] );
+	print "uploaded file " . $_FILES['image']['tmp_name'] . " is not valid";
 	}
 
-
+} else {
+	print "whut?";
+echo ini_get('upload_max_filesize');
+echo ini_get('post_max_size');
+echo ini_get('memory_limit');
 }
 
-header("location: $loc/view/" . $id . "/");
+#header("location: $loc/view/" . $id . "/");
 
 $db->close();
 
