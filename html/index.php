@@ -11,6 +11,7 @@ if ( $_GET['args'] ) {
 			case 'page':
 				$section = 'home';
 			case 'view':
+			case 'edit':
 			case 'update':
 			case 'delete':
 				if ( ($i+1) < $c )

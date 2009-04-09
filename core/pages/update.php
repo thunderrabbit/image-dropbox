@@ -1,11 +1,8 @@
 <?php
 
-
-require '../core/conf.php';
-
 if ( $_POST ) {
 	$title = strval( $_POST['title'] );
-	$id = intval( $_GET['id'] );
+	$id = intval( $entry );
 	
 	$sql = sprintf("select password from entries where id=%d", $id );
 	$result = $db->query( $sql );

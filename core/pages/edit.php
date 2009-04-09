@@ -1,9 +1,6 @@
 <?php
 
-require '../core/conf.php';
-
-
-$id = intval( $_GET['id'] );
+$id = intval( $entry );
 
 $sql = sprintf( "select title from entries where id=%d", $id );
 
@@ -26,7 +23,6 @@ $tags = '';
 for($i = 0; $row = $result->fetch_assoc(); $i++ ) {
 	$tags .= ( $i > 0 ) ? ',' . str_replace('_',' ',$row['name']) : str_replace('_',' ',$row['name']);
 }
-require $path . "/core/header.php";
 ?>
 	<div id="form">
 		<h2>Edit</h3>
@@ -51,7 +47,3 @@ require $path . "/core/header.php";
 		</table>	
 		</form>
 	</div>
-<?
-require $path . "/core/footer.php";
-
-?>

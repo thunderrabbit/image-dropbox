@@ -1,19 +1,19 @@
 --
 -- Database
 --
-CREATE DATABASE `photos`;
+CREATE DATABASE `dropbox`;
 
-GRANT ALL ON photos.* TO photos@localhost IDENTIFIED BY 'photos';
+GRANT ALL ON dropbox.* TO dropbox@localhost IDENTIFIED BY 'dropbox';
 --
 -- Table structure for table `data`
 --
 CREATE TABLE `data` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `entryid` mediumint(8) unsigned NOT NULL default '0',
+  `entryid` int(11) NOT NULL,
   `filedata` blob NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `entry_idx` (`entryid`)
-);
+  FOREIGN KEY (entryid) REFERENCES entries (id) on delete cascade
+) ENGINE=InnoDB;
 
 --
 -- Table structure for table `entries`
@@ -31,17 +31,17 @@ CREATE TABLE `entries` (
   `ip` varchar(255) default NULL,
   `password` varchar(20) default NULL,
   PRIMARY KEY  (`id`)
-);
+) ENGINE=InnoDB;
 
 --
 -- Table structure for table `tagmap`
 --
 CREATE TABLE `tagmap` (
-  `tag` int(11) default NULL,
-  `entry` int(11) default NULL,
-  KEY `tag` (`tag`),
-  KEY `entry` (`entry`)
-);
+  `tag` int(11) NOT NULL,
+  `entry` int(11) NOT NULL,
+  FOREIGN KEY (tag) REFERENCES tags (id) on delete cascade,
+  FOREIGN KEY (entry) REFERENCES entries (id) on delete cascade
+) ENGINE=InnoDB;
 
 --
 -- Table structure for table `tags`
@@ -50,4 +50,4 @@ CREATE TABLE `tags` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-);
+) ENGINE=InnoDB;
