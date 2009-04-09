@@ -2,55 +2,55 @@
 require '../core/conf.php';
 require $path . "/core/func.php";
 
-$joins = '';
-$where = '';
 
-if ( $_GET['tags'] ) {
-        $tags = split( ' ', $_GET['tags'] );
-        foreach ( $tags as $k => $value ) {
-                $tag = $db->real_escape_string( strval( $value ) );
-                switch ( $value{0} ) {
-                        case '-': # don't show entries with these tags
-                                $tag = substr( $tag, 1 );
-                                $joins .= " left outer join tagmap t{$k} on t{$k}.entry=entries.id && t{$k}.tag=(SELECT id FROM tags WHERE name='$tag') ";
-                                $where[] = " t{$k}.tag is null ";
-                                break;
-                        case '~':
-                                # not implemented yet
-                                break;
-                        default: # show entries with these tags
-                                $joins .= " inner join tagmap t{$k} on t{$k}.entry=entries.id && t{$k}.tag=(SELECT id FROM tags WHERE name='$tag') ";
-                                break;
-                }
-        }
-        if ( $where ) 
-                $where = ' where ' . implode( ' && ', $where );
+if ( $_GET['args'] ) {
+	$args = explode('/', $_GET['args'] );
+
+	for ( $i = 0, $c = count($args); $i < $c; $i++ ) {
+		switch ( strval( $args[$i] ) ) {
+			case 'page':
+				$section = 'home';
+			case 'view':
+			case 'update':
+			case 'delete':
+				if ( ($i+1) < $c )
+					$entry = $args[++$i];
+				else
+					die('problem');
+				if ( !$section )
+					$section = $args[$i-1];
+				break;
+			case 'stats':
+			case 'about':
+			case 'tagfield':
+			case 'upload':
+			case 'submit':
+			case 'search':
+				if ( !$section )
+					$section = $args[$i];
+				break;
+			
+			case 'tags':
+				if ( ($i+1) < $c ) 
+					$tags = $args[++$i];
+				else
+					die('problem');
+			default:
+				break;
+		}
+	}
 }
 
-$sql = sprintf( "select id,title from entries %s %s order by date desc limit 100",
-                        $joins, $where );
-$result = $db->query( $sql );
+if ( !$section ) $section = 'home';
 
-if ( ! $result ) die("Failed Query");
+#print "section: $section<br/>";
+#print "entry: $entry<br/>";
+#print "tags: $tags<br/>";
 
-include $path . "/core/header.php";
+ob_start();
+require $path . "/core/header.php";
+require $path . "/core/pages/" . $section . ".php";
+require $path . "/core/footer.php";
+ob_flush();
 
-?>
-	<?php tagField( $db, 50 ); ?>
-	<div id="search">
-	<form action="/" method="get">
-	search <input type="text" name="tags" value="<?=$_GET['tags'];?>" />
-	</form>
-	</div>
-	<div id="images">
-	<? for($i = 1; $row = $result->fetch_assoc(); $i++ ) { ?>	
-		<a title="<?=$row['title'];?>" href="<?=$loc;?>/view/<?=$row['id'];?>/">
-			<img src="<?=$loc;?>/thumb/<?=$row['id'];?>/" alt="<?=$row['title'];?>" />
-		</a>
-	<? } ?>
-	</div>
-<?
-$result->close();
-
-include $path . "/core/footer.php";
 ?>

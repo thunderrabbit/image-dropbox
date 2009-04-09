@@ -33,6 +33,19 @@ span.beta {
 	margin-top: 20px;
 }
 
+#header h1 {
+	display: inline;
+}
+
+#navigation {
+	display: inline;
+	margin-left: 20px;
+}
+
+#page {
+	margin-top: 20px;
+}
+
 #copy {
 	font-size: 60%;
 }
