@@ -25,6 +25,12 @@ if ( $tags ) {
                 $where = ' where ' . implode( ' && ', $where );
 }
 
+if ( isset( $_SESSION['hide'] ) )
+	if ( $where )
+		$where .= ' safe=1 ';
+	else
+		$where .= ' where safe=1 ';
+
 $page = ($entry) ? $entry : 1;
 
 $count = 50;

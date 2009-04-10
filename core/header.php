@@ -15,6 +15,7 @@
 				<a href="<?=$loc;?>/tagfield/">tags</a>
 				<a href="<?=$loc;?>/stats/">statistics</a> 
 				<a href="<?=$loc;?>/about/">about</a>
+				<a href="<?=$loc;?>/help/">help</a>
 			</div>
 		</div>
 		<div id="page">

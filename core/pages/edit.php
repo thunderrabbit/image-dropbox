@@ -2,7 +2,7 @@
 
 $id = intval( $entry );
 
-$sql = sprintf( "select title from entries where id=%d", $id );
+$sql = sprintf( "select title,safe from entries where id=%d", $id );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die("Query Error");
@@ -10,6 +10,7 @@ if ( ! $result = $db->query( $sql ) ) {
 
 $entry = $result->fetch_assoc();
 $title = $entry['title'];
+$rating = $entry['safe'];
 
 $sql = sprintf( "select t.name from tags t, tagmap m where m.entry=%d && t.id=m.tag", $id );
 
@@ -37,8 +38,13 @@ for($i = 0; $row = $result->fetch_assoc(); $i++ ) {
 				<td><input type="text" name="tags" value="<?=stripslashes( $tags ); ?>" /></td>
 			</tr>
 			<tr>
+				<td>worksafe</td>
+				<td>
+					<input type="radio" <? if ($rating == 1) print 'checked="checked"'; ?> name="rating" value="1" /> Yes 
+					<input type="radio" <? if ($rating == 0) print 'checked="checked"'; ?> name="rating" value="0" /> No</td>
+			<tr>
 				<td>password</td>
-				<td><input type="text" name="password" value="" /></td>
+				<td><input type="password" name="password" value="" /></td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>

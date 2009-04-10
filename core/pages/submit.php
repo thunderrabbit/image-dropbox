@@ -12,6 +12,7 @@ if ( $_POST ) {
 		$height_orig = $img[1];
 		$password = strval( $_POST['password'] );
 		$host = gethostbyaddr( $_SERVER['REMOTE_ADDR'] ) . ' (' . $_SERVER['REMOTE_ADDR'] . ')';
+		$safe = intval( $_POST['rating'] );
 
 		printf("<pre>image size: %s\nfilename: %s\ntype: %s\n</pre>",
 			$size, $_FILES['image']['tmp_name'], $size[2] );
@@ -43,8 +44,8 @@ if ( $_POST ) {
 		$thumb = ob_get_contents();
 		ob_end_clean();
 
-		$sql = sprintf( "insert into entries (title,type,thumb,size,width,height,ip,password,views,date) 
-						values ('%s',%d,'%s', %d, %d, %d, '%s', '%s', 0, UNIX_TIMESTAMP())",
+		$sql = sprintf( "insert into entries (title,type,thumb,size,width,height,ip,password,views,date,safe) 
+						values ('%s',%d,'%s', %d, %d, %d, '%s', '%s', 0, UNIX_TIMESTAMP(), %d)",
 				 	$db->real_escape_string( $title ),
 					$img[2],
 					$db->real_escape_string( $thumb ),
@@ -52,7 +53,8 @@ if ( $_POST ) {
 					$width_orig,
 					$height_orig,
 					$db->real_escape_string( $host ),
-					$db->real_escape_string( $password )
+					$db->real_escape_string( $password ),
+					$safe
 					);
 
 		if ( !$db->query( $sql ) )

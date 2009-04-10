@@ -5,6 +5,8 @@
 	<a href="<?=$loc;?>/tagfield/">tags</a>
 	<a href="<?=$loc;?>/stats/">statistics</a> 
 	<a href="<?=$loc;?>/about/">about</a>
+	<a href="<?=$loc;?>/help/">help</a> 
+	[<a href="<?=$loc;?>/hide/"><?=($_SESSION['hide']) ? '' : 'not ';?>worksafe</a>]
 	<br/>
 	<span id="copy">&copy;<?=date('Y');?> <a href="http://www.easytospell.net">Richard Marshall</a> v<?=$version;?></span>
 	</div>

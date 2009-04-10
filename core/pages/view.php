@@ -3,7 +3,7 @@
 
 $id = intval( $entry );
 
-$sql = sprintf( "select title,width,height,size,date,views,ip from entries where id=%d", $id );
+$sql = sprintf( "select title,width,height,size,date,views,ip,safe from entries where id=%d", $id );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die("Query Error");
@@ -47,6 +47,8 @@ if ( ! $result = $db->query( $sql ) ) {
 	}
 	?>
 	<br/>
+	Worksafe: <?=($entry['safe'] == 1) ? 'Yes' : 'No'; ?>
+	<br/>
 	Uploaded: <?=date('Y-m-d @ H:i:s', $entry['date']);?> UTC
 	<br/>
 	Views: <?=$entry['views']; ?>
@@ -57,7 +59,30 @@ if ( ! $result = $db->query( $sql ) ) {
 	<br/>
 	Uploaded by: <?=$entry['ip'];?>
 	<br/>
-	<a href="<?=$loc;?>/edit/<?=$id;?>/">Edit Info</a>
+	<a href="<?=$loc;?>/track/<?=$id;?>/">Track Changes</a>&nbsp;
+	<a href="<?=$loc;?>/edit/<?=$id;?>/">Edit Info</a>&nbsp;
+	<a href="<?=$loc;?>/delete/<?=$id;?>/">Delete</a>&nbsp;
 	<br/>
 	<a href="<?=$loc;?>/image/<?=$id;?>/"><img alt="<?=$title;?>" width="<?=$width?>" height="<?=$height?>" src="<?=$loc;?>/image/<?=$id;?>/" /></a>
+	<br/>
+	<h3>Comments:</h3>
+	<?php
+	$sql = sprintf( "select * from comments where entry=%d order by date desc", $id );
+	$result = $db->query( $sql );
+	while( $row = $result->fetch_assoc() ) {
+	?>
+	<p>
+	<strong><?=$row['name'];?> (<?=$row['ip'];?>)</strong> - <?=date('Y-m-d @ H:i:s', $row['date']);?><br/>
+	<?=$row['content'];?>
+	</p>
+	<?
+	}
+	?>
+	<form action="/comment/<?=$id;?>/" method="post">
+	name <input type="text" name="name" />
+	<br/>
+	<textarea cols="40" rows="7" name="content"></textarea>
+	<br/>
+	<input type="submit" value="Post" />
+	</form>
 	</div>

@@ -13,6 +13,8 @@ if ( $_GET['args'] ) {
 			case 'view':
 			case 'edit':
 			case 'update':
+			case 'comment':
+			case 'track':
 			case 'delete':
 				if ( ($i+1) < $c )
 					$entry = $args[++$i];
@@ -23,9 +25,11 @@ if ( $_GET['args'] ) {
 				break;
 			case 'stats':
 			case 'about':
+			case 'help':
 			case 'tagfield':
 			case 'upload':
 			case 'submit':
+			case 'hide':
 			case 'search':
 				if ( !$section )
 					$section = $args[$i];
