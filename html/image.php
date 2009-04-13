@@ -41,7 +41,7 @@ if ( $mode == 'thumb' )
 		$row = $result->fetch_assoc();
 		header( 'Content-Length: ' . strlen( $row[thumb] ) );
 		header( "content-type: image/jpeg" );
-		print $row[thumb];
+		echo $row[thumb];
 
 	}
 
@@ -58,11 +58,11 @@ if ( $mode == 'thumb' )
 	$size = count( $chunks );
 
 
-	for( $i = 0; $i < $size; $i++ ) {
+	for( $i = 0; $i < $size; ++$i ) {
 		$sql = sprintf( "select filedata from data where id=%d", $chunks[$i] );
 		$result = $db->query( $sql );
 		$row = $result->fetch_array();
-		print $row[0];
+		echo $row[0];
 	}
 
 }

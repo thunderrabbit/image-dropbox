@@ -21,7 +21,7 @@ if ( ! $result = $db->query( $sql ) ) {
 }
 
 $tags = '';
-for($i = 0; $row = $result->fetch_assoc(); $i++ ) {
+for($i = 0; $row = $result->fetch_assoc(); ++$i ) {
 	$tags .= ( $i > 0 ) ? ',' . str_replace('_',' ',$row['name']) : str_replace('_',' ',$row['name']);
 }
 ?>
@@ -40,8 +40,8 @@ for($i = 0; $row = $result->fetch_assoc(); $i++ ) {
 			<tr>
 				<td>worksafe</td>
 				<td>
-					<input type="radio" <? if ($rating == 1) print 'checked="checked"'; ?> name="rating" value="1" /> Yes 
-					<input type="radio" <? if ($rating == 0) print 'checked="checked"'; ?> name="rating" value="0" /> No</td>
+					<input type="radio" <? if ($rating == 1) echo 'checked="checked"'; ?> name="rating" value="1" /> Yes 
+					<input type="radio" <? if ($rating == 0) echo 'checked="checked"'; ?> name="rating" value="0" /> No</td>
 			<tr>
 				<td>password</td>
 				<td><input type="password" name="password" value="" /></td>

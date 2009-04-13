@@ -71,12 +71,12 @@ if ( $_POST ) {
 		fclose( $fp );
 
 
-		for ( $i = 0; $i < $tag_count; $i++ ) {
+		for ( $i = 0; $i < $tag_count; ++$i ) {
 			$cur = str_replace( ' ', '_', strtolower( $tags[$i] ) );
 			$sql = sprintf( "select id from tags where name='%s'", $cur );
 			$result = $db->query( $sql );
 			if ( $result->num_rows < 1 ) {
-				$sql = sprintf( "insert into tags (name) values ('%s')", $cur );
+				$sql = sprintf( "insert into tags (name,date) values ('%s',UNIX_TIMESTAMP())", $cur );
 				$db->query( $sql );
 				$tag_id = $db->insert_id;
 			} else {

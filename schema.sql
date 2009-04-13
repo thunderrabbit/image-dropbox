@@ -64,6 +64,7 @@ DROP TABLE IF EXISTS `dropbox`.`tags`;
 CREATE TABLE `dropbox`.`tags` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
+  `date` int(11) unsigned default 0,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB;
 

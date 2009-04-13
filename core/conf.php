@@ -9,7 +9,7 @@ $url = 'http://dropbox-stage.easytospell.net';
 
 $db = new mysqli("localhost", "dropbox", "dropbox", "dropbox");
 if ( mysqli_connect_errno() ) {
-	print "Could not connect to database";
+	echo "Could not connect to database";
 	exit();
 }
 

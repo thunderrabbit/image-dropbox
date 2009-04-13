@@ -1,8 +1,6 @@
 <?php
 
-$joins = '';
-$where = '';
-
+// If there are tags
 if ( $tags ) {
         $taglist = split( ' ', $tags );
         foreach ( $taglist as $k => $value ) {
@@ -16,9 +14,32 @@ if ( $tags ) {
                         case '~':
                                 # not implemented yet
                                 break;
+						case 's': # sorting
+							if ( ( strlen( $value ) > 2 ) && $value{1} == ':' ) {
+								switch ( substr( $value, 2 ) ) {
+									case 's':
+									case 'size':
+										$sort = 'size';
+										break;
+									case 'v':
+									case 'views':
+										$sort = 'views';
+										break;
+									case 'd':
+									case 'date':
+									default:
+										$sort = 'date';
+										break;
+								}
+								break;
+							}
                         default: # show entries with these tags
+							//if ( substr( $value, -1, 1 ) == '*' )
+							//	$joins .= " inner join tagmap t{$k} on t{$k}.entry=entries.id && t{$k}.tag=(SELECT id FROM tags WHERE name like '%" .
+							//			substr($tag, 0, -1) . "%') ";
+							//else
                                 $joins .= " inner join tagmap t{$k} on t{$k}.entry=entries.id && t{$k}.tag=(SELECT id FROM tags WHERE name='$tag') ";
-                                break;
+                            break;
                 }
         }
         if ( $where ) 
@@ -33,13 +54,17 @@ if ( isset( $_SESSION['hide'] ) )
 
 $page = ($entry) ? $entry : 1;
 
+if ( !$sort )
+	$sort = 'date';
+$direction = 'desc';
 $count = 50;
 $offset = $count * ($page - 1);
 
-$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title from entries %s %s order by date desc limit %d offset %d",
-                        $joins, $where, $count, $offset );
+$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title from entries %s %s order by %s %s limit %d offset %d",
+                        $joins, $where, $sort, $direction, $count, $offset );
+#print $sql;
 $result = $db->query( $sql );
-$num = array_pop($db->query("SELECT FOUND_ROWS()")->fetch_row());
+$num = array_pop( $db->query( "SELECT FOUND_ROWS()" )->fetch_row() );
 if ( ! $result ) die("Failed Query");
 
 ?>
@@ -50,7 +75,7 @@ if ( ! $result ) die("Failed Query");
 	</form>
 	</div>
 	<div id="images">
-	<? for($i = 1; $row = $result->fetch_assoc(); $i++ ) { ?>	
+	<? for($i = 1; $row = $result->fetch_assoc(); ++$i ) { ?>	
 		<a title="<?=$row['title'];?>" href="<?=$loc;?>/view/<?=$row['id'];?>/">
 			<img src="<?=$loc;?>/thumb/<?=$row['id'];?>/" alt="<?=$row['title'];?>" />
 		</a>
@@ -60,15 +85,15 @@ if ( ! $result ) die("Failed Query");
 $pages = ceil( $num / $count );
 $tagurl = ($tags) ? "/tags/$tags" : '';
 if ( $pages > 1 && $page > 1 )
-	print "<a href=\"$tagurl/page/" . ($page-1) . "/\">&lt;prev</a>";
+	echo "<a href=\"$tagurl/page/" . ($page-1) . "/\">&lt;prev</a>";
 if ( $pages > 1 ) {
-	for ( $i = 1; $i <= $pages; $i++ ) {
+	for ( $i = 1; $i <= $pages; ++$i ) {
 		if ( $i != $page )
-			print " <a href=\"$tagurl/page/$i/\">$i</a> ";
+			echo " <a href=\"$tagurl/page/$i/\">$i</a> ";
 		else
-			print " $i ";
+			echo " $i ";
 	}
 	if ( $page < $pages )
-		print "<a href=\"$tagurl/page/" . ($page+1) . "/\">next&gt;</a>";
+		echo "<a href=\"$tagurl/page/" . ($page+1) . "/\">next&gt;</a>";
 }
 ?>

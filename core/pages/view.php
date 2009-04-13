@@ -41,9 +41,9 @@ if ( ! $result = $db->query( $sql ) ) {
 	<br/>
 	Tags: 
 	<?
-	for($i = 0; $row = $result->fetch_assoc(); $i++ ) {
-		if ( $i > 0 ) print ', ';
-		print '<a href="' . $loc . '/tags/' . urlencode( $row['name'] ) . '/">' . str_replace('_',' ',$row['name']) . '</a>';
+	for($i = 0; $row = $result->fetch_assoc(); ++$i ) {
+		if ( $i > 0 ) echo ', ';
+		echo '<a href="' . $loc . '/tags/' . urlencode( $row['name'] ) . '/">' . str_replace('_',' ',$row['name']) . '</a>';
 	}
 	?>
 	<br/>
