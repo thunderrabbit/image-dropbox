@@ -30,7 +30,7 @@ if ( $_POST ) {
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
-				<td><input type="submit" value="Upload" /></td>
+				<td><input type="submit" value="Delete" /></td>
 			</tr>
 		</table>
 	</form>

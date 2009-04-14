@@ -73,7 +73,7 @@ require $path . "/core/pages/" . $section . ".php";
 
 // Debug script timing
 $te = microtime(true);
-$t = $te - $ts;
+$t = round( $te - $ts, 4 );
 echo "<br/>script executed in $t seconds<br/>";
 
 require $path . "/core/footer.php";

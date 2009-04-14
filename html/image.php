@@ -13,11 +13,12 @@ switch ( $_GET['mode'] ) {
 
 $id = strval( $_GET['id'] );
 
-$sql = sprintf("SELECT date,size FROM entries WHERE id=%d", $id );
+$sql = sprintf("SELECT date,size,parent FROM entries WHERE id=%d", $id );
 $result = $db->query( $sql );
 $row = $result->fetch_assoc();
 $date = $row['date'];
 $size = $row['size'];
+$parent_id = ($row['parent']) ? $row['parent'] : $id;
 
 header('Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $date ) . ' GMT', true, 200 );
 header('Expires: ' . gmdate( 'D, d M Y H:i:s',  $date + 86400 ) . ' GMT', true, 200 );
@@ -34,19 +35,19 @@ if ( isset( $ar['If-Modified-Since'] ) &&
 
 if ( $mode == 'thumb' )
 {
-	$sql = sprintf( "SELECT thumb FROM entries WHERE id=%d", $id );
+	$sql = sprintf( "SELECT data FROM thumbs WHERE entry=%d", $id );
 
 	if ( $result = $db->query( $sql ) ) {
 
 		$row = $result->fetch_assoc();
-		header( 'Content-Length: ' . strlen( $row[thumb] ) );
+		header( 'Content-Length: ' . strlen( $row['data'] ) );
 		header( "content-type: image/jpeg" );
-		echo $row[thumb];
+		echo $row['data'];
 
 	}
 
 } else {
-	$sql = sprintf( "UPDATE entries SET views=views+1 WHERE id=%d", $id );
+	$sql = sprintf( "UPDATE entries SET views=views+1 WHERE id=%d", $parent_id );
 	if ( !$db->query( $sql ) ) die( "Query Error" );
 
 	$sql = sprintf( "SELECT id FROM data WHERE entryid=%d order by id", $id );
@@ -57,8 +58,8 @@ if ( $mode == 'thumb' )
 		$chunks[] = $row[0];
 	$size = count( $chunks );
 
-
 	for( $i = 0; $i < $size; ++$i ) {
+//		trigger_error("pooping out chunk number $i of $id");
 		$sql = sprintf( "select filedata from data where id=%d", $chunks[$i] );
 		$result = $db->query( $sql );
 		$row = $result->fetch_array();

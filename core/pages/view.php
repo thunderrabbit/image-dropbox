@@ -3,7 +3,7 @@
 
 $id = intval( $entry );
 
-$sql = sprintf( "select title,width,height,size,date,views,ip,safe from entries where id=%d", $id );
+$sql = sprintf( "select title,width,height,size,date,views,ip,safe,hash,child from entries where id=%d", $id );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die("Query Error");
@@ -21,6 +21,7 @@ if ( $entry['width'] > 800 ) {
 	$height = $entry['height'];
 }
 
+$display_id = ($entry['child']) ? $entry['child'] : $id;
 
 $sql = sprintf( "select t.name from tags t, tagmap m where m.entry=%d && t.id=m.tag", $id );
 
@@ -57,13 +58,15 @@ if ( ! $result = $db->query( $sql ) ) {
 	<br/>
 	Size: <?=floor($entry['size']/1024)?>kb
 	<br/>
+	SHA-1 Hash: <?=$entry['hash'];?>
+	<br/>
 	Uploaded by: <?=$entry['ip'];?>
 	<br/>
 	<a href="<?=$loc;?>/track/<?=$id;?>/">Track Changes</a>&nbsp;
 	<a href="<?=$loc;?>/edit/<?=$id;?>/">Edit Info</a>&nbsp;
 	<a href="<?=$loc;?>/delete/<?=$id;?>/">Delete</a>&nbsp;
 	<br/>
-	<a href="<?=$loc;?>/image/<?=$id;?>/"><img alt="<?=$title;?>" width="<?=$width?>" height="<?=$height?>" src="<?=$loc;?>/image/<?=$id;?>/" /></a>
+	<a href="<?=$loc;?>/image/<?=$id;?>/"><img alt="<?=$title;?>" width="<?=$width?>" height="<?=$height?>" src="<?=$loc;?>/image/<?=$display_id;?>/" /></a>
 	<br/>
 	<h3>Comments:</h3>
 	<?php

@@ -9,7 +9,7 @@
 	</tr>
 	<tr>
 		<td>tags</td>
-		<td><textarea name="tags"></textarea></td>
+		<td><textarea rows="3" cols="30" name="tags"></textarea></td>
 	</tr>
 	<tr>
 		<td>file</td>
@@ -17,14 +17,14 @@
 	</tr>
 	<tr>
 		<td>worksafe</td>
-		<td><input type="radio" name="rating" value="1" />Yes <input type="radio" name="rating" value="0" /> No 
+		<td><input type="radio" checked="checked" name="rating" value="1" />Yes <input type="radio" name="rating" value="0" /> No 
 	<tr>
 		<td>password (to make changes)</td>
 		<td><input type="password" name="password" /></td>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
-		<td><input type="submit" value="Upload" /></td>
+		<td><br/><input type="submit" value="Upload" /></td>
 	</tr>
 </table>
 </form>

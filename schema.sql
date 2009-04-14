@@ -39,11 +39,19 @@ CREATE TABLE `dropbox`.`entries` (
   `views` int(10) unsigned default NULL,
   `ip` varchar(255) default NULL,
   `password` varchar(20) default NULL,
+  `hash` varchar(40) default NULL,
   `parent` int(11) default NULL,
   `child` int(11) default NULL,
   PRIMARY KEY  (`id`),
   FOREIGN KEY (parent) REFERENCES entries (id) on delete cascade,
   FOREIGN KEY (child) REFERENCES entries (id) on delete set null 
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `dropbox`.`thumbs`;
+CREATE TABLE `dropbox`.`thumbs` (
+	`entry` int(11) NOT NULL,
+	`data` blob,
+	FOREIGN KEY (entry) REFERENCES entries (id) on delete cascade
 ) ENGINE=InnoDB;
 
 --

@@ -43,14 +43,11 @@ if ( $tags ) {
                 }
         }
         if ( $where ) 
-                $where = ' where ' . implode( ' && ', $where );
+                $where = implode( ' && ', $where );
 }
 
 if ( isset( $_SESSION['hide'] ) )
-	if ( $where )
-		$where .= ' safe=1 ';
-	else
-		$where .= ' where safe=1 ';
+	$where .= ' && safe=1 ';
 
 $page = ($entry) ? $entry : 1;
 
@@ -60,7 +57,7 @@ $direction = 'desc';
 $count = 50;
 $offset = $count * ($page - 1);
 
-$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title from entries %s %s order by %s %s limit %d offset %d",
+$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title from entries %s where parent is null %s order by %s %s limit %d offset %d",
                         $joins, $where, $sort, $direction, $count, $offset );
 #print $sql;
 $result = $db->query( $sql );
