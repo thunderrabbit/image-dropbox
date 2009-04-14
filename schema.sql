@@ -31,7 +31,6 @@ CREATE TABLE `dropbox`.`entries` (
   `title` varchar(255) default NULL,
   `type` varchar(25) default NULL,
   `size` bigint(20) default NULL,
-  `thumb` blob,
   `width` int(11) default NULL,
   `safe` tinyint(4) default 1,
   `height` int(11) default NULL,
