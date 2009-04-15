@@ -1,4 +1,5 @@
 <?php
+$ts = microtime(true);
 
 require '../core/conf.php';
 
@@ -35,7 +36,8 @@ if ( isset( $ar['If-Modified-Since'] ) &&
 
 if ( $mode == 'thumb' )
 {
-	$sql = sprintf( "SELECT data FROM thumbs WHERE entry=%d", $id );
+	$sql = sprintf( "SELECT data FROM thumbs WHERE entry=%d && custom=%d", $id,
+		( ( $_GET['args'] && substr( $_GET['args'], 0, 6 ) == 'custom' ) ? 1 : 0 ) );
 
 	if ( $result = $db->query( $sql ) ) {
 
@@ -71,5 +73,8 @@ if ( $mode == 'thumb' )
 
 $db->close();
 
+$te = microtime(true);
+$t = $te-$ts;
+trigger_error("image script run in $t seconds");
 
 ?>

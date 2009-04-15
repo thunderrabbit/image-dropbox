@@ -75,3 +75,11 @@ input,textarea {
 #about {
 	width: 500px;
 }
+
+.hide {
+	display: none;
+}
+
+.show {
+
+}

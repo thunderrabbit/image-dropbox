@@ -13,7 +13,7 @@ RewriteRule ^image/([^/]*)/?(dummy.jpg)?$ image.php?mode=image&id=$1 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^thumb/([^/]*)/?$ image.php?mode=thumb&id=$1 [L,QSA]
+RewriteRule ^thumb/([^/]*)/?(.*)?$ image.php?mode=thumb&id=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f

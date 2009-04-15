@@ -5,7 +5,8 @@ session_start();
 $loc = '';
 $path = '/var/vhosts/dropbox-stage';
 $version = '0.1.0a';
-$url = 'http://dropbox-stage.easytospell.net';
+$url = 'dropbox-stage.easytospell.net';
+$secure = true; // use https for things that require passwords, upload, edit, delete
 
 $db = new mysqli("localhost", "dropbox", "dropbox", "dropbox");
 if ( mysqli_connect_errno() ) {

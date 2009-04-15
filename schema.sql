@@ -48,9 +48,12 @@ CREATE TABLE `dropbox`.`entries` (
 
 DROP TABLE IF EXISTS `dropbox`.`thumbs`;
 CREATE TABLE `dropbox`.`thumbs` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`entry` int(11) NOT NULL,
+	`custom` tinyint default 0,
 	`data` blob,
-	FOREIGN KEY (entry) REFERENCES entries (id) on delete cascade
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`entry`) REFERENCES `entries` (`id`) on delete cascade
 ) ENGINE=InnoDB;
 
 --

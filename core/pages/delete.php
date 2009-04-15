@@ -16,13 +16,13 @@ if ( $_POST ) {
 		exit();
 	}
 
-	header("Location: $loc/view/$id/");
+	header("Location: http://" . $url . $loc . "/view/$id/");
 	exit();
 
 } else {
 	// display form
 	?>
-	<form action="<?=$loc;?>/delete/<?=$id;?>/" method="post">
+	<form action="http<?=($secure) ? 's' : '';?>://<?=$url;?><?=$loc;?>/delete/<?=$id;?>/" method="post">
 		<table id="form_table">
 			<tr>
 				<td>password</td>

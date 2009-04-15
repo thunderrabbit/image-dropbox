@@ -103,11 +103,11 @@ if ( $_POST ) {
 	}
 
 	} else {
-		header("location: $loc/edit/" . $id . "/");
+		header("location: http://" . $url . $loc . "/edit/" . $id . "/");
 	}
 }
 
-header("location: $loc/view/" . $id . "/");
+header("location: http://" . $url . $loc . "/view/" . $id . "/");
 
 $db->close();
 

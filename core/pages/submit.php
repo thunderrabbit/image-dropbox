@@ -44,7 +44,63 @@ if ( $_POST ) {
 			$image_thumb = imagecreatetruecolor( floor( $width ), floor( $height ) );
 			$image = imagecreatefromstring( file_get_contents( $_FILES['image']['tmp_name'] ) );
 
-			// Create thumbnail and free fullzime image
+			if ( intval( $_POST['custom'] ) == 1 ) {
+				$crop = true;
+
+				if ( intval( $_POST['square'] ) == 0 ) {
+					$crop = false;
+					if ( $endwidth/$endheight > $ratio_orig ) {
+						$endwidth = $endheight * $ratio_orig;
+					} else {
+						$endheight = $endwidth / $ratio_orig;
+					}
+				} else {
+					$endwidth = intval( $_POST['size'] );
+					$endheight = intval( $_POST['size'] );
+				}
+
+				if ( ( $endwidth / $endheight ) > ( $width_orig / $height_orig ) ) {
+					$newwidth = $endwidth;
+					$newheight = $height_orig * ( $endwidth / $width_orig );
+				} else {
+					$newwidth = $width_orig * ( $endheight / $height_orig );
+					$newheight = $endheight;
+				}
+
+				$custom_thumb = imagecreatetruecolor( $newwidth, $newheight );
+				imagecopyresampled( $custom_thumb, $image, 0, 0, 0, 0, $newwidth, $newheight, $width_orig, $height_orig );
+
+				if ( $crop ) {
+					switch( strval( $_POST['crop'] ) ) {
+						case 'middle':
+							$x = ($newwidth - $endwidth) / 2;
+							$y = ($newheight - $endheight) / 2;
+							break;
+						case 'top':
+							$x = 0;
+							$y = 0;
+							break;
+						case 'bottom':
+							$x = $newwidth - $endwidth;
+							$y = $newheight - $endheight;
+							break;
+					}
+
+					$temp_image = imagecreatetruecolor( $endwidth, $endheight );
+					imagecopyresampled( $temp_image, $custom_thumb, 0, 0, $x, $y, $endwidth, $endheight, $endwidth, $endheight );
+					imagedestroy( $custom_thumb );
+					$custom_thumb = $temp_image;
+				}
+
+				ob_start();
+					imagejpeg($custom_thumb, "", 100);
+					imagedestroy( $custom_thumb );
+					$custom_thumb = ob_get_contents();
+				ob_end_clean();
+			}
+
+
+			// Create thumbnail and free fullsize image
 			imagecopyresampled( $image_thumb, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig );
 			if ( $preview ) {
 				$image_preview = imagecreatetruecolor( floor( $width * 5 ), floor( $height * 5 ) );
@@ -82,14 +138,21 @@ if ( $_POST ) {
 						);
 
 			if ( !$db->query( $sql ) )
-				die('error in query');
+				die('error in query1 : ' . $sql);
 			$id = $db->insert_id;	
 
 			$sql = sprintf( "insert into thumbs (data,entry) values ('%s',%d)",
 							$db->real_escape_string( $thumb ),
 							$id );
 			if ( !$db->query( $sql ) )
-				die('error in query');
+				die('error in query2 : ' . $sql);
+
+			if ( isset($custom_thumb) ) {
+				$sql = sprintf( "insert into thumbs (data,entry,custom) values ('%s',%d,1)",
+								$db->real_escape_string( $custom_thumb ), $id );
+				if ( !$db->query( $sql ) )
+					die('error in query3 : ' . $sql );
+			}
 
 			// Write the image chunks out to the database
 			$fp = fopen( $_FILES['image']['tmp_name'], 'rb' );
@@ -159,7 +222,7 @@ if ( $_POST ) {
 }
 
 
-header("location: $loc/view/" . $id . "/");
+header("location: http://" . $url . $loc . "/view/" . $id . "/");
 
 $db->close();
 
