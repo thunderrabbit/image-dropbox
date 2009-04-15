@@ -37,4 +37,8 @@ function tagField($db,$limit=null)
 	<?php
 }
 
+function checkcache($cache_id) {
+	return ( file_exists( $path . '/cache/' . $hash ) );
+}
+
 ?>

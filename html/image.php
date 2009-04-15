@@ -1,9 +1,14 @@
 <?php
 
+$ts = microtime(time);
+
 require '../core/conf.php';
+require $path . '/core/func.php';
 
 $mode = ( $_GET['mode'] == 'thumb' ) ? 'thumb' : 'image';
 $id = intval( $_GET['id'] );
+
+
 $sql = 'SELECT date,size,parent FROM entries WHERE id=' . $id;
 $result = $db->query( $sql );
 $row = $result->fetch_assoc();
@@ -11,18 +16,22 @@ $date = $row['date'];
 $size = $row['size'];
 $parent_id = ($row['parent']) ? $row['parent'] : $id;
 
-header('Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $date ) . ' GMT', true, 200 );
-header('Expires: ' . gmdate( 'D, d M Y H:i:s',  $date + 86400 ) . ' GMT', true, 200 );
-
 $ar = apache_request_headers();
 
-if ( isset( $ar['If-Modified-Since'] ) && 
+if ( isset( $ar['If-Modified-Since'] ) &&
 	( $ar['If-Modified-Since'] != '' ) &&
 	( strtotime( $ar['If-Modified-Since']) >= $date ) ) {
 	header( 'Last-Modified: ' . gmdate('D, d M Y H:i:s' ) . ' GMT', true, 304 );
 	exit();
+} else {
+	header('Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $date ) . ' GMT', true, 200 );
+	header('Expires: ' . gmdate( 'D, d M Y H:i:s',  $date + 86400 ) . ' GMT', true, 200 );
 }
 
+$cacheid = sha1( $id . $mode );
+if ( checkcache( $cacheid ) ) {
+	echo file_get_contents( $path . '/cache/' . $cacheid );	
+} else {
 
 if ( $mode == 'thumb' )
 {
@@ -34,6 +43,7 @@ if ( $mode == 'thumb' )
 		header( 'Content-Length: ' . $row['size'] );
 		header( "content-type: image/jpeg" );
 		echo $row['data'];
+		file_put_contents( $path . '/cache/' . $cacheid, $row['data'] );
 	}
 
 } else {
@@ -54,7 +64,10 @@ if ( $mode == 'thumb' )
 	}
 }
 
+}
 
 $db->close();
+
+trigger_error( "image processed in " . ( microtime(true) - $ts ) . " seconds" );
 
 ?>

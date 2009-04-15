@@ -46,6 +46,9 @@ CREATE TABLE `dropbox`.`entries` (
   FOREIGN KEY (child) REFERENCES entries (id) on delete set null 
 ) ENGINE=InnoDB;
 
+--
+-- Table structure for table `thumbs`
+--
 DROP TABLE IF EXISTS `dropbox`.`thumbs`;
 CREATE TABLE `dropbox`.`thumbs` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
@@ -104,7 +107,7 @@ CREATE TABLE `dropbox`.`comments` (
 	`id` int(11) NOT NULL auto_increment,
 	`entry` int(11) NOT NULL,
 	`date` int(10) unsigned NOT NULL,
-	`id` varchar(255) NOT NULL,
+	`ip` varchar(255) NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`content` text NOT NULL,
 	FOREIGN KEY (entry) REFERENCES entries (id) on delete cascade,
