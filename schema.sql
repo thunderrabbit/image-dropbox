@@ -52,6 +52,7 @@ CREATE TABLE `dropbox`.`thumbs` (
 	`entry` int(11) NOT NULL,
 	`custom` tinyint default 0,
 	`data` blob,
+	`size` int(11) NOT NULL,
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`entry`) REFERENCES `entries` (`id`) on delete cascade
 ) ENGINE=InnoDB;

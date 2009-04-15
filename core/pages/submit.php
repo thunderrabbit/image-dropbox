@@ -141,15 +141,15 @@ if ( $_POST ) {
 				die('error in query1 : ' . $sql);
 			$id = $db->insert_id;	
 
-			$sql = sprintf( "insert into thumbs (data,entry) values ('%s',%d)",
+			$sql = sprintf( "insert into thumbs (data,entry,size) values ('%s',%d,%d)",
 							$db->real_escape_string( $thumb ),
-							$id );
+							$id, strlen( $thumb ) );
 			if ( !$db->query( $sql ) )
 				die('error in query2 : ' . $sql);
 
 			if ( isset($custom_thumb) ) {
-				$sql = sprintf( "insert into thumbs (data,entry,custom) values ('%s',%d,1)",
-								$db->real_escape_string( $custom_thumb ), $id );
+				$sql = sprintf( "insert into thumbs (data,entry,custom,size) values ('%s',%d,1,%d)",
+								$db->real_escape_string( $custom_thumb ), $id, strlen( $custom_thumb ) );
 				if ( !$db->query( $sql ) )
 					die('error in query3 : ' . $sql );
 			}

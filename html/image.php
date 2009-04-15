@@ -1,20 +1,10 @@
 <?php
-$ts = microtime(true);
 
 require '../core/conf.php';
 
-switch ( $_GET['mode'] ) {
-	case 'thumb':
-		$mode = 'thumb';
-		break;
-	case 'image':
-	default:
-		$mode = 'image';
-}
-
-$id = strval( $_GET['id'] );
-
-$sql = sprintf("SELECT date,size,parent FROM entries WHERE id=%d", $id );
+$mode = ( $_GET['mode'] == 'thumb' ) ? 'thumb' : 'image';
+$id = intval( $_GET['id'] );
+$sql = 'SELECT date,size,parent FROM entries WHERE id=' . $id;
 $result = $db->query( $sql );
 $row = $result->fetch_assoc();
 $date = $row['date'];
@@ -36,22 +26,19 @@ if ( isset( $ar['If-Modified-Since'] ) &&
 
 if ( $mode == 'thumb' )
 {
-	$sql = sprintf( "SELECT data FROM thumbs WHERE entry=%d && custom=%d", $id,
-		( ( $_GET['args'] && substr( $_GET['args'], 0, 6 ) == 'custom' ) ? 1 : 0 ) );
+	$sql = 'SELECT data,size FROM thumbs WHERE entry=' . $id . ' && custom=' .
+		( ( $_GET['args'] && substr( $_GET['args'], 0, 6 ) == 'custom' ) ? 1 : 0 );
 
 	if ( $result = $db->query( $sql ) ) {
-
 		$row = $result->fetch_assoc();
-		header( 'Content-Length: ' . strlen( $row['data'] ) );
+		header( 'Content-Length: ' . $row['size'] );
 		header( "content-type: image/jpeg" );
 		echo $row['data'];
-
 	}
 
 } else {
 	$sql = sprintf( "UPDATE entries SET views=views+1 WHERE id=%d", $parent_id );
 	if ( !$db->query( $sql ) ) die( "Query Error" );
-
 	$sql = sprintf( "SELECT id FROM data WHERE entryid=%d order by id", $id );
 	$result = $db->query( $sql );
 	header('Content-Length: ' . $size );
@@ -59,22 +46,15 @@ if ( $mode == 'thumb' )
 	while ( $row = $result->fetch_array() )
 		$chunks[] = $row[0];
 	$size = count( $chunks );
-
 	for( $i = 0; $i < $size; ++$i ) {
-//		trigger_error("pooping out chunk number $i of $id");
 		$sql = sprintf( "select filedata from data where id=%d", $chunks[$i] );
 		$result = $db->query( $sql );
 		$row = $result->fetch_array();
 		echo $row[0];
 	}
-
 }
 
 
 $db->close();
-
-$te = microtime(true);
-$t = $te-$ts;
-trigger_error("image script run in $t seconds");
 
 ?>
