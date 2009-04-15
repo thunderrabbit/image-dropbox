@@ -81,7 +81,7 @@ if ( ! $result = $db->query( $sql ) ) {
 	<?
 	}
 	?>
-	<form action="/comment/<?=$id;?>/" method="post">
+	<form action="<?=$loc;?>/comment/<?=$id;?>/" method="post">
 	name <input type="text" name="name" />
 	<br/>
 	<textarea cols="40" rows="7" name="content"></textarea>
