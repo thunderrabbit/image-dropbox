@@ -1,7 +1,7 @@
 <?php
 
 $loc = '';
-$path = '/var/vhosts/dropbox-stage';
+$path = '/var/vhosts/dropbox-stage.easytospell.net';
 $version = '0.1.0a';
 $url = 'dropbox-stage.easytospell.net';
 $secure = true; // use https for things that require passwords, upload, edit, delete
