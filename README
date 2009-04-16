@@ -1,0 +1,23 @@
+Requirements
+
+php5 with mysqli
+apache with mod_rewrite and .htaccess overrides allowed
+mysql5 with innodb
+
+Installation
+
+currently the directory structure is designed for a layout that has the document root of apache set to /path/to/dropbox/html so that core and cache are outside the document root.
+
+you will need to edit core/conf.php to reflect your setup
+$loc 		is the directory portion of the url
+$url 		is the host portion of the url
+$secure 	is if you want to use https for for submits set to true or false
+
+you will also need to edit the .htaccess file in the html directory to reflect the correct rewrite base for your setup, normally this would be the same as the value set in $loc
+
+database can be setup with the schema.sql file
+
+something along the lines of:
+mysql -uroot -p < schema.sql
+
+if you have any problems feel free to send me an email asking for help: dropbox@easytospell.net
