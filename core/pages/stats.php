@@ -1,7 +1,5 @@
 <?php
 
-require '../core/conf.php';
-
 $stats_file = $path . "/core/stats.php";
 $stats_date = filemtime( $stats_file );
 
@@ -114,9 +112,6 @@ file_put_contents( $stats_file, $stats_data );
 } else {
 	include $stats_file;
 }
-require $path . "/core/header.php";
-
-
 ?>
 
 <div id="statistics">
@@ -175,9 +170,4 @@ require $path . "/core/header.php";
 </table>
 
 </div>
-
-<?php
-
-require $path . "/core/footer.php";
-?>
 

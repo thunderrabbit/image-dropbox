@@ -1,10 +1,15 @@
 <?php
 
+function fail()
+{
+	die("oops");
+}
+
 function tagField($db,$limit=null)
 {
 	global $loc;
 
-	$sql = "select t.name, m.tag, count(m.tag) as num from tagmap as m, tags as t where t.id=m.tag group by tag order by name";
+	$sql = "select t.name, m.tag, count(m.tag) as num from tagmap as m, tags as t where t.id=m.tag group by tag order by date desc";
 	$sql .= (!is_null($limit)) ? ' LIMIT ' . $limit : null;
 	$max_size = 250;
 	$min_size = 100;
@@ -27,9 +32,33 @@ function tagField($db,$limit=null)
 	foreach ( $tags as $key => $value ) {
 		$size = ceil( $min_size + (($value - $min_value) * $step) );
 	?>
-		<a style="font-size: <?=$size;?>%" href="<?=$loc;?>/tags/<?=urlencode($key);?>/"><?=$key;?></a>(<?=$value;?>), <? } ?> <a href="<?=$loc;?>/">all</a>
+		<a style="font-size: <?=$size;?>%" href="<?=$loc;?>/tags/<?=urlencode($key);?>/"><?=str_replace('_',' ',$key);?></a>(<?=$value;?>), <? } ?> <a href="<?=$loc;?>/">all</a>
 	</div>
 	<?php
+}
+
+function checkcache($cache_id) {
+	return ( file_exists( $path . '/cache/' . $hash ) );
+}
+
+function imgtypetoext( $type ) {
+	switch ( $type ) {
+		case 1:
+			$ext = 'gif';
+			break;
+		case 3:
+			$ext = 'png';
+			break;
+		case 2:
+		default:
+			$ext = 'jpg';
+			break;
+	}
+	return $ext;
+}
+
+function imgtypetomime( $type ) {
+	return 'image/' . imgtypetoext( $type );
 }
 
 ?>

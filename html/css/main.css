@@ -33,11 +33,24 @@ span.beta {
 	margin-top: 20px;
 }
 
+#header h1 {
+	display: inline;
+}
+
+#navigation {
+	display: inline;
+	margin-left: 20px;
+}
+
+#page {
+	margin-top: 20px;
+}
+
 #copy {
 	font-size: 60%;
 }
 
-input {
+input,textarea {
 	border: #ccc 1px solid;
 }
 
@@ -47,10 +60,26 @@ input {
 	text-align: justified;
 }
 
+#search {
+	margin-top: 20px;
+}
+
+#search input {
+	border: 1px solid;
+}
+
 #tags {
 	line-height: 1.5em;
 }
 
 #about {
 	width: 500px;
+}
+
+.hide {
+	display: none;
+}
+
+.show {
+
 }

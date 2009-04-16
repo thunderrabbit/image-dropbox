@@ -1,11 +1,8 @@
 <?php
 
-require '../core/conf.php';
+$id = intval( $entry );
 
-
-$id = intval( $_GET['id'] );
-
-$sql = sprintf( "select title from entries where id=%d", $id );
+$sql = sprintf( "select title,safe from entries where id=%d", $id );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die("Query Error");
@@ -13,6 +10,7 @@ if ( ! $result = $db->query( $sql ) ) {
 
 $entry = $result->fetch_assoc();
 $title = $entry['title'];
+$rating = $entry['safe'];
 
 $sql = sprintf( "select t.name from tags t, tagmap m where m.entry=%d && t.id=m.tag", $id );
 
@@ -23,14 +21,13 @@ if ( ! $result = $db->query( $sql ) ) {
 }
 
 $tags = '';
-for($i = 0; $row = $result->fetch_assoc(); $i++ ) {
-	$tags .= ( $i > 0 ) ? ',' . $row['name'] : $row['name'];
+for($i = 0; $row = $result->fetch_assoc(); ++$i ) {
+	$tags .= ( $i > 0 ) ? ',' . str_replace('_',' ',$row['name']) : str_replace('_',' ',$row['name']);
 }
-require $path . "/core/header.php";
 ?>
 	<div id="form">
 		<h2>Edit</h3>
-		<form action="/update/<?=$id;?>/" method="post">
+		<form action="http<?=($secure) ? 's' : '';?>://<?=$url;?><?=$loc;?>/update/<?=$id;?>/" method="post">
 		<table id="form_table">
 			<tr>
 				<td>title</td>
@@ -41,8 +38,13 @@ require $path . "/core/header.php";
 				<td><input type="text" name="tags" value="<?=stripslashes( $tags ); ?>" /></td>
 			</tr>
 			<tr>
+				<td>worksafe</td>
+				<td>
+					<input type="radio" <? if ($rating == 1) echo 'checked="checked"'; ?> name="rating" value="1" /> Yes 
+					<input type="radio" <? if ($rating == 0) echo 'checked="checked"'; ?> name="rating" value="0" /> No</td>
+			<tr>
 				<td>password</td>
-				<td><input type="text" name="password" value="" /></td>
+				<td><input type="password" name="password" value="" /></td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
@@ -51,7 +53,3 @@ require $path . "/core/header.php";
 		</table>	
 		</form>
 	</div>
-<?
-require $path . "/core/footer.php";
-
-?>

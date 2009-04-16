@@ -1,13 +1,14 @@
 <?php
 
 $loc = '';
-$path = '/var/vhosts/dropbox';
-$version = '0.0.4a';
-$url = 'http://dropbox.easytospell.net';
+$path = '/var/vhosts/dropbox-stage.easytospell.net';
+$version = '0.1.0a';
+$url = 'dropbox-stage.easytospell.net';
+$secure = true; // use https for things that require passwords, upload, edit, delete
 
-$db = new mysqli("localhost", "photos", "photos", "photos");
+$db = new mysqli("localhost", "dropbox", "dropbox", "dropbox");
 if ( mysqli_connect_errno() ) {
-	print "Could not connect to database";
+	echo "Could not connect to database";
 	exit();
 }
 
