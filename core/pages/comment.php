@@ -16,6 +16,6 @@ if ( $_POST ) {
 	}
 } 
 
-header("Location: /view/$id/");
+header("Location: $loc/view/$id/");
 
 ?>

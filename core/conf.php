@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 $loc = '';
 $path = '/var/vhosts/dropbox-stage';
 $version = '0.1.0a';

@@ -9,7 +9,7 @@ RewriteBase /
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^image/([^/]*)/?(dummy.jpg)?$ image.php?mode=image&id=$1 [L,QSA]
+RewriteRule ^image/([^/]*)/?(.*)?$ image.php?mode=image&id=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f

@@ -41,4 +41,24 @@ function checkcache($cache_id) {
 	return ( file_exists( $path . '/cache/' . $hash ) );
 }
 
+function imgtypetoext( $type ) {
+	switch ( $type ) {
+		case 1:
+			$ext = 'gif';
+			break;
+		case 3:
+			$ext = 'png';
+			break;
+		case 2:
+		default:
+			$ext = 'jpg';
+			break;
+	}
+	return $ext;
+}
+
+function imgtypetomime( $type ) {
+	return 'image/' . imgtypetoext( $type );
+}
+
 ?>

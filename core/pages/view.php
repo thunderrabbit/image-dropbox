@@ -1,9 +1,8 @@
 <?php
 
-
 $id = intval( $entry );
 
-$sql = sprintf( "select title,width,height,size,date,views,ip,safe,hash,child from entries where id=%d", $id );
+$sql = sprintf( "select title,width,height,size,date,views,ip,safe,hash,child,type from entries where id=%d", $id );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die("Query Error");
@@ -21,11 +20,18 @@ if ( $entry['width'] > 800 ) {
 	$height = $entry['height'];
 }
 
+// check for custom thumbnail
+$sql = sprintf( "select id from thumbs where entry=%d && custom=1", $id );
+$result = $db->query($sql);
+$custom = ( $result->num_rows == 1 );
+
 $display_id = ($entry['child']) ? $entry['child'] : $id;
 
 $sql = sprintf( "select t.name from tags t, tagmap m where m.entry=%d && t.id=m.tag", $id );
 
 $info = $result->fetch_assoc();
+
+$filename = $id . '.' . imgtypetoext( $entry['type'] );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die( "Query Error" );
@@ -34,10 +40,14 @@ if ( ! $result = $db->query( $sql ) ) {
 ?>
 	<div id="content">
 	<h2>View</h2>
-	URL: <?=$url;?><?=$loc;?>/view/<?=$id;?>/
+	URL: http://<?=$url;?><?=$loc;?>/view/<?=$id;?>/
 	<br/>
-	Direct: <?=$url;?><?=$loc;?>/image/<?=$id;?>/
+	Direct: http://<?=$url;?><?=$loc;?>/image/<?=$id;?>/<?=$filename;?>
 	<br/>
+	<? if ( $custom ): ?>
+	Custom Thumbnail: http://<?=$url;?><?=$loc;?>/thumb/<?=$id;?>/custom/<?=$filename;?>
+	<br/>
+	<? endif; ?>
 	Title: <?=$entry['title'];?>
 	<br/>
 	Tags: 
@@ -66,7 +76,7 @@ if ( ! $result = $db->query( $sql ) ) {
 	<a href="<?=$loc;?>/edit/<?=$id;?>/">Edit Info</a>&nbsp;
 	<a href="<?=$loc;?>/delete/<?=$id;?>/">Delete</a>&nbsp;
 	<br/>
-	<a href="<?=$loc;?>/image/<?=$id;?>/"><img alt="<?=$title;?>" width="<?=$width?>" height="<?=$height?>" src="<?=$loc;?>/image/<?=$display_id;?>/" /></a>
+	<a href="<?=$loc;?>/image/<?=$id;?>/<?=$filename;?>"><img alt="<?=$title;?>" width="<?=$width?>" height="<?=$height?>" src="<?=$loc;?>/image/<?=$display_id;?>/<?=$filename;?>" /></a>
 	<br/>
 	<h3>Comments:</h3>
 	<?php

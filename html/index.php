@@ -4,6 +4,7 @@ $ts = microtime(true);
 
 // Bring in the needed stuff and setup the connection to the database
 require '../core/conf.php';
+require $path . "/core/session.php";
 require $path . "/core/func.php";
 
 // Process arguments

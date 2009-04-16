@@ -57,7 +57,7 @@ $direction = 'desc';
 $count = 50;
 $offset = $count * ($page - 1);
 
-$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title from entries %s where parent is null %s order by %s %s limit %d offset %d",
+$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title,type from entries %s where parent is null %s order by %s %s limit %d offset %d",
                         $joins, $where, $sort, $direction, $count, $offset );
 #print $sql;
 $result = $db->query( $sql );
@@ -74,7 +74,7 @@ if ( ! $result ) die("Failed Query");
 	<div id="images">
 	<? for($i = 1; $row = $result->fetch_assoc(); ++$i ) { ?>	
 		<a title="<?=$row['title'];?>" href="<?=$loc;?>/view/<?=$row['id'];?>/">
-			<img src="<?=$loc;?>/thumb/<?=$row['id'];?>/" alt="<?=$row['title'];?>" />
+			<img src="<?=$loc;?>/thumb/<?=$row['id'];?>/<?=$row['id'];?>.<?=imgtypetoext($row['type']);?>" alt="<?=$row['title'];?>" />
 		</a>
 	<? } ?>
 	</div>
