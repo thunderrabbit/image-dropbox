@@ -19,6 +19,7 @@
 		<td>worksafe</td>
 		<td><input type="radio" checked="checked" name="rating" value="1" />Yes <input type="radio" name="rating" value="0" /> No 
 	</tr>
+	<tr><td colspan="2"><br/></td></tr>
 	<tr>
 		<td>create custom thumb</td>
 		<td><input type="radio" name="custom" value="1" />Yes <input type="radio" checked="checked" name="custom" value="0" /> No 
@@ -47,6 +48,7 @@
 			</select>
 		</td>
 	</tr>
+	<tr><td colspan="2"><br/></td></tr>
 	<tr>
 		<td>password (to make changes)</td>
 		<td><input type="password" name="password" /></td>
