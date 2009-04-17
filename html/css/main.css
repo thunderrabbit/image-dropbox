@@ -72,14 +72,11 @@ input,textarea {
 	line-height: 1.5em;
 }
 
+#form .error {
+	color: #ff0000;
+}
+
 #about {
 	width: 500px;
 }
 
-.hide {
-	display: none;
-}
-
-.show {
-
-}

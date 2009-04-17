@@ -9,7 +9,7 @@ if ( $_POST ) {
 	$result = $db->query( $sql );
 	$entry = $result->fetch_assoc();
 
-	if ( $entry['password'] == $db->real_escape_string( strval( $_POST['password'] ) ) ) {
+	if ( $entry['password'] == sha1( strval( $_POST['password'] ) ) ) {
 		$sql = sprintf("delete from entries where id=%d", $id );
 		$db->query( $sql );
 		header("Location: $loc/");

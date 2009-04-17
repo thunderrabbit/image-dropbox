@@ -1,5 +1,14 @@
 <div id="form">
 
+<?php
+if ( $_SESSION['upload_errors'] ) {
+?>
+<h3>Errors</h3>
+<span style="color: #ff0000"><?php print implode('</span><br/><span style="color: #ff0000">', $_SESSION['upload_errors']); ?></span>
+<?php
+}
+?>
+
 <h2>Upload</h2>
 <form action="http<?=($secure)? 's' : '';?>://<?=$url;?><?=$loc;?>/submit/" enctype="multipart/form-data" method="post">
 <table id="form_table">
@@ -42,9 +51,9 @@
 		<td>square crop mode</td>
 		<td>
 			<select name="crop">
-				<option value="top">top / left</option>
-				<option value="middle">middle</option>
-				<option value="bottom">bottom / right</option>
+				<option value="1">top / left</option>
+				<option value="2">middle</option>
+				<option value="3">bottom / right</option>
 			</select>
 		</td>
 	</tr>
