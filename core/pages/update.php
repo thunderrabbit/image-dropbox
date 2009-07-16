@@ -13,7 +13,7 @@ if ( $_POST ) {
 	$entry = $result->fetch_assoc();
 
 	// passwords match? rather important
-	if ( $entry['password'] == $db->real_escape_string( strval( $_POST['password'] ) ) ) {
+	if ( $entry['password'] == sha1( $db->real_escape_string( strval( $_POST['password'] ) ) ) ) {
 
 	// some tags? if not default to 'none'
 	if ( $_POST['tags'] ) {

@@ -28,8 +28,6 @@ $img->commit();
 
 header('Location: http://' . $url . $loc . '/view/' . $img->getentryid() );
 
-trigger_error('submit completed');
-
 $db->close();
 exit();
 

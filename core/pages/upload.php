@@ -4,8 +4,9 @@
 if ( $_SESSION['upload_errors'] ) {
 ?>
 <h3>Errors</h3>
-<span style="color: #ff0000"><?php print implode('</span><br/><span style="color: #ff0000">', $_SESSION['upload_errors']); ?></span>
+<p class="error"><?php print implode('</p><p class="error">', $_SESSION['upload_errors']); ?></p>
 <?php
+unset( $_SESSION['upload_errors'] );
 }
 ?>
 
