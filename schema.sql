@@ -23,6 +23,17 @@ CREATE TABLE `dropbox`.`data` (
 ) ENGINE=InnoDB;
 
 --
+-- Table structure for table `namespace`
+--
+DROP TABLE IF EXISTS `dropbox`.`namespace`;
+CREATE TABLE `dropbox`.`namespace` (
+	`id` int(11) NOT NULL auto_increment,
+	`name` varchar(255) not null,
+	`protected` tinyint default 0,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+--
 -- Table structure for table `entries`
 --
 DROP TABLE IF EXISTS `dropbox`.`entries`;
@@ -41,9 +52,12 @@ CREATE TABLE `dropbox`.`entries` (
   `hash` varchar(40) default NULL,
   `parent` int(11) default NULL,
   `child` int(11) default NULL,
+  `namespace` int(11) default NULL,
   PRIMARY KEY  (`id`),
+  KEY (`namespace`),
+  FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,
   FOREIGN KEY (parent) REFERENCES entries (id) on delete cascade,
-  FOREIGN KEY (child) REFERENCES entries (id) on delete set null 
+  FOREIGN KEY (child) REFERENCES entries (id) on delete set null
 ) ENGINE=InnoDB;
 
 --

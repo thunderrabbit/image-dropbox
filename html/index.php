@@ -1,4 +1,7 @@
 <?php
+// Start debug timming
+$ts = microtime(true);
+
 // Bring in the needed stuff and setup the connection to the database
 require '../core/conf.php';
 require $path . "/core/session.php";
@@ -68,6 +71,11 @@ ob_start(); // temp hack to get redirections on outputless pages to work.
 // Output our shit, header followed by section content and lastly the footer. Oh and the debugging poop.
 require $path . "/core/header.php";
 require $path . "/core/pages/" . $section . ".php";
+
+// Debug script timing
+$te = microtime(true);
+$t = round( $te - $ts, 4 );
+echo "<br/>script executed in $t seconds<br/>";
 
 require $path . "/core/footer.php";
 
