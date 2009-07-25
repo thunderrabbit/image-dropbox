@@ -15,7 +15,7 @@ $row = $result->fetch_assoc();
 $date = $row['date'];
 $size = $row['size'];
 $type = $row['type'];
-$parent_id = ($row['parent']) ? $row['parent'] : $id;
+$parent_id = ( $row['parent'] > 0 ) ? $row['parent'] : $id;
 
 $ar = apache_request_headers();
 

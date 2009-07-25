@@ -210,8 +210,8 @@ class image {
 	
 	public function createentry() {
 		$sql = sprintf( 'INSERT INTO `entries` (`title`,`type`,`size`,`width`,`height`,
-						 `ip`,`password`,`date`,`safe`,`hash`) VALUES
-						 (\'%s\',%d,%d,%d,%d,\'%s\',\'%s\',UNIX_TIMESTAMP(),%d,\'%s\')',
+						 `ip`,`password`,`date`,`safe`,`hash`,`views`) VALUES
+						 (\'%s\',%d,%d,%d,%d,\'%s\',\'%s\',UNIX_TIMESTAMP(),%d,\'%s\',0)',
 						 $this->title,
 						 $this->type,
 						 $this->size,

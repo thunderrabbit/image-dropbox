@@ -7,6 +7,14 @@ require '../core/conf.php';
 require $path . "/core/session.php";
 require $path . "/core/func.php";
 
+// Check auth
+if ( isset($_COOKIE['token']) && $_COOKIE['token'] == $_SESSION['auth_token'] ) {
+	$auth_token = sha1($_SESSION['auth_salt'].time());
+	$_SESSION['auth_token'] = $auth_token;
+	setcookie('token',$auth_token,time()+DB_AUTH_TIMEOUT,'/',DB_URL,false,true);
+	$authenticated = true;
+}
+
 // Process arguments
 if ( $_GET['args'] ) {
 	// Args are seperated by '/' to make purdy urls
@@ -45,6 +53,9 @@ if ( $_GET['args'] ) {
 			case 'submit':
 			case 'hide':
 			case 'search':
+			case 'login':
+			case 'dologin':
+			case 'logout':
 				if ( !$section )
 					$section = $args[$i];
 				break;
