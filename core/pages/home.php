@@ -43,7 +43,7 @@ if ( $tags ) {
                 }
         }
         if ( $where ) 
-                $where = implode( ' && ', $where );
+                $where = ' && ' . implode( ' && ', $where );
 }
 
 if ( isset( $_SESSION['hide'] ) )
