@@ -149,6 +149,7 @@ CREATE TABLE `dropbox_dev`.`users` (
 	`email` varchar(255) NOT NULL,
 	`email_hash` varchar(32) NOT NULL,
 	`alias` varchar(50) NOT NULL,
+	`joindate` int(11) unsigned NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 

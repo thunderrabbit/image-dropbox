@@ -14,7 +14,9 @@ define('DB_URL', 'dropbox-dev.easytospell.net');
 define('DB_SECURE', true);
 define('DB_AUTH_TIMEOUT', 3600);
 
-$db = new mysqli("localhost", "dropbox", "dropbox", "dropbox_dev");
+require DB_PATH . '/core/lib/mysql.php';
+
+$db = new dropbox_mysqli("localhost", "dropbox", "dropbox", "dropbox_dev");
 if ( mysqli_connect_errno() ) {
 	echo "Could not connect to database";
 	exit();

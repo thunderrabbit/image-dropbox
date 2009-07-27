@@ -72,6 +72,16 @@ if ( ! $result = $db->query( $sql ) ) {
 	<br/>
 	Uploaded by: <?=$entry['ip'];?>
 	<br/>
+	<?
+	$exif = exif_read_data('http://dropbox-dev.easytospell.net/image/' . $id . '.jpg', 0, true);
+	echo "EXIF:<br />\n";
+	foreach ($exif as $key => $section) {
+		foreach ($section as $name => $val) {
+			echo "$key.$name: $val<br />\n";
+		}
+	}
+	?>
+	<br/>
 	<a href="<?=$loc;?>/track/<?=$id;?>/">Track Changes</a>&nbsp;
 	<a href="<?=$loc;?>/edit/<?=$id;?>/">Edit Info</a>&nbsp;
 	<a href="<?=$loc;?>/delete/<?=$id;?>/">Delete</a>&nbsp;

@@ -54,7 +54,11 @@ if ( $_GET['args'] ) {
 			case 'hide':
 			case 'search':
 			case 'login':
+			case 'signup':
+			case 'dosignup':
 			case 'dologin':
+			case 'me':
+			case 'changemy':
 			case 'logout':
 				if ( !$section )
 					$section = $args[$i];

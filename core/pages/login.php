@@ -11,6 +11,7 @@ unset( $_SESSION['login_errors'] );
 ?>
 
 <h2>Login</h2>
+<p>dont have a login? <a href="http<?=(DB_SECURE)? 's' : '';?>://<?=DB_URL;?><?=DB_LOC;?>/signup/">sign up</a>
 <form action="http<?=(DB_SECURE)? 's' : '';?>://<?=DB_URL;?><?=$loc;?>/dologin/" method="post">
 <table id="form_table">
 	<tr>
