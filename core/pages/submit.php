@@ -14,7 +14,7 @@ function error( $img, $rollback, $msg ) {
 	exit();
 }
 
-if ( !$img->checkpost() ) error( $img, false, 'checkpost' );
+if ( !$img->checkpost( $authenticated ) ) error( $img, false, 'checkpost' );
 if ( !$img->checkduplicate() ) error( $img, false, 'checkduplicate' );
 $img->start();
 if ( !$img->createentry( $authenticated ) ) error( $img, true, 'createentry' );

@@ -12,7 +12,7 @@ define('DB_PATH', '/var/vhosts/dropbox-dev.easytospell.net');
 define('DB_VERSION', '0.3.0a');
 define('DB_URL', 'dropbox-dev.easytospell.net');
 define('DB_SECURE', true);
-define('DB_AUTH_TIMEOUT', 3600);
+define('DB_AUTH_TIMEOUT', 14400); // 4 hours
 
 require DB_PATH . '/core/lib/mysql.php';
 

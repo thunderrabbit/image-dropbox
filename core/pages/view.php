@@ -2,7 +2,7 @@
 
 $id = intval( $entry );
 
-$sql = sprintf( "select title,width,height,size,date,views,ip,safe,hash,child,type from entries where id=%d", $id );
+$sql = sprintf( "select title,width,height,size,date,views,ip,safe,hash,child,type,user from entries where id=%d", $id );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die("Query Error");
@@ -32,6 +32,15 @@ $sql = sprintf( "select t.name from tags t, tagmap m where m.entry=%d && t.id=m.
 $info = $result->fetch_assoc();
 
 $filename = $id . '.' . imgtypetoext( $entry['type'] );
+
+if ( $entry['user'] > 0 ) {
+	$sql = sprintf('select alias,username from users where id=%d', $entry['user']);
+	if ( $info = $db->select( $sql ) ) {
+		$user= '<a href="http://' . DB_URL . DB_LOC . '/user/profile/' . $info['username'] . '/">' . $info['alias'] . '</a>';
+	}
+} else {
+	$user = $entry['ip'];
+}
 
 if ( ! $result = $db->query( $sql ) ) {
 	die( "Query Error" );
@@ -70,7 +79,7 @@ if ( ! $result = $db->query( $sql ) ) {
 	<br/>
 	SHA-1 Hash: <?=$entry['hash'];?>
 	<br/>
-	Uploaded by: <?=$entry['ip'];?>
+	Uploaded by: <?=$user;?>
 	<br/>
 	<?
 	$exif = exif_read_data('http://dropbox-dev.easytospell.net/image/' . $id . '.jpg', 0, true);

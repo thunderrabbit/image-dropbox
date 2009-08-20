@@ -65,12 +65,12 @@ class image {
 		$this->db->query('ROLLBACK');
 	}
 
-	public function checkpost() {
+	public function checkpost( $authenticated = false ) {
 		if ( $_POST && $_FILES['image'] ) {
 			if ( is_uploaded_file( $_FILES['image']['tmp_name'] ) ) {
 				$this->file = $_FILES['image']['tmp_name'];
 				if ( $_POST['title'] ) {
-					$this->title = $this->db->real_escape_string( strval( $_POST['title'] ) );
+					$this->title = $this->db->safe( $_POST['title'] );
 				} else {
 					$this->seterror('Missing Title');	
 					return false;
@@ -89,7 +89,7 @@ class image {
 				$this->hash = sha1_file( $this->file );
 				// If there is an authenticated user set the password to nothing even if something
 				// exists in the form data
-				$this->password = ( $authenticated ) ? '' : sha1( $_POST['password'] ) ) ;
+				$this->password = ( $authenticated ) ? '' : sha1( $_POST['password'] );
 				$this->host = $this->db->safe( gethostbyaddr( $_SERVER['REMOTE_ADDR'] ) 
 								. ' (' . $_SERVER['REMOTE_ADDR'] . ')' );
 				$this->worksafe = ( intval( $_POST['rating'] ) ) ? 1 : 0;
@@ -226,7 +226,7 @@ class image {
 		if ( $this->db->query( $sql ) ) {
 			$this->entryid = $this->db->insert_id;
 			if ( $authenticated ) {
-				$sql = sprintf( 'UPDATE users SET user=%d WHERE id=%d', $_SESSION['auth_id'], $this->entryid );
+				$sql = sprintf( 'UPDATE entries SET user=%d WHERE id=%d', $_SESSION['auth_id'], $this->entryid );
 				if ( ! $this->db->query( $sql ) ) {
 					$this->seterror('application error while assigning entry to logged in user');
 				}

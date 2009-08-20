@@ -58,11 +58,13 @@ unset( $_SESSION['upload_errors'] );
 			</select>
 		</td>
 	</tr>
+	<? if ( !$authenticated ): ?>
 	<tr><td colspan="2"><br/></td></tr>
 	<tr>
 		<td>password (to make changes)</td>
 		<td><input type="password" name="password" /></td>
 	</tr>
+	<? endif; ?>
 	<tr>
 		<td>&nbsp;</td>
 		<td><br/><input type="submit" value="Upload" /></td>
