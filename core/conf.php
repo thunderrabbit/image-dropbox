@@ -2,7 +2,7 @@
 
 $loc = '';
 $path = '/var/vhosts/dropbox.easytospell.net';
-$version = '0.2.0a';
+$version = '0.2.0b';
 $url = 'dropbox.easytospell.net';
 $secure = false; // use https for things that require passwords, upload, edit, delete
 
