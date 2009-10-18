@@ -27,12 +27,14 @@ class image {
 	private $custom_crop;
 	private $custom_size;
 	private $custom_mode;	
+	private $post;
 
-	public function __construct($db) { 
+	public function __construct($db, $post='') { 
 		$this->db = $db;	
 		$this->block = 65535;
 		$this->custom_mode = CROP_MIDDLE;
 		$this->errors = array();
+		$this->post = ( is_array( $post ) ) ? $post : $_POST;
 	}
 
 	public function __destruct() { 
@@ -66,9 +68,10 @@ class image {
 	}
 
 	public function checkpost( $authenticated = false ) {
-		if ( $_POST && $_FILES['image'] ) {
-			if ( is_uploaded_file( $_FILES['image']['tmp_name'] ) ) {
-				$this->file = $_FILES['image']['tmp_name'];
+		if ( ( (!DB_FILESYSTEM) && $_POST && $_FILES['image'] ) || ( $_POST && DB_FILESYSTEM ) ) {
+			if ( ( (!DB_FILESYSTEM) && is_uploaded_file( $_FILES['image']['tmp_name'] ) ) 
+				|| ( DB_FILESYSTEM && file_exists( DB_DATAPATH . $_POST['file'] ) ) ) {
+				$this->file = ( DB_FILESYSTEM ) ? DB_DATAPATH . $_POST['file'] : $_FILES['image']['tmp_name'];
 				if ( $_POST['title'] ) {
 					$this->title = $this->db->safe( $_POST['title'] );
 				} else {
@@ -211,9 +214,10 @@ class image {
 	}
 	
 	public function createentry( $authenticated = false ) {
+		$path = ( DB_FILESYSTEM ) ? $this->file : '';
 		$sql = sprintf( 'INSERT INTO `entries` (`title`,`type`,`size`,`width`,`height`,
-						 `ip`,`password`,`date`,`safe`,`hash`,`views`) VALUES
-						 (\'%s\',%d,%d,%d,%d,\'%s\',\'%s\',UNIX_TIMESTAMP(),%d,\'%s\',0)',
+						 `ip`,`password`,`date`,`safe`,`hash`,`views`,`path`) VALUES
+						 (\'%s\',%d,%d,%d,%d,\'%s\',\'%s\',UNIX_TIMESTAMP(),%d,\'%s\',0,\'%s\')',
 						 $this->title,
 						 $this->type,
 						 $this->size,
@@ -222,7 +226,8 @@ class image {
 						 $this->host,
 						 $this->password,
 						 $this->worksafe,
-						 $this->hash);
+						 $this->hash,
+						 $path);
 		if ( $this->db->query( $sql ) ) {
 			$this->entryid = $this->db->insert_id;
 			if ( $authenticated ) {
@@ -276,21 +281,22 @@ class image {
 	}
 
 	public function createdata() {
-		$fp = fopen( $this->file, 'rb' );
+		if ( !DB_FILESYSTEM ) {
+			$fp = fopen( $this->file, 'rb' );
 
-		while( !feof( $fp ) ) {
-			$sql = sprintf('INSERT INTO `data` (`entryid`,`filedata`) VALUES
-							(%d,\'%s\')', $this->entryid,
-							$this->db->real_escape_string( 
-								fread( $fp, $this->block ) ) );
-			if ( !$this->db->query( $sql ) ) {
-				$this->seterror('application error while writing image');
-				return false;
+			while( !feof( $fp ) ) {
+				$sql = sprintf('INSERT INTO `data` (`entryid`,`filedata`) VALUES
+								(%d,\'%s\')', $this->entryid,
+								$this->db->real_escape_string( 
+									fread( $fp, $this->block ) ) );
+				if ( !$this->db->query( $sql ) ) {
+					$this->seterror('application error while writing image');
+					return false;
+				}
 			}
+
+			fclose( $fp );
 		}
-
-		fclose( $fp );
-
 		return true;
 	}
 

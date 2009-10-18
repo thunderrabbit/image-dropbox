@@ -1,18 +1,20 @@
 <?php
 
 $loc = '';
-$path = '/var/vhosts/dropbox-dev.easytospell.net';
+$path = '/data/www';
 $version = '0.3.0a';
-$url = 'dropbox-dev.easytospell.net';
-$secure = true; // use https for things that require passwords, upload, edit, delete
+$url = 'tohru.easytospell.net';
+$secure = false; // use https for things that require passwords, upload, edit, delete
 
 // Start migrating to define based config
 define('DB_LOC', '');
-define('DB_PATH', '/var/vhosts/dropbox-dev.easytospell.net');
+define('DB_PATH', '/data/www');
 define('DB_VERSION', '0.3.0a');
-define('DB_URL', 'dropbox-dev.easytospell.net');
-define('DB_SECURE', true);
+define('DB_URL', 'tohru.easytospell.net');
+define('DB_SECURE', false);
 define('DB_AUTH_TIMEOUT', 14400); // 4 hours
+define('DB_FILESYSTEM', true); // use filesystem istead of database for image contents
+define('DB_DATAPATH', '/data/image/'); // where do local image exist
 
 require DB_PATH . '/core/lib/mysql.php';
 

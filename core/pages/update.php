@@ -30,14 +30,14 @@ if ( $_POST ) {
 	// only want to make this query if a change has actually happened
 	$sql = sprintf( "update entries set title='%s',safe=%d where id=%d", $db->real_escape_string( $title ), $safe, $id );
 	if ( !$db->query( $sql ) )
-		die('error in query');
+		die('error in query ' . $sql);
 
 	// add update record for a changed title
 	if ( $title != $entry['title'] ) {
 		$sql = sprintf( "insert into updates (entry,ip,date,field,`from`,`to`) values (%d,'%s',%d,'%s','%s','%s')",
 						$id,$host,time(),'title',$entry['title'],$title );
 		if ( !$db->query( $sql ) )
-			die('error in query');
+			die('error in query' . $sql);
 	}
 
 	// add update record for a changed worksafe status
@@ -47,7 +47,7 @@ if ( $_POST ) {
 		$sql = sprintf( "insert into updates (entry,ip,date,field,`from`,`to`) values (%d,'%s',%d,'%s','%s','%s')",
 						$id,$host,time(),'worksafe',$oldrating,$newrating );
 		if ( !$db->query( $sql ) )
-			die('error in query');
+			die('error in query' . $sql);
 	}
 
 	// get the existing tags to compare to the ones in the post data
@@ -68,7 +68,7 @@ if ( $_POST ) {
 		// plan on only removing entries that have changed in the future
 		$sql = sprintf( "delete from tagmap where entry=%d", $id );
 		if ( !$db->query( $sql ) )
-			die('error in query');
+			die('error in query' . $sql);
 
 		// loop over tags in post
 		for ( $i = 0; $i < $tag_count; ++$i ) {
@@ -98,7 +98,7 @@ if ( $_POST ) {
 		$sql = sprintf( "insert into updates (entry,ip,date,field,`from`,`to`) values (%d,'%s',%d,'%s','%s','%s')",
 						$id,$host,time(),'tags',$oldtags,$newtags );
 		if ( !$db->query( $sql ) )
-			die('error in query');
+			die('error in query ' . $sql);
 
 	}
 

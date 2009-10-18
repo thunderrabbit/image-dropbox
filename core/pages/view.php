@@ -2,7 +2,7 @@
 
 $id = intval( $entry );
 
-$sql = sprintf( "select title,width,height,size,date,views,ip,safe,hash,child,type,user from entries where id=%d", $id );
+$sql = sprintf( "select title,path,width,height,size,date,views,ip,safe,hash,child,type,user from entries where id=%d", $id );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die("Query Error");
@@ -53,6 +53,10 @@ if ( ! $result = $db->query( $sql ) ) {
 	<br/>
 	Direct: http://<?=$url;?><?=$loc;?>/image/<?=$id;?>/<?=$filename;?>
 	<br/>
+	<? if ( DB_FILESYSTEM ): ?>
+	Path: <?=$entry['path'];?>
+	<br/>
+	<? endif; ?>
 	<? if ( $custom ): ?>
 	Custom Thumbnail: http://<?=$url;?><?=$loc;?>/thumb/<?=$id;?>/custom/<?=$filename;?>
 	<br/>
@@ -79,16 +83,18 @@ if ( ! $result = $db->query( $sql ) ) {
 	<br/>
 	SHA-1 Hash: <?=$entry['hash'];?>
 	<br/>
+	<? if ( !DB_FILESYSTEM ): ?>
 	Uploaded by: <?=$user;?>
+	<? endif; ?>
 	<br/>
 	<?
-	$exif = exif_read_data('http://dropbox-dev.easytospell.net/image/' . $id . '.jpg', 0, true);
-	echo "EXIF:<br />\n";
-	foreach ($exif as $key => $section) {
-		foreach ($section as $name => $val) {
-			echo "$key.$name: $val<br />\n";
-		}
-	}
+//	$exif = exif_read_data('http://dropbox-dev.easytospell.net/image/' . $id . '.jpg', 0, true);
+//	echo "EXIF:<br />\n";
+//	foreach ($exif as $key => $section) {
+//		foreach ($section as $name => $val) {
+//			echo "$key.$name: $val<br />\n";
+//		}
+//	}
 	?>
 	<br/>
 	<a href="<?=$loc;?>/track/<?=$id;?>/">Track Changes</a>&nbsp;

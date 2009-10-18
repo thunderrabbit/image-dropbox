@@ -8,7 +8,7 @@ CREATE DATABASE IF NOT EXISTS `dropbox_dev`;
 --
 -- User access
 --
-GRANT SELECT,UPDATE,INSERT,DELETE,LOCK TABLES ON dropbox.* TO dropbox@localhost IDENTIFIED BY 'dropbox';
+GRANT SELECT,UPDATE,INSERT,DELETE,LOCK TABLES ON dropbox_dev.* TO dropbox@localhost IDENTIFIED BY 'dropbox';
 
 --
 -- Table structure for table `data`
@@ -55,6 +55,7 @@ CREATE TABLE `dropbox_dev`.`entries` (
   `child` int(11) default NULL,
   `namespace` int(11) default NULL,
   `user` int(11) default NULL,
+  `path` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
   KEY (`namespace`),
   FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,

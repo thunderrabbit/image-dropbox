@@ -4,7 +4,8 @@ $stats_file = $path . "/core/stats.php";
 $stats_date = filemtime( $stats_file );
 
 // GENERATE STATISTICS (once an hour)
-if ( ( time() - $stats_date >= 3600 ) ) {
+//if ( ( time() - $stats_date >= 3600 ) ) {
+if ( true ) {
 
 $sql = "SELECT count(*) count FROM entries";
 $result = $db->query( $sql );
@@ -127,10 +128,12 @@ file_put_contents( $stats_file, $stats_data );
 		<td>Total size of database:</td>
 		<td><?=$db_size;?>mb</tb>
 	</tr>
+	<?  if ( !DB_FILESYSTEM ): ?>
 	<tr>
 		<td>Number of image chunks:</td>
 		<td><?=$num_chunks;?></td>
 	</tr>
+	<? endif; ?>
 	<tr>
 		<td>Number of image views:</td>
 		<td><?=$num_views;?></td>

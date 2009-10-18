@@ -51,18 +51,30 @@ if ( $mode == 'thumb' )
 } else {
 	$sql = sprintf( "UPDATE entries SET views=views+1 WHERE id=%d", $parent_id );
 	if ( !$db->query( $sql ) ) die( "Query Error" );
-	$sql = sprintf( "SELECT id FROM data WHERE entryid=%d order by id", $id );
-	$result = $db->query( $sql );
-	header('Content-Length: ' . $size );
-	header("content-type: " . imgtypetomime($type) );
-	while ( $row = $result->fetch_array() )
-		$chunks[] = $row[0];
-	$size = count( $chunks );
-	for( $i = 0; $i < $size; ++$i ) {
-		$sql = sprintf( "select filedata from data where id=%d", $chunks[$i] );
+	if ( DB_FILESYSTEM ) {
+		$sql = sprintf( "SELECT path FROM entries WHERE id=%d", $parent_id );
 		$result = $db->query( $sql );
-		$row = $result->fetch_array();
-		echo $row[0];
+		$row = $result->fetch_assoc();
+		$path = $row['path'];
+		header('Content-Length: ' . $size );
+		header("content-type: " . imgtypetomime($type) );
+		if ( file_exists( $path ) ) {
+			print file_get_contents( $path );
+		}	
+	} else {
+		$sql = sprintf( "SELECT id FROM data WHERE entryid=%d order by id", $id );
+		$result = $db->query( $sql );
+		header('Content-Length: ' . $size );
+		header("content-type: " . imgtypetomime($type) );
+		while ( $row = $result->fetch_array() )
+			$chunks[] = $row[0];
+		$size = count( $chunks );
+		for( $i = 0; $i < $size; ++$i ) {
+			$sql = sprintf( "select filedata from data where id=%d", $chunks[$i] );
+			$result = $db->query( $sql );
+			$row = $result->fetch_array();
+			echo $row[0];
+		}
 	}
 }
 
