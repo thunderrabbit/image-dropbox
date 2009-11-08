@@ -4,7 +4,7 @@ $id = intval( $entry );
 
 if ( $_POST ) {
 
-	$name = ( $_POST['name'] ) ? strval( $_POST['name'] ) : 'annonymous';
+	$name = ( $_POST['name'] ) ? strval( $_POST['name'] ) : 'anonymous';
 	$content = strval( $_POST['content'] );
 	$host = gethostbyaddr( $_SERVER['REMOTE_ADDR'] ) . ' (' . $_SERVER['REMOTE_ADDR'] . ')';
 

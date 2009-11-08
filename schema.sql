@@ -35,6 +35,19 @@ CREATE TABLE `dropbox_dev`.`namespace` (
 ) ENGINE=InnoDB;
 
 --
+-- Table structure for table `collection`
+--
+DROP TABLE IF EXISTS `dropbox_dev`.`collection`;
+CREATE TABLE `dropbox_dev`.`collection` (
+	`id` int(11) NOT NULL auto_increment,
+	`title` varchar(25) default NULL,
+	`description` varchar(255) default NULL,
+	`user` int(11) default NULL,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+--
 -- Table structure for table `entries`
 --
 DROP TABLE IF EXISTS `dropbox_dev`.`entries`;

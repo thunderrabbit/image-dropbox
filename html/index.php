@@ -19,12 +19,13 @@ if ( isset($_COOKIE['token']) && $_COOKIE['token'] == $_SESSION['auth_token'] ) 
 if ( $_GET['args'] ) {
 	// Args are seperated by '/' to make purdy urls
 	$args = explode('/', $_GET['args'] );
-	
+
+	// This input handling needs to be cleaned up, it is very messy
 	// Loop through the incoming arguments and setup the section/entry/tags variables
 	for ( $i = 0, $c = count( $args ); $i < $c; ++$i ) {
 		// Hackish switch statement with lots of confusing drop throughs
 		switch ( strval( $args[$i] ) ) {
-			// Sections that tage an entry as an argument
+			// Sections that take an entry as an argument
 			case 'page':
 				// the page psudo-section uses the entry arg to as it's current page argument
 				$section = 'home';
@@ -87,7 +88,7 @@ ob_start(); // temp hack to get redirections on outputless pages to work.
 require $path . "/core/header.php";
 require $path . "/core/pages/" . $section . ".php";
 
-// Debug script timing
+// Debug script timing, yes there is stuff done after this but not enough to make a difference
 $te = microtime(true);
 $t = round( $te - $ts, 4 );
 echo "<br/>script executed in $t seconds<br/>";

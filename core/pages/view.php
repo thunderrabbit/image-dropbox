@@ -86,7 +86,15 @@ if ( ! $result = $db->query( $sql ) ) {
 	echo "EXIF:<br />\n";
 	foreach ($exif as $key => $section) {
 		foreach ($section as $name => $val) {
-			echo "$key.$name: $val<br />\n";
+			$kn = $key.$name;
+			switch ( $kn ) {
+				case 'IFD0Model':
+				case 'EXIFExposureTime':
+				case 'EXIFFNumber':
+				case 'EXIFISOSpeedRatings':
+					echo "$name: $val<br />\n";
+					break;
+			}
 		}
 	}
 	?>
@@ -105,7 +113,7 @@ if ( ! $result = $db->query( $sql ) ) {
 	?>
 	<p>
 	<strong><?=$row['name'];?> (<?=$row['ip'];?>)</strong> - <?=date('Y-m-d @ H:i:s', $row['date']);?><br/>
-	<?=$row['content'];?>
+	<?=htmlentities( $row['content'] );?>
 	</p>
 	<?
 	}
