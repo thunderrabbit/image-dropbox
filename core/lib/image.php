@@ -214,7 +214,7 @@ class image {
 	}
 	
 	public function createentry( $authenticated = false ) {
-		$path = ( DB_FILESYSTEM ) ? $this->file : '';
+		$path = ( DB_FILESYSTEM ) ? $this->db->safe( $this->file ) : '';
 		$sql = sprintf( 'INSERT INTO `entries` (`title`,`type`,`size`,`width`,`height`,
 						 `ip`,`password`,`date`,`safe`,`hash`,`views`,`path`) VALUES
 						 (\'%s\',%d,%d,%d,%d,\'%s\',\'%s\',UNIX_TIMESTAMP(),%d,\'%s\',0,\'%s\')',

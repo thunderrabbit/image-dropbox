@@ -60,7 +60,7 @@ foreach( $files as $file ) {
 		continue;
 	}
 	
-	$_POST['title'] = $name;
+	$_POST['title'] = $db->real_escape_string( $name );
 	$_POST['file'] = $file;
 	$_POST['tags'] = implode(',',$tags);
 	$_POST['rating'] = 1;
