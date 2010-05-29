@@ -2,11 +2,17 @@
 
 $loc = '';
 $path = '/var/vhosts/dropbox.easytospell.net';
-$version = '0.2.0b';
+$version = '0.2.0';
 $url = 'dropbox.easytospell.net';
 $secure = false; // use https for things that require passwords, upload, edit, delete
 
-$db = new mysqli("localhost", "dropbox", "dropbox", "dropbox");
+$host = 'localhost';	     // name of host for database
+$base = '';		     // name of database
+$user = '';		     // username for this database
+$pass = '';		     // password for this user
+
+$db = new mysqli($host, $user, $pass, $base);
+
 if ( mysqli_connect_errno() ) {
 	echo "Could not connect to database";
 	exit();

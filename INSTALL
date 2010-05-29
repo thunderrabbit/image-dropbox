@@ -1,0 +1,4 @@
+
+$ git clone git@github.com:thunderrabbit/image-dropbox.git
+$ cd image-dropbox
+$ cp core/conf.sample core/conf.php
