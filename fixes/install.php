@@ -1,11 +1,24 @@
-SET foreign_key_checks = 0;
-DROP TABLE `comments`, `data`, `entries`, `namespace`, `tagmap`, `tags`, `thumbs`, `updates`;
-SET foreign_key_checks = 1;
+<?
+require '../core/conf.php';
+require $path . "/core/func.php";
+
+// see if tables exist
+
+// require password to be sent
+
+// if password was sent, then drop all tables
+
+//drop all tables
+$sql = "DROP TABLE IF EXISTS `comments`, `updates`, `tagmap`, `tags`, `thumbs`, `data`, `entries`, `namespace`;";
+$result = $db->query( $sql );
+
+?>
+
+// create new tables
 
 --
 -- Table structure for table `namespace`
 --
-DROP TABLE IF EXISTS `namespace`;
 CREATE TABLE `namespace` (
 	`id` int(11) NOT NULL auto_increment,
 	`name` varchar(255) not null,
@@ -16,7 +29,6 @@ CREATE TABLE `namespace` (
 --
 -- Table structure for table `entries`
 --
-DROP TABLE IF EXISTS `entries`;
 CREATE TABLE `entries` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) default NULL,
@@ -43,7 +55,6 @@ CREATE TABLE `entries` (
 --
 -- Table structure for table `data`
 --
-DROP TABLE IF EXISTS `data`;
 CREATE TABLE `data` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
   `entryid` int(11) NOT NULL,
@@ -55,7 +66,6 @@ CREATE TABLE `data` (
 --
 -- Table structure for table `thumbs`
 --
-DROP TABLE IF EXISTS `thumbs`;
 CREATE TABLE `thumbs` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`entry` int(11) NOT NULL,
@@ -69,7 +79,6 @@ CREATE TABLE `thumbs` (
 --
 -- Table structure for table `tags`
 --
-DROP TABLE IF EXISTS `tags`;
 CREATE TABLE `tags` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
@@ -81,7 +90,6 @@ CREATE TABLE `tags` (
 --
 -- Table structure for table `tagmap`
 --
-DROP TABLE IF EXISTS `tagmap`;
 CREATE TABLE `tagmap` (
   `tag` int(11) NOT NULL,
   `entry` int(11) NOT NULL,
@@ -92,7 +100,6 @@ CREATE TABLE `tagmap` (
 --
 -- Table structure for table `updates`
 --
-DROP TABLE IF EXISTS `updates`;
 CREATE TABLE `updates` (
 	`id` int(11) NOT NULL auto_increment,
 	`entry` int(11) default NULL,
@@ -109,7 +116,6 @@ CREATE TABLE `updates` (
 --
 -- Table structure for tables `comments`
 --
-DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
 	`id` int(11) NOT NULL auto_increment,
 	`entry` int(11) NOT NULL,
