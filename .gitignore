@@ -1,3 +1,5 @@
-*~
-core/conf.php
 core/stats.php
+core/conf.php
+*.swp
+*~
+

@@ -7,6 +7,15 @@ define('CROP_TOP', 1 );
 define('CROP_MIDDLE', 2 );
 define('CROP_BOTTOM', 3 );
 
+class ImageException extends Exception {
+	public $rollback;
+
+	public function __construct($message = null, $rollback=false, $code = 0) {
+		$this->rollback = $rollback;
+		parent::__construct($message, $code);
+	}
+}
+
 class image {
 	private $db;
 	private $size;
@@ -22,7 +31,6 @@ class image {
 	private $image;
 	private $file;
 	private $block;
-	private $errors;
 	private $custom;
 	private $custom_crop;
 	private $custom_size;
@@ -32,7 +40,6 @@ class image {
 		$this->db = $db;	
 		$this->block = 65535;
 		$this->custom_mode = CROP_MIDDLE;
-		$this->errors = array();
 	}
 
 	public function __destruct() { 
@@ -40,17 +47,9 @@ class image {
 			imagedestroy( $this->image );	
 		}
 	}
-	
+
 	public function getentryid() {
 		return $this->entryid;
-	}
-
-	public function geterrors() {
-		return $this->errors;
-	}
-
-	public function seterror($error) {
-		$this->errors[] = ucwords( $error );
 	}
 
 	public function start() {
@@ -72,8 +71,7 @@ class image {
 				if ( $_POST['title'] ) {
 					$this->title = $this->db->safe( $_POST['title'] );
 				} else {
-					$this->seterror('Missing Title');	
-					return false;
+					throw new ImageException('Missing Title');
 				}
 				if ( $img = getimagesize( $this->file ) ) {
 					if ( in_array( $img[2], array( 1, 2, 3 ) ) ) {
@@ -82,8 +80,7 @@ class image {
 					$this->width = $img[0];
 					$this->height = $img[1];
 				} else {
-					$this->seterror( 'Unsupported Image' );
-					return false;
+					throw new ImageException('Unsupported Image');
 				}
 				$this->size = filesize( $this->file );
 				$this->hash = sha1_file( $this->file );
@@ -110,14 +107,11 @@ class image {
 				}
 
 			} else {
-				$this->seterror('no uploaded file');
-				return false;
+				throw new ImageException('no uploaded file');
 			}
 		} else {
-			$this->seterror('no post data');
-			return false;
+			throw new ImageException('no post data');
 		}
-		return true;
 	}
 
 	public function checkduplicate() {
@@ -125,15 +119,11 @@ class image {
 					. $this->hash . '\'' ) ) {
 			$dup = ($rel->num_rows < 1);
 			$rel->free();
-			if ( $dup ) {
-				return true;
-			} else {
-				$this->seterror('duplicate image');
-				return false;
+			if ( ! $dup ) {
+				throw new ImageException('duplicate image');
 			}
 		} else {
-			$this->seterror('application error while checking for duplicate image');
-			return false;
+			throw new ImageException('application error while checking for duplicate image');
 		}
 	}
 
@@ -158,14 +148,12 @@ class image {
 		}
 
 		if ( !$image = imagecreatetruecolor( $out[0], $out[1] ) ) {
-			$this->seterror('application error while creating thumbmail');
-			return false;
+			throw new ImageException('application error while creating thumbmail');
 		}
 		if ( !imagecopyresampled( $image, $this->image, 0, 0, 0, 0,
 							$out[0], $out[1],
 							$this->width, $this->height ) ) {
-			$this->seterror('application error while creating thumbmail');
-			return false;
+			throw new ImageException('application error while creating thumbmail');
 		}
 
 		if ( $crop ) {
@@ -228,13 +216,12 @@ class image {
 			if ( $authenticated ) {
 				$sql = sprintf( 'UPDATE entries SET user=%d WHERE id=%d', $_SESSION['auth_id'], $this->entryid );
 				if ( ! $this->db->query( $sql ) ) {
-					$this->seterror('application error while assigning entry to logged in user');
+					throw new ImageException('application error while assigning entry to logged in user',true);
 				}
 			}
 			return true;
 		} else {
-			$this->seterror('application error while creating entry');
-			return false;
+			throw new ImageException('application error while creating entry',true);
 		}
 	}
 
@@ -247,16 +234,14 @@ class image {
 			if ( $this->custom ) {
 				if ( !$resize = $this->resize( array( $this->custom_size, $this->custom_size ),
 												$this->custom_crop, $this->custom_mode ) ) {
-					$this->seterror('application error while create custom thumbnail');
-					return false;
+					throw new ImageException('application error while create custom thumbnail',true);
 				}
 			} else {
 				return true;
 			}
 		} else {
 			if( !$resize = $this->resize( array(100,100) ) ) {
-				$this->seterror('application error while creating thumbnail');
-				return false;
+				throw new ImageException('application error while creating thumbnail',true);
 			}
 		}
 		$data = $resize[1];
@@ -270,8 +255,7 @@ class image {
 		if ( $this->db->query( $sql ) ) {
 			return true;
 		} else {
-			$this->seterror('application error while creating thumbmail');
-			return false;
+			throw new ImageException('application error while creating thumbmail',true);
 		}
 	}
 
@@ -284,8 +268,7 @@ class image {
 							$this->db->real_escape_string( 
 								fread( $fp, $this->block ) ) );
 			if ( !$this->db->query( $sql ) ) {
-				$this->seterror('application error while writing image');
-				return false;
+				throw new ImageException('application error while writing image',true);
 			}
 		}
 
@@ -303,8 +286,7 @@ class image {
 			if ( $result = $this->db->query( $sql ) ) {
 				$exists = ( $result->num_rows > 0 );
 			} else {
-				$this->seterror('application error while setting tags');
-				return false;
+				throw new ImageException('application error while setting tags',true);
 			}
 
 			if ( $exists ) {
@@ -313,15 +295,13 @@ class image {
 				$sql = sprintf( 'UPDATE `tags` SET `date` = UNIX_TIMESTAMP() 
 								WHERE `id`=%d', $tag_id );
 				if ( !$this->db->query( $sql ) ) {
-					$this->seterror('application error while setting tags');
-					return false;
+					throw new ImageException('application error while setting tags',true);
 				}
 			} else {
 				$sql = sprintf( 'INSERT INTO `tags` (`name`,`date`) VALUES
 								(\'%s\',UNIX_TIMESTAMP())', $current );
 				if ( !$this->db->query( $sql ) ) {
-					$this->seterror('application error while setting tags');
-					return false;
+					throw new ImageException('application error while setting tags',true);
 				} else {
 					$tag_id = $this->db->insert_id;
 				}
@@ -332,8 +312,7 @@ class image {
 			$sql = sprintf( 'INSERT INTO `tagmap` (`tag`,`entry`) VALUES (%d,%d)',
 							$tag_id, $this->entryid );
 			if ( !$this->db->query( $sql ) ) {
-				$this->seterror('application error while setting tags');
-				return false;
+				throw new ImageException('application error while setting tags');
 			}
 		}
 		return true;
@@ -343,10 +322,22 @@ class image {
 		if ($this->image = imagecreatefromstring( file_get_contents( $this->file ) )) {
 			return true;
 		} else {
-			$this->seterror('application error while reading uploaded image data');
-			return false;
+			throw new ImageException('application error while reading uploaded image data',true);
 		}
 	}
-
+	
+	public function upload($authenticated) {
+		$this->checkpost($authenticated);
+		$this->checkduplicate();
+		$this->start();
+		$this->createentry($authenticated);
+		$this->createtags();
+		$this->loadimage();
+		$this->createthumb();
+		$this->createthumb(1);
+		$this->createdata();
+		$this->createpreview();
+		$this->commit();
+	}
 }
 ?>

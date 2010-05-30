@@ -1,15 +1,35 @@
-** Create a mysql database for image-dropbox **
+** Get a copy of image-dropbox **
 
-(beyond the scope of these instructions; try http://www.phpmyadmin.net/ )
+If you're reading this it means you possibly already have the source, but if not...
 
-** Command line to get the repository **
+Fetch a single branch for deployment:
+http://github.com/nils42/image-dropbox/archives/master
 
-$ cd (parent directory where you want image-dropbox to run)
-$ git clone git@github.com:thunderrabbit/image-dropbox.git
-$ cd image-dropbox
+OR
+
+Clone the entire repo if for some reason you want to:
+git clone git://github.com/nils42/image-dropbox.git
+
+** Setup database **
+
+*Change the obviously dummy information to match whatever you want*
+CREATE DATABASE dropbox;
+GRANT ALL ON dropbox.* TO dropbox@localhost IDENTIFIED BY 'dropbox';
+mysql -uroot -p < schema.sql
+
+OR
+
+* visit install/ in web browser
+
+OR
+
+* copy+paste schema.sql into PHPMyAdmin
+
+** Setup conf.php **
+
 $ cp core/conf.sample core/conf.php
 
-** Make changes to core/conf.php **
+edit the values in core/conf.php to match your environment:
 
 $path = '/home/username/path/to/webroot/image-dropbox/';	// actual directory where image-dropbox is hosted
 
@@ -17,13 +37,14 @@ $url = 'domain.tld';		// the root URL where image-dropbox will be accessed via w
 
 settings for database
 
-** Set up database tables **
+** Adjust a few permissions **
 
-do EITHER of these:
+PHP needs to be able to write to the cache directory so adjust the permissions accordingly
+example:
+chown www-data cache
 
-* visit install/ in web browser
+Currently the statistics output is dumped to a file core/stats.php which doesn't exist in the repo
+touch core/stats.php
+chown www-data core/stats.php
 
-     OR
-
-* copy+paste schema.sql into PHPMyAdmin
-
+Enjoy

@@ -73,8 +73,8 @@ if ( ! $result ) die("Failed Query");
 	</div>
 	<div id="images">
 	<? for($i = 1; $row = $result->fetch_assoc(); ++$i ) { ?>	
-		<a title="<?=$row['title'];?>" href="<?=$loc;?>/view/<?=$row['id'];?>/">
-			<img src="<?=$loc;?>/thumb/<?=$row['id'];?>/<?=$row['id'];?>.<?=imgtypetoext($row['type']);?>" alt="<?=$row['title'];?>" />
+		<a title="<?=$row['title'];?>" href="<?=DB_LOC;?>/view/<?=$row['id'];?>/">
+			<img src="<?=DB_LOC;?>/thumb/<?=$row['id'];?>/<?=$row['id'];?>.<?=imgtypetoext($row['type']);?>" alt="<?=$row['title'];?>" />
 		</a>
 	<? } ?>
 	</div>

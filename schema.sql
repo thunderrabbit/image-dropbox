@@ -1,16 +1,6 @@
 SET foreign_key_checks = 0;
 
 --
--- Database
---
-CREATE DATABASE IF NOT EXISTS `dropbox_dev`;
-
---
--- User access
---
-GRANT SELECT,UPDATE,INSERT,DELETE,LOCK TABLES ON dropbox.* TO dropbox@localhost IDENTIFIED BY 'dropbox';
-
---
 -- Table structure for table `data`
 --
 DROP TABLE IF EXISTS `dropbox_dev`.`data`;
@@ -45,6 +35,19 @@ CREATE TABLE `dropbox_dev`.`collection` (
 `user` int(11) default NULL,
 PRIMARY KEY (`id`),
 FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+--
+-- Table structure for table `collection`
+--
+DROP TABLE IF EXISTS `dropbox_dev`.`collection`;
+CREATE TABLE `dropbox_dev`.`collection` (
+	`id` int(11) NOT NULL auto_increment,
+	`title` varchar(25) default NULL,
+	`description` varchar(255) default NULL,
+	`user` int(11) default NULL,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
 --
