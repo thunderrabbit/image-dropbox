@@ -1,0 +1,29 @@
+** Create a mysql database for image-dropbox **
+
+(beyond the scope of these instructions; try http://www.phpmyadmin.net/ )
+
+** Command line to get the repository **
+
+$ cd (parent directory where you want image-dropbox to run)
+$ git clone git@github.com:thunderrabbit/image-dropbox.git
+$ cd image-dropbox
+$ cp core/conf.sample core/conf.php
+
+** Make changes to core/conf.php **
+
+$path = '/home/username/path/to/webroot/image-dropbox/';	// actual directory where image-dropbox is hosted
+
+$url = 'domain.tld';		// the root URL where image-dropbox will be accessed via web browser
+
+settings for database
+
+** Set up database tables **
+
+do EITHER of these:
+
+* visit install/ in web browser
+
+     OR
+
+* copy+paste schema.sql into PHPMyAdmin
+

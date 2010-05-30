@@ -1,0 +1,44 @@
+<?php
+
+$loc = '';
+
+/********************************************************************************************/
+/*
+/*  $path = actual directory where image-dropbox is hosted
+/*
+/********************************************************************************************/
+$path = '/home/username/path/to/webroot/image-dropbox/';	// actual directory where image-dropbox is hosted
+
+/********************************************************************************************/
+/*
+/*  $url =  the root URL where image-dropbox will be accessed via web browser
+/*
+/********************************************************************************************/
+$url = 'domain.tld';		// the root URL where image-dropbox will be accessed via web browser
+
+/********************************************************************************************/
+/*
+/*  settings for database
+/*
+/********************************************************************************************/
+$host = 'localhost';	     // name of host for database
+$base = '';		     // name of database
+$user = '';		     // username for this database
+$pass = '';		     // password for this user
+
+/********************************************************************************************/
+/*
+/*  $secure is not actually implemented yet
+/*
+/********************************************************************************************/
+$secure = false; // use https for things that require passwords, upload, edit, delete
+
+$db = new mysqli($host, $user, $pass, $base);
+$version = '0.2.0';
+
+if ( mysqli_connect_errno() ) {
+	echo "Could not connect to database";
+	exit();
+}
+
+?>
