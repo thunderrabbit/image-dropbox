@@ -1,13 +1,11 @@
 <?php
 
-define('DB_LOC', '');
-
 /********************************************************************************************/
 /*
-/*  DB_PATH: actual directory where image-dropbox is hosted
+/*  DB_PATH: actual directory where image-dropbox is hosted (no trailing slash)
 /*
 /********************************************************************************************/
-define('DB_PATH', '/home/username/path/to/webroot/image-dropbox/');
+define('DB_PATH', '/home/username/path/to/webroot/image-dropbox');
 
 /********************************************************************************************/
 /*
@@ -16,7 +14,20 @@ define('DB_PATH', '/home/username/path/to/webroot/image-dropbox/');
 /********************************************************************************************/
 define('DB_URL', 'domain.tld');
 
-define('DB_SECURE', true);
+/********************************************************************************************/
+/*
+/*  DB_LOC: the URL directory where image-dropbox will be accessed via web browser (with leading slash, but no trailing slash)
+/*
+/********************************************************************************************/
+define('DB_LOC', '/');
+
+/********************************************************************************************/
+/*
+/* DB_SECURE: if true, then use https, else use http for requests requiring a password
+/*
+/********************************************************************************************/
+define('DB_SECURE', false);
+
 define('DB_AUTH_TIMEOUT', 14400); // 4 hours
 
 /********************************************************************************************/
@@ -28,6 +39,13 @@ define('DB_HOST', '');		// name of host for database
 define('DB_DB', '');  		// name of database
 define('DB_USER', '');		// username for this database
 define('DB_PASS', '');		// password for this user
+
+/********************************************************************************************/
+/*
+/*  DB_THEME: directory name of theme in core/themes/
+/*
+/********************************************************************************************/
+define('DB_THEME', 'default');
 
 define('DB_COMMENTS', false);
 

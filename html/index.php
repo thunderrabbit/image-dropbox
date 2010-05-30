@@ -28,7 +28,7 @@ if ( $_GET['args'] ) {
 		switch ( strval( $args[$i] ) ) {
 			// Sections that take an entry as an argument
 			case 'page':
-				// the page psudo-section uses the entry arg to as it's current page argument
+				// the page psudo-section uses the entry arg to as its current page argument
 				$section = 'home';
 			case 'view':
 			case 'edit':

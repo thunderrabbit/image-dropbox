@@ -14,12 +14,16 @@ function tagField($db,$limit=null)
 
 	if ( ! $result = $db->query( $sql ) ) die( 'Failed Query' );
 
+	$tags = array();
 	while( $row = $result->fetch_assoc() ) {
 		$tags[$row['name']] = $row['num'];
 	}
 
-	$max_value = max( array_values( $tags ) );
-	$min_value = min( array_values( $tags ) );
+	if(count($tags))
+	{
+		$max_value = max( array_values( $tags ) );
+		$min_value = min( array_values( $tags ) );
+	}
 	$spread = $max_value - $min_value;
 	if ( $spread == 0 ) $spread = 1;
 	$step = ( $max_size - $min_size ) / $spread;
