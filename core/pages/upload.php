@@ -11,7 +11,7 @@ unset( $_SESSION['upload_errors'] );
 ?>
 
 <h2>Upload</h2>
-<form action="http<?=($secure)? 's' : '';?>://<?=$url;?><?=$loc;?>/submit/" enctype="multipart/form-data" method="post">
+<form action="http<?=($secure)? 's' : '';?>://<?=DB_URL;?><?=$loc;?>/submit/" enctype="multipart/form-data" method="post">
 <table id="form_table">
 	<tr>
 		<td>title</td>
@@ -58,11 +58,13 @@ unset( $_SESSION['upload_errors'] );
 			</select>
 		</td>
 	</tr>
+	<? if ( !$authenticated ): ?>
 	<tr><td colspan="2"><br/></td></tr>
 	<tr>
 		<td>password (to make changes)</td>
 		<td><input type="password" name="password" /></td>
 	</tr>
+	<? endif; ?>
 	<tr>
 		<td>&nbsp;</td>
 		<td><br/><input type="submit" value="Upload" /></td>

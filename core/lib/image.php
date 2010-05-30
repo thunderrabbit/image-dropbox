@@ -65,12 +65,12 @@ class image {
 		$this->db->query('ROLLBACK');
 	}
 
-	public function checkpost() {
+	public function checkpost( $authenticated = false ) {
 		if ( $_POST && $_FILES['image'] ) {
 			if ( is_uploaded_file( $_FILES['image']['tmp_name'] ) ) {
 				$this->file = $_FILES['image']['tmp_name'];
 				if ( $_POST['title'] ) {
-					$this->title = $this->db->real_escape_string( strval( $_POST['title'] ) );
+					$this->title = $this->db->safe( $_POST['title'] );
 				} else {
 					$this->seterror('Missing Title');	
 					return false;
@@ -82,22 +82,24 @@ class image {
 					$this->width = $img[0];
 					$this->height = $img[1];
 				} else {
-					$this->seterror('Unsupported Image');
+					$this->seterror( 'Unsupported Image' );
 					return false;
 				}
 				$this->size = filesize( $this->file );
 				$this->hash = sha1_file( $this->file );
-				$this->password = sha1( $_POST['password'] );
-				$this->host = $this->db->real_escape_string( gethostbyaddr( $_SERVER['REMOTE_ADDR'] ) 
+				// If there is an authenticated user set the password to nothing even if something
+				// exists in the form data
+				$this->password = ( $authenticated ) ? '' : sha1( $_POST['password'] );
+				$this->host = $this->db->safe( gethostbyaddr( $_SERVER['REMOTE_ADDR'] ) 
 								. ' (' . $_SERVER['REMOTE_ADDR'] . ')' );
-				$this->worksafe = (intval($_POST['rating'])) ? 1 : 0;
+				$this->worksafe = ( intval( $_POST['rating'] ) ) ? 1 : 0;
 				if ( $_POST['tags'] ) {
 					$this->tags = explode( ',', strval( $_POST['tags'] ) );
 				} else {
 					$this->tags[] = 'none';
 				}
 
-				$this->custom = (intval($_POST['custom']) == 1);
+				$this->custom = ( intval( $_POST['custom'] ) == 1 );
 				if ( $this->custom ) {
 					$this->custom_size = intval( $_POST['size'] );
 					$this->custom_crop = ( intval( $_POST['square'] ) );
@@ -208,10 +210,10 @@ class image {
 		return $xy;
 	}
 	
-	public function createentry() {
+	public function createentry( $authenticated = false ) {
 		$sql = sprintf( 'INSERT INTO `entries` (`title`,`type`,`size`,`width`,`height`,
-						 `ip`,`password`,`date`,`safe`,`hash`) VALUES
-						 (\'%s\',%d,%d,%d,%d,\'%s\',\'%s\',UNIX_TIMESTAMP(),%d,\'%s\')',
+						 `ip`,`password`,`date`,`safe`,`hash`,`views`) VALUES
+						 (\'%s\',%d,%d,%d,%d,\'%s\',\'%s\',UNIX_TIMESTAMP(),%d,\'%s\',0)',
 						 $this->title,
 						 $this->type,
 						 $this->size,
@@ -220,9 +222,15 @@ class image {
 						 $this->host,
 						 $this->password,
 						 $this->worksafe,
-						 $this->hash );
+						 $this->hash);
 		if ( $this->db->query( $sql ) ) {
 			$this->entryid = $this->db->insert_id;
+			if ( $authenticated ) {
+				$sql = sprintf( 'UPDATE entries SET user=%d WHERE id=%d', $_SESSION['auth_id'], $this->entryid );
+				if ( ! $this->db->query( $sql ) ) {
+					$this->seterror('application error while assigning entry to logged in user');
+				}
+			}
 			return true;
 		} else {
 			$this->seterror('application error while creating entry');

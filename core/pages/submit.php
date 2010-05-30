@@ -14,10 +14,10 @@ function error( $img, $rollback, $msg ) {
 	exit();
 }
 
-if ( !$img->checkpost() ) error( $img, false, 'checkpost' );
+if ( !$img->checkpost( $authenticated ) ) error( $img, false, 'checkpost' );
 if ( !$img->checkduplicate() ) error( $img, false, 'checkduplicate' );
 $img->start();
-if ( !$img->createentry() ) error( $img, true, 'createentry' );
+if ( !$img->createentry( $authenticated ) ) error( $img, true, 'createentry' );
 if ( !$img->createtags() ) error( $img, true, 'createtags' );
 if ( !$img->loadimage() ) error( $img, true, 'loadimage' );
 if ( !$img->createthumb() ) error( $img, true, 'createthumb' );
