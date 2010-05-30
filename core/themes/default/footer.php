@@ -10,7 +10,7 @@
 	<a href="http://track.easytospell.net/">bugs</a>
 	[<a href="<?=DB_LOC;?>/hide/"><?=($_SESSION['hide']) ? '' : 'not ';?>worksafe</a>]
 	<br/>
-	<span id="copy">&copy;<?=date('Y');?> <a href="http://www.easytospell.net">Richard Marshall</a> v<?=$version;?></span>
+	<span id="copy">&copy;<?=date('Y');?> <a href="http://www.easytospell.net">Richard Marshall</a> v<?=DB_VERSION;?></span>
 	</div>
 	</div>
 	<script type="text/javascript">
