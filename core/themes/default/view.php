@@ -32,24 +32,6 @@
 	<br/>
 	Uploaded by: <?=$user;?>
 	<br/>
-	<?
-	$exif = exif_read_data('http://dropbox-dev.easytospell.net/image/' . $id . '.jpg', 0, true);
-	echo "EXIF:<br />\n";
-	foreach ($exif as $key => $section) {
-		foreach ($section as $name => $val) {
-			$kn = $key.$name;
-			switch ( $kn ) {
-				case 'IFD0Model':
-				case 'EXIFExposureTime':
-				case 'EXIFFNumber':
-				case 'EXIFISOSpeedRatings':
-					echo "$name: $val<br />\n";
-					break;
-			}
-		}
-	}
-	?>
-	<br/>
 	<a href="<?=DB_LOC;?>/track/<?=$id;?>/">Track Changes</a>&nbsp;
 	<a href="<?=DB_LOC;?>/edit/<?=$id;?>/">Edit Info</a>&nbsp;
 	<a href="<?=DB_LOC;?>/delete/<?=$id;?>/">Delete</a>&nbsp;

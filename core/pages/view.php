@@ -37,7 +37,7 @@ $filename = $id . '.' . imgtypetoext( $entry['type'] );
 if ( $entry['user'] > 0 ) {
 	$sql = sprintf('select alias,username from users where id=%d', $entry['user']);
 	if ( $info = $db->select( $sql ) ) {
-		$user= '<a href="http://' . DB_URL . DB_LOC . '/user/profile/' . $info['username'] . '/">' . $info['alias'] . '</a>';
+		$user= '<a href="http://' . DB_URL . DB_LOC . '/user/' . $info['username'] . '/">' . $info['alias'] . '</a>';
 	}
 } else {
 	$user = $entry['ip'];

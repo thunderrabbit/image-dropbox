@@ -36,6 +36,7 @@ if ( $_GET['args'] ) {
 			case 'comment':
 			case 'track':
 			case 'delete':
+			case 'user':
 				// don't want to overwrite section if it has already been set
 				if ( !$section ) 
 					$section = $args[$i];
