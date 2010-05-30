@@ -19,10 +19,6 @@ mysql -uroot -p < schema.sql
 
 OR
 
-* visit install/ in web browser
-
-OR
-
 * copy+paste schema.sql into PHPMyAdmin
 
 ** Setup conf.php **
