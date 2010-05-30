@@ -7,8 +7,6 @@ function fail()
 
 function tagField($db,$limit=null)
 {
-	global $loc;
-
 	$sql = 'select t.name, m.tag, count(m.tag) as num from tagmap as m, tags as t where t.id=m.tag group by tag order by date desc';
 	$sql .= ( !is_null( $limit ) ) ? ' LIMIT ' . $limit : null;
 	$max_size = 250;
@@ -32,8 +30,8 @@ function tagField($db,$limit=null)
 	foreach ( $tags as $key => $value ) {
 		$size = ceil( $min_size + ( ( $value - $min_value ) * $step) );
 	?>
-		<a style="font-size: <?=$size;?>%" href="<?=$loc;?>/tags/<?=urlencode( $key );?>/">
-			<?=str_replace( '_', ' ', $key );?></a>(<?=$value;?>), <? } ?> <a href="<?=$loc;?>/">all</a>
+		<a style="font-size: <?=$size;?>%" href="<?=DB_LOC;?>/tags/<?=urlencode( $key );?>/">
+			<?=str_replace( '_', ' ', $key );?></a>(<?=$value;?>), <? } ?> <a href="<?=DB_LOC;?>/">all</a>
 	</div>
 	<?php
 }

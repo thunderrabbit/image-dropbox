@@ -4,37 +4,33 @@ $id = intval( $entry );
 
 if ( $_POST ) {
 
-
-	$sql = sprintf("select password from entries where id=%d", $id );
+	$sql = sprintf("select password,user from entries where id=%d", $id );
 	$result = $db->query( $sql );
 	$entry = $result->fetch_assoc();
 
-	if ( $entry['password'] == sha1( strval( $_POST['password'] ) ) ) {
+	if ( ( $authenticated && ( $_SESSION['auth_id'] == $entry['user'] ) ) || 
+			( $entry['password'] == sha1( strval( $_POST['password'] ) ) ) ) {
 		$sql = sprintf("delete from entries where id=%d", $id );
 		$db->query( $sql );
-		header("Location: $loc/");
+		header('Location: http://' . DB_URL . DB_LOC . '/');
 		exit();
 	}
 
-	header("Location: http://" . $url . $loc . "/view/$id/");
+	header('Location: http://' . DB_URL . DB_LOC .  "/view/$id/");
 	exit();
 
 } else {
 	// display form
-	?>
-	<form action="http<?=($secure) ? 's' : '';?>://<?=$url;?><?=$loc;?>/delete/<?=$id;?>/" method="post">
-		<table id="form_table">
-			<tr>
-				<td>password</td>
-				<td><input type="password" name="password" /></td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td><input type="submit" value="Delete" /></td>
-			</tr>
-		</table>
-	</form>
-	<?php
+	$conrim = false;
+	if ( $authenticated ) {
+		$sql = sprintf("select id from entries where id=%d and user=%d", $id, $_SESSION['auth_id'] );
+		if ( $db->exists( $sql ) ) {
+			$confirm = true;
+		}
+	}
+	if ( $confirm ) {
+		include DB_PATH . '/core/themes/' . DB_THEME . '/delete.php';
+	}
 }
 
 ?>

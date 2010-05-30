@@ -17,5 +17,9 @@ RewriteRule ^thumb/([^/]*)/?(.*)?$ image.php?mode=thumb&id=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/([^/]*)/?(.*)?$ api.php?cmd=$1&args=$2 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)/?$ index.php?args=$1 [L,QSA]
 
