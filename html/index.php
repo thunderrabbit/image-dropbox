@@ -99,4 +99,6 @@ require DB_PATH . "/core/themes/" . DB_THEME . "/footer.php";
 
 ob_flush(); // temp hack to get redirections on outputless pages to work.
 
+$db->close();
+
 ?>

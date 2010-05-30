@@ -1,0 +1,8 @@
+Upgrading is simple.
+
+Pull in the newer version or download an archive and replace your install dir depending on how you did the initial install.
+
+Update the db:
+mysql -uroot < schema-update.sql
+
+Done

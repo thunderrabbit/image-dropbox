@@ -24,6 +24,3 @@
 		} catch(err) {}</script>
 </body>
 </html>
-<?php
-$db->close();
-?>

@@ -1,16 +1,6 @@
 SET foreign_key_checks = 0;
 
 --
--- Database
---
-CREATE DATABASE IF NOT EXISTS `dropbox_dev`;
-
---
--- User access
---
-GRANT SELECT,UPDATE,INSERT,DELETE,LOCK TABLES ON dropbox.* TO dropbox@localhost IDENTIFIED BY 'dropbox';
-
---
 -- Table structure for table `data`
 --
 DROP TABLE IF EXISTS `dropbox_dev`.`data`;
