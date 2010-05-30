@@ -27,13 +27,9 @@ OR
 
 ** Setup conf.php **
 
-$ cp core/conf.sample core/conf.php
+$ cp core/conf.php-sample core/conf.php
 
-edit the values in core/conf.php to match your environment:
-
-$path = '/home/username/path/to/webroot/image-dropbox/';	// actual directory where image-dropbox is hosted
-
-$url = 'domain.tld';		// the root URL where image-dropbox will be accessed via web browser
+edit the values in core/conf.php to match your environment
 
 settings for database
 

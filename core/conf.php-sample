@@ -1,14 +1,34 @@
 <?php
 
 define('DB_LOC', '');
-define('DB_PATH', '');
-define('DB_URL', '');
+
+/********************************************************************************************/
+/*
+/*  DB_PATH: actual directory where image-dropbox is hosted
+/*
+/********************************************************************************************/
+define('DB_PATH', '/home/username/path/to/webroot/image-dropbox/');
+
+/********************************************************************************************/
+/*
+/*  DB_URL =  the root URL where image-dropbox will be accessed via web browser
+/*
+/********************************************************************************************/
+define('DB_URL', 'domain.tld');
+
 define('DB_SECURE', true);
 define('DB_AUTH_TIMEOUT', 14400); // 4 hours
-define('DB_HOST', '');
-define('DB_USER', '');
-define('DB_PASS', '');
-define('DB_DB', '');
+
+/********************************************************************************************/
+/*
+/*  settings for database
+/*
+/********************************************************************************************/
+define('DB_HOST', '');		// name of host for database
+define('DB_DB', '');  		// name of database
+define('DB_USER', '');		// username for this database
+define('DB_PASS', '');		// password for this user
+
 define('DB_COMMENTS', false);
 
 define('DB_VERSION', '0.3.0b');
