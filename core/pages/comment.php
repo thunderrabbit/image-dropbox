@@ -18,6 +18,6 @@ if(DB_COMMENTS) {
 		}
 	} 
 }
-header("Location: $loc/view/$id/");
+header("Location: DB_LOC/view/$id/");
 
 ?>

@@ -11,7 +11,7 @@ unset( $_SESSION['signup_errors'] );
 ?>
 
 <h2>Signup</h2>
-<form action="http<?=(DB_SECURE)? 's' : '';?>://<?=DB_URL;?><?=$loc;?>/dosignup/" method="post">
+<form action="http<?=(DB_SECURE)? 's' : '';?>://<?=DB_URL;?><?=DB_LOC;?>/dosignup/" method="post">
 <table id="form_table">
 	<tr>
 		<td>username</td>

@@ -27,7 +27,7 @@ for($i = 0; $row = $result->fetch_assoc(); ++$i ) {
 ?>
 	<div id="form">
 		<h2>Edit</h3>
-		<form action="http<?=($secure) ? 's' : '';?>://<?=$url;?><?=$loc;?>/update/<?=$id;?>/" method="post">
+		<form action="http<?=($secure) ? 's' : '';?>://<?=DB_URL;?><?=DB_LOC;?>/update/<?=$id;?>/" method="post">
 		<table id="form_table">
 			<tr>
 				<td>title</td>

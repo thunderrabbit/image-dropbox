@@ -137,15 +137,15 @@ file_put_contents( $stats_file, $stats_data );
 	</tr>
 	<tr>
 		<td>Image with most views:</td>
-		<td><a href="<?=$loc;?>/view/<?=$most_views[0];?>/"><?=$most_views[2];?> - <?=$most_views[1];?></a></td>
+		<td><a href="<?=DB_LOC;?>/view/<?=$most_views[0];?>/"><?=$most_views[2];?> - <?=$most_views[1];?></a></td>
 	</tr>
 	<tr>
 		<td>Oldest image uploaded on:</td>
-		<td><a href="<?=$loc;?>/view/<?=$oldest_image[1];?>/"><?=date('Y-m-d @ H:i:s', $oldest_image[0] ); ?> UTC</a></td>
+		<td><a href="<?=DB_LOC;?>/view/<?=$oldest_image[1];?>/"><?=date('Y-m-d @ H:i:s', $oldest_image[0] ); ?> UTC</a></td>
 	</tr>
 	<tr>
 		<td>Newest image uploaded on:</td>
-		<td><a href="<?=$loc;?>/view/<?=$newest_image[1];?>/"><?=date('Y-m-d @ H:i:s', $newest_image[0] ); ?> UTC</a></td>
+		<td><a href="<?=DB_LOC;?>/view/<?=$newest_image[1];?>/"><?=date('Y-m-d @ H:i:s', $newest_image[0] ); ?> UTC</a></td>
 	</tr>
 	<tr>
 		<td>Average uploads per day:</td>
@@ -161,11 +161,11 @@ file_put_contents( $stats_file, $stats_data );
 	</tr>
 	<tr>
 		<td>Tag with most images:</td>
-		<td><a href="<?=$loc;?>/tags/<?=urlencode($tag_max);?>/"><?=$tag_max;?></a></td>
+		<td><a href="<?=DB_LOC;?>/tags/<?=urlencode($tag_max);?>/"><?=$tag_max;?></a></td>
 	</tr>
 	<tr>
 		<td>Tag with least images:</td>
-		<td><a href="<?=$loc;?>/tags/<?=urlencode($tag_min);?>/"><?=$tag_min;?></a></td>
+		<td><a href="<?=DB_LOC;?>/tags/<?=urlencode($tag_min);?>/"><?=$tag_min;?></a></td>
 	</tr>
 </table>
 

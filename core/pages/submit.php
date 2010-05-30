@@ -5,12 +5,11 @@ require $path . '/core/lib/image.php';
 $img = new image( $db );
 
 function error( $img, $rollback, $msg ) {
-	global $url, $loc;
 	if ( $rollback ) {
 		$img->rollback();
 	}
 	$_SESSION['upload_errors'] = $img->geterrors();
-	header('Location: http://' . $url . $loc . '/upload/');
+	header('Location: http://' . DB_URL . DB_LOC . '/upload/');
 	exit();
 }
 
@@ -26,7 +25,7 @@ if ( !$img->createdata() ) error( $img, true, 'createdata' );
 if ( !$img->createpreview() ) error( $img, true, 'createpreview' );
 $img->commit();
 
-header('Location: http://' . $url . $loc . '/view/' . $img->getentryid() );
+header('Location: http://' . DB_URL . DB_LOC . '/view/' . $img->getentryid() );
 
 $db->close();
 exit();

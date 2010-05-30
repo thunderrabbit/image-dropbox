@@ -1,10 +1,9 @@
 <?php
 
 function error( $msg ) {
-	global $url, $loc;
 	$_SESSION['login_errors'][] = $msg;
 	sleep(5);
-	header('Location: http://' . $url . $loc . '/login/');
+	header('Location: http://' . DB_URL . DB_LOC . '/login/');
 	exit();
 }
 
@@ -25,7 +24,7 @@ if ( sha1("$_POST[password]" . $user['salt']) == $user['password'] ) {
 	error('bad login');
 }
 
-header('Location: http://' . $url . $loc . '/');
+header('Location: http://' . DB_URL . DB_LOC . '/');
 
 $db->close();
 exit();

@@ -8,7 +8,7 @@ unset( $_SESSION['auth_email'] );
 unset( $_SESSION['auth_email_hash'] );
 setcookie('token','',time()-DB_AUTH_TIMEOUT,'/',DB_URL,false,true);
 
-header('Location: http://' . $url . $loc . '/');
+header('Location: http://' . DB_URL . DB_LOC . '/');
 
 $db->close();
 exit();

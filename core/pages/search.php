@@ -1,11 +1,11 @@
 <?php
 
 if ( $_GET['search'] ) {
-	$loc = sprintf('/tags/%s/', strval($_GET['search']));
+	DB_LOC = sprintf('/tags/%s/', strval($_GET['search']));
 } else {
-	$loc = '/';
+	DB_LOC = '/';
 }
 
-header("Location: $loc");
+header("Location: DB_LOC");
 
 ?>

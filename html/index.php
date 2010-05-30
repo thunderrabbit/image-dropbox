@@ -4,8 +4,9 @@ $ts = microtime(true);
 
 // Bring in the needed stuff and setup the connection to the database
 require '../core/conf.php';
-require $path . "/core/session.php";
-require $path . "/core/func.php";
+require DB_PATH . "/core/db.php";
+require DB_PATH . "/core/session.php";
+require DB_PATH . "/core/func.php";
 
 // Check auth
 if ( isset($_COOKIE['token']) && $_COOKIE['token'] == $_SESSION['auth_token'] ) {
@@ -85,15 +86,15 @@ if ( !$section ) $section = 'home';
 ob_start(); // temp hack to get redirections on outputless pages to work.
 
 // Output our shit, header followed by section content and lastly the footer. Oh and the debugging poop.
-require $path . "/core/header.php";
-require $path . "/core/pages/" . $section . ".php";
+require DB_PATH . "/core/header.php";
+require DB_PATH . "/core/pages/" . $section . ".php";
 
 // Debug script timing, yes there is stuff done after this but not enough to make a difference
 $te = microtime(true);
 $t = round( $te - $ts, 4 );
 echo "<br/>script executed in $t seconds<br/>";
 
-require $path . "/core/footer.php";
+require DB_PATH . "/core/footer.php";
 
 ob_flush(); // temp hack to get redirections on outputless pages to work.
 
