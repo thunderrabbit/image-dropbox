@@ -37,7 +37,7 @@ function tagField($db,$limit=null)
 }
 
 function checkcache( $cache_id ) {
-	return ( file_exists( $path . '/cache/' . $hash ) );
+	return ( file_exists( DB_PATH . '/cache/' . $cache_id ) );
 }
 
 function imgtypetoext( $type ) {

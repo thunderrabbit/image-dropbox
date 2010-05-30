@@ -1,6 +1,6 @@
 <?php
 
-require $path . '/core/lib/image.php';
+require DB_PATH . '/core/lib/image.php';
 
 $img = new image( $db );
 
