@@ -1,6 +1,7 @@
 <?php
 
 $id = intval( $entry );
+$_SESSION['verify.' . $id ] = sha1(time().$id);
 
 $sql = sprintf( "select title,width,height,size,date,views,ip,safe,hash,child,type,user from entries where id=%d", $id );
 
@@ -118,11 +119,14 @@ if ( ! $result = $db->query( $sql ) ) {
 	<?
 	}
 	?>
+	<? if(DB_COMMENTS): ?>
 	<form action="<?=$loc;?>/comment/<?=$id;?>/" method="post">
+	<input type="hidden" name="verify" value="<?=$_SESSION['verify.' . $id ];?>" />
 	name <input type="text" name="name" />
 	<br/>
 	<textarea cols="40" rows="7" name="content"></textarea>
 	<br/>
 	<input type="submit" value="Post" />
 	</form>
+	<? endif; ?>
 	</div>
