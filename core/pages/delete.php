@@ -21,16 +21,14 @@ if ( $_POST ) {
 
 } else {
 	// display form
-	$conrim = false;
+	$confirm = false;
 	if ( $authenticated ) {
 		$sql = sprintf("select id from entries where id=%d and user=%d", $id, $_SESSION['auth_id'] );
 		if ( $db->exists( $sql ) ) {
 			$confirm = true;
 		}
 	}
-	if ( $confirm ) {
-		include DB_PATH . '/core/themes/' . DB_THEME . '/delete.php';
-	}
+	include DB_PATH . '/core/themes/' . DB_THEME . '/delete.php';
 }
 
 ?>
