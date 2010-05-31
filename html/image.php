@@ -18,7 +18,7 @@ $size = $row['size'];
 $type = $row['type'];
 $parent_id = ( $row['parent'] > 0 ) ? $row['parent'] : $id;
 
-$ar = apache_request_headers();
+$ar = getallheaders();
 
 if ( isset( $ar['If-Modified-Since'] ) &&
 	( $ar['If-Modified-Since'] != '' ) &&
