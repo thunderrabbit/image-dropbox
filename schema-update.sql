@@ -27,7 +27,7 @@ CREATE TABLE `dropbox_stage`.`namespacemap` (
 -- users table doesn't exist create it
 CREATE TABLE `dropbox_stage`.`users` (
   `id` int(11) NOT NULL auto_increment,
-  `username` varchar(12) NOT NULL,
+  `username` varchar(25) NOT NULL,
   `password` varchar(40) NOT NULL,
   `salt` varchar(40) NOT NULL,
   `email` varchar(255) NOT NULL,

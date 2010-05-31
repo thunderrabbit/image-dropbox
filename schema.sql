@@ -3,8 +3,8 @@ SET foreign_key_checks = 0;
 --
 -- Table structure for table `data`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`data`;
-CREATE TABLE `dropbox_dev`.`data` (
+DROP TABLE IF EXISTS `robox`.`data`;
+CREATE TABLE `robox`.`data` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
   `entryid` int(11) NOT NULL,
   `filedata` blob NOT NULL,
@@ -15,8 +15,8 @@ CREATE TABLE `dropbox_dev`.`data` (
 --
 -- Table structure for table `namespace`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`namespace`;
-CREATE TABLE `dropbox_dev`.`namespace` (
+DROP TABLE IF EXISTS `robox`.`namespace`;
+CREATE TABLE `robox`.`namespace` (
 `id` int(11) NOT NULL auto_increment,
 `name` varchar(255) not null,
 `protected` tinyint default 0,
@@ -27,8 +27,8 @@ PRIMARY KEY (`id`)
 --
 -- Table structure for table `collection`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`collection`;
-CREATE TABLE `dropbox_dev`.`collection` (
+DROP TABLE IF EXISTS `robox`.`collection`;
+CREATE TABLE `robox`.`collection` (
 `id` int(11) NOT NULL auto_increment,
 `title` varchar(25) default NULL,
 `description` varchar(255) default NULL,
@@ -40,8 +40,8 @@ FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE SET NULL
 --
 -- Table structure for table `collection`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`collection`;
-CREATE TABLE `dropbox_dev`.`collection` (
+DROP TABLE IF EXISTS `robox`.`collection`;
+CREATE TABLE `robox`.`collection` (
 	`id` int(11) NOT NULL auto_increment,
 	`title` varchar(25) default NULL,
 	`description` varchar(255) default NULL,
@@ -53,8 +53,8 @@ CREATE TABLE `dropbox_dev`.`collection` (
 --
 -- Table structure for table `entries`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`entries`;
-CREATE TABLE `dropbox_dev`.`entries` (
+DROP TABLE IF EXISTS `robox`.`entries`;
+CREATE TABLE `robox`.`entries` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) default NULL,
   `type` varchar(25) default NULL,
@@ -82,8 +82,8 @@ CREATE TABLE `dropbox_dev`.`entries` (
 --
 -- Table structure for table `thumbs`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`thumbs`;
-CREATE TABLE `dropbox_dev`.`thumbs` (
+DROP TABLE IF EXISTS `robox`.`thumbs`;
+CREATE TABLE `robox`.`thumbs` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `entry` int(11) NOT NULL,
 `custom` tinyint default 0,
@@ -96,8 +96,8 @@ FOREIGN KEY (`entry`) REFERENCES `entries` (`id`) on delete cascade
 --
 -- Table structure for table `tagmap`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`tagmap`;
-CREATE TABLE `dropbox_dev`.`tagmap` (
+DROP TABLE IF EXISTS `robox`.`tagmap`;
+CREATE TABLE `robox`.`tagmap` (
   `tag` int(11) NOT NULL,
   `entry` int(11) NOT NULL,
   FOREIGN KEY (tag) REFERENCES tags (id) on delete cascade,
@@ -107,8 +107,8 @@ CREATE TABLE `dropbox_dev`.`tagmap` (
 --
 -- Table structure for table `tags`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`tags`;
-CREATE TABLE `dropbox_dev`.`tags` (
+DROP TABLE IF EXISTS `robox`.`tags`;
+CREATE TABLE `robox`.`tags` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `date` int(11) unsigned default 0,
@@ -121,8 +121,8 @@ CREATE TABLE `dropbox_dev`.`tags` (
 --
 -- Table structure for table `updates`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`updates`;
-CREATE TABLE `dropbox_dev`.`updates` (
+DROP TABLE IF EXISTS `robox`.`updates`;
+CREATE TABLE `robox`.`updates` (
 `id` int(11) NOT NULL auto_increment,
 `entry` int(11) default NULL,
 `ip` varchar(255) NOT NULL,
@@ -139,8 +139,8 @@ PRIMARY KEY (`id`)
 --
 -- Table structure for table `comments`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`comments`;
-CREATE TABLE `dropbox_dev`.`comments` (
+DROP TABLE IF EXISTS `robox`.`comments`;
+CREATE TABLE `robox`.`comments` (
 `id` int(11) NOT NULL auto_increment,
 `entry` int(11) NOT NULL,
 `date` int(10) unsigned NOT NULL,
@@ -156,10 +156,10 @@ PRIMARY KEY (`id`)
 --
 -- Table structure for table `users`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`users`;
-CREATE TABLE `dropbox_dev`.`users` (
+DROP TABLE IF EXISTS `robox`.`users`;
+CREATE TABLE `robox`.`users` (
 `id` int(11) NOT NULL auto_increment,
-`username` varchar(12) NOT NULL,
+`username` varchar(25) NOT NULL,
 `password` varchar(40) NOT NULL,
 `salt` varchar(40) NOT NULL,
 `email` varchar(255) NOT NULL,
@@ -172,8 +172,8 @@ PRIMARY KEY (`id`)
 --
 -- Table structure for table `namespacemap`
 --
-DROP TABLE IF EXISTS `dropbox_dev`.`namespacemap`;
-CREATE TABLE `dropbox_dev`.`namespacemap` (
+DROP TABLE IF EXISTS `robox`.`namespacemap`;
+CREATE TABLE `robox`.`namespacemap` (
   `namespace` int(11) NOT NULL,
   `user` int(11) NOT NULL,
   `privileges` int(11) default 1,
