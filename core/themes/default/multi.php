@@ -10,7 +10,7 @@ unset( $_SESSION['upload_errors'] );
 }
 ?>
 
-<h2>Upload</h2>
+<h2>Multiple file Upload</h2>
 <form action="http<?=(DB_SECURE)? 's' : '';?>://<?=DB_URL;?><?=DB_LOC;?>/submit/" enctype="multipart/form-data" method="post">
 <table id="form_table">
 	<tr>
@@ -22,8 +22,8 @@ unset( $_SESSION['upload_errors'] );
 		<td><textarea rows="3" cols="30" name="tags"></textarea></td>
 	</tr>
 	<tr>
-		<td>file</td>
-		<td><input type="file" name="image[]" multiple /></td>
+		<td>files</td>
+		<td><input name='uploads[]' type=file multiple></td>
 	</tr>
 	<tr>
 		<td>worksafe</td>
