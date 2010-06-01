@@ -3,12 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">	
 	<head>
 		<link rel="stylesheet" href="<?=DB_LOC;?>/media/theme/default/css/main.css" type="text/css" media="screen" />
-		<title>Image DropBox</title>
+		<title><?=DB_TITLE?></title>
 	</head>
 	<body>
 	<div id="container">
 		<div id="header">
-			<h1>Image DropBox<span class="beta">beta</span></h1>
+			<h1><?=DB_TITLE?><span class="beta">beta</span></h1>
 			<div id="navigation">
 				<a href="<?=DB_LOC;?>/">home</a> 
 				<a href="<?=DB_LOC;?>/upload/">upload</a>
