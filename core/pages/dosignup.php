@@ -35,7 +35,7 @@ if ( preg_match( '/^[a-zA-Z0-9]+$/', $_POST['username'] ) ) {
 					$email_hash = md5($email);
 					// everything seems ok lets make this user!
 					$sql = sprintf("INSERT INTO users (username,alias,email,email_hash,password,salt,joindate) VALUES ('%s','%s','%s','%s','%s','%s',UNIX_TIMESTAMP())",
-									$username,$alias,$email,$email_hash,$password,$salt);
+									$username,$alias,$email,$email_hash,$password_hash,$salt);
 					if ( ! $db->query( $sql ) ) die('failed query');
 					$id = $db->insert_id;
 
