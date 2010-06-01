@@ -11,13 +11,16 @@ if(DB_COMMENTS) {
 
 			if ( $content ) {
 				$sql = sprintf( "insert into comments (entry,name,content,ip,date) values (%d,'%s','%s','%s',%d)",
-								$id, $name, $content, $host, time() );
+								$id,$db->safe($name), $db->safe($content), $host, time() );
 				if ( !$db->query( $sql ) )
+				  {
+					debug("query = " . $sql);
 					die( "error in query" );
+				}
 			}
 		}
 	} 
 }
-header("Location: DB_LOC/view/$id/");
+header('Location: http://' . DB_URL . DB_LOC . '/view/$id/");
 
 ?>
