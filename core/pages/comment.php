@@ -13,10 +13,7 @@ if(DB_COMMENTS) {
 				$sql = sprintf( "insert into comments (entry,name,content,ip,date) values (%d,'%s','%s','%s',%d)",
 								$id,$db->safe($name), $db->safe($content), $host, time() );
 				if ( !$db->query( $sql ) )
-				  {
-					debug("query = " . $sql);
 					die( "error in query" );
-				}
 			}
 		}
 	} 
