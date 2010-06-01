@@ -6,15 +6,13 @@ $ts = microtime(true);
 require '../core/conf.php';
 require DB_PATH . "/core/db.php";
 require DB_PATH . "/core/session.php";
+require DB_PATH . "/core/auth.php";
 require DB_PATH . "/core/func.php";
 
+$auth = new Auth($db);
+
 // Check auth
-if ( isset($_COOKIE['token']) && $_COOKIE['token'] == $_SESSION['auth_token'] ) {
-	$auth_token = sha1($_SESSION['auth_salt'].time());
-	$_SESSION['auth_token'] = $auth_token;
-	setcookie('token',$auth_token,time()+DB_AUTH_TIMEOUT,'/',DB_URL,false,true);
-	$authenticated = true;
-}
+$authenticated = $auth->check_auth();
 
 // Process arguments
 if ( $_GET['args'] ) {
