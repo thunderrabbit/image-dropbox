@@ -35,8 +35,4 @@ PHP needs to be able to write to the cache directory so adjust the permissions a
 example:
 chown www-data cache
 
-Currently the statistics output is dumped to a file core/stats.php which doesn't exist in the repo
-touch core/stats.php
-chown www-data core/stats.php
-
 Enjoy
