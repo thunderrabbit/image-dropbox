@@ -1,15 +1,5 @@
 <div id="form">
 
-<?php
-if ( $_SESSION['upload_errors'] ) {
-?>
-<h3>Errors</h3>
-<p class="error"><?php print implode('</p><p class="error">', $_SESSION['upload_errors']); ?></p>
-<?php
-unset( $_SESSION['upload_errors'] );
-}
-?>
-
 <h2>Upload</h2>
 <form action="http<?=(DB_SECURE)? 's' : '';?>://<?=DB_URL;?><?=DB_LOC;?>/submit/" enctype="multipart/form-data" method="post">
 <table id="form_table">
