@@ -6,7 +6,7 @@ $ts = microtime(true);
 require '../core/conf.php';
 require DB_PATH . "/core/db.php";
 require DB_PATH . "/core/session.php";
-require DB_PATH . "/core/auth.php";
+require DB_PATH . "/core/lib/auth.php";
 require DB_PATH . "/core/func.php";
 
 $auth = new Auth($db);
