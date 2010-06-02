@@ -5,6 +5,14 @@ function fail()
 	die( 'oops' );
 }
 
+function redirect() {
+	global $db;
+	$path = (func_num_args() > 0) ? implode('/', func_get_args()) : '/';
+	header('Location: http://' . DB_URL . DB_LOC . $path);
+	$db->close();
+	exit();
+}
+
 function tagField($db,$limit=null)
 {
 	$sql = 'select t.name, m.tag, count(m.tag) as num from tagmap as m, tags as t where t.id=m.tag group by tag order by date desc';

@@ -1,12 +1,12 @@
 <?
 
-if ( ! $authenticated ) header('Location: /' . DB_LOC);
+if (!$authenticated) 
+	redirect();
 
 function error( $msg ) {
 	$_SESSION['changemy_errors'][] = $msg;
 	sleep(5);
-	header('Location: http://' . DB_URL . DB_LOC . '/me/');
-	exit();
+	redirect('me');
 }
 
 if ( $_POST['new_password1'] == $_POST['new_password2'] ) {
@@ -26,5 +26,6 @@ if ( $_POST['new_password1'] == $_POST['new_password2'] ) {
 	error('new passwords do not match');
 }
 
-header('Location: http://' . DB_URL . DB_LOC . '/me/');
-exit();
+redirect('me');
+
+?>

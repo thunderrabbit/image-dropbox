@@ -6,6 +6,6 @@ if ( $_GET['search'] ) {
 	DB_LOC = '/';
 }
 
-header("Location: DB_LOC");
+redirect();
 
 ?>
