@@ -1,3 +1,4 @@
 core/stats.php
 core/conf.php
+core/local_footer.php
 *.swp

@@ -21,7 +21,7 @@ if ( $_POST ) {
 
 } else {
 	// display form
-	$conrim = false;
+	$confrim = false;
 	if ( $authenticated ) {
 		$sql = sprintf("select id from entries where id=%d and user=%d", $id, $_SESSION['auth_id'] );
 		if ( $db->exists( $sql ) ) {
@@ -29,6 +29,8 @@ if ( $_POST ) {
 		}
 	}
 	if ( $confirm ) {
+		include DB_PATH . '/core/themes/' . DB_THEME . '/confirmdelete.php';
+	} else {
 		include DB_PATH . '/core/themes/' . DB_THEME . '/delete.php';
 	}
 }
