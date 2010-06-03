@@ -40,7 +40,7 @@ class Auth {
 		$user = $result->fetch_assoc();
 
 		if(sha1($password . $user['salt']) != $user['password'])
-			throw new Exception('bad login');
+			throw new DBException('bad login');
 
 		$this->auth_token = sha1($user['salt'].time());
 		$_SESSION['auth_token'] = $this->auth_token;
@@ -72,7 +72,7 @@ class Auth {
 	public function signup($username, $password1, $password2, $alias, $email)
 	{
 		if(!is_null($this->auth_token))
-			throw new Exception('already logged in');
+			throw new DBException('already logged in');
 
 		$username = $this->db->safe($username);
 		$password1 = $this->db->safe($password1);
@@ -84,16 +84,16 @@ class Auth {
 					$username);
 
 		if($this->db->exists($sql))
-			throw new Exception('username already exists');
+			throw new DBException('username already exists');
 
 		if(!$this->valid_alias($alias))
-			throw new Exception('invalid characters in alias');
+			throw new DBException('invalid characters in alias');
 
 		if($password1 != $password2)
-			throw new Exception('passwords do not match');
+			throw new DBException('passwords do not match');
 
 		if(!validate::email($email))
-			throw new Exception('invalid email');
+			throw new DBException('invalid email');
 
 		$salt = sha1($username);
 		$password_hash = sha1($password1 . $salt);
@@ -104,7 +104,7 @@ class Auth {
 						$email, $email_hash, $password_hash, $salt);
 
 		if(!$this->db->query($sql))
-			throw new Exception('failed query when adding user' . $sql);
+			throw new DBException('failed query when adding user' . $sql);
 
 		$this->login($username,$password1);
 	}

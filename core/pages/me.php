@@ -1,6 +1,7 @@
 <?php
 
-if ( ! $authenticated ) header('Location: /' . DB_LOC);
+if (!$authenticated)
+	redirect();
 
 $sql = sprintf("SELECT * FROM users WHERE id=%d", $_SESSION['auth_id']);
 if ( ! $result = $db->query( $sql ) ) die('Failed Query');

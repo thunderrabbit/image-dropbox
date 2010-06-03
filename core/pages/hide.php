@@ -5,7 +5,6 @@ if ( !isset( $_SESSION['hide'] ) )
 else 
 	unset( $_SESSION['hide'] );
 
-header('Location: http://' . DB_URL . DB_LOC . '/');
-
+redirect();
 
 ?>

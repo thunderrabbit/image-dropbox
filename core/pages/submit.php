@@ -6,16 +6,12 @@ $img = new image($db);
 
 try {
 	$img->upload($authenticated);
-	$redirect = '/view/' . $img->getentryid();
+	redirect('view', $img->getentryid());
 } catch (ImageException $e) {
 	if($e->rollback)
 		$img->rollback();
 	$_SESSION['upload_errors'][] = $e->getMessage();
-	$redirect = '/upload/';
+	redirect('upload');
 }	
-
-header('Location: http://' . DB_URL . DB_LOC . $redirect);
-$db->close();
-exit();
 
 ?>

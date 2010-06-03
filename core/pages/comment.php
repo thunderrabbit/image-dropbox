@@ -21,6 +21,5 @@ if(DB_COMMENTS) {
 		}
 	} 
 }
-header('Location: http://' . DB_URL . DB_LOC . '/view/$id/');
-
+redirect('view', $id);
 ?>

@@ -1,7 +1,7 @@
 <?php
 
-$stats_file = DB_PATH . "/core/stats.php";
-$stats_date = file_exists($stats_file) ? filemtime( $stats_file ) : 0;
+$stats_file = DB_PATH . '/cache/stats.php';
+$stats_date = file_exists($stats_file) ? filemtime($stats_file) : 0;
 
 // GENERATE STATISTICS (once an hour)
 if ( ( time() - $stats_date >= 3600 ) ) {

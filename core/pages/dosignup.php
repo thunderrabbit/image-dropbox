@@ -1,26 +1,22 @@
 <?php
 
 function error( $msg ) {
-	$_SESSION['login_errors'][] = $msg;
-	sleep(5);
-	header('Location: http://' . DB_URL . DB_LOC . '/login/');
+	$_SESSION['signup_errors'][] = $msg;
+	redirect('signup');
 }
 
 if($_POST) {
 	try {
 		$auth->signup($_POST['username'], $_POST['password1'],
 				$_POST['password2'], $_POST['alias'], $_POST['email']);
-		header('Location: http://' . DB_URL . '/' . DB_LOC . 'me/' );
+		redirect('me');
 	} catch(Exception $e) {
 		// Should seutp session error array here
 		error($e->GetMessage());
-		header('Location: http://' . DB_URL . DB_LOC . '/signup/');
+		redirect('signup');
 	}
 } else {
-	header('Location: http://' . DB_URL . DB_LOC . '/signup/');
+	redirect('signup');
 }
-
-$db->close();
-exit();
 
 ?>
