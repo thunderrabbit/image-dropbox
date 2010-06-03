@@ -23,14 +23,14 @@ class Entry {
 	public function load($id)
 	{
 		if(is_null($id))
-			throw new Exception('no entry id to load');
+			throw new DBException('no entry id to load');
 	
 		$sql = sprintf('SELECT * FROM entries WHERE id=%d', $id);
 		if(!$result = $this->db->query($sql))
-			throw new Exception('error in select query');
+			throw new DBException('error in select query');
 		$this->data = $result->fetch_assoc();
 		if(is_null($this->data))
-			throw new Exception('empty result set');
+			throw new DBException('empty result set');
 
 		$this->tags = new Tags($this->db, $id);
 	}
@@ -51,7 +51,7 @@ class Entry {
 	public function save()
 	{
 		if(count($this->updates) < 1 && (!$this->tags->updates()))
-			throw new Exception('no changes');
+			throw new DBException('no changes');
 
 		if(is_null($this->id)) {
 			if(count($this->updates) > 1) {
@@ -64,7 +64,7 @@ class Entry {
 			$sql = sprintf("INSERT INTO entries (%s,date,views) VALUES 
 					('%s',UNIX_TIMESTAMP(),0)", $fields, $values);
 			if(!$this->db->query($sql))
-				throw new Exception('error in insert query ' . $sql );
+				throw new DBException('error in insert query ' . $sql );
 			$this->id = $this->db->insert_id;
 		} else {
 			if(count($this->updates) > 0) {
@@ -75,7 +75,7 @@ class Entry {
 				$sql = sprintf('UPDATE entries SET %s WHERE id=%d', 
 						implode(',', $updates), $this->id);
 				if(!$this->db->query($sql))
-					throw new Exception('error in update query');
+					throw new DBException('error in update query');
 			}
 		}
 
@@ -92,7 +92,7 @@ class Entry {
 	public function check_pass($password)
 	{
 		if(sha1($password) != $this->data['password'])
-			throw new Exception('invalid password');
+			throw new DBException('invalid password');
 	}
 
 	public function get_id()

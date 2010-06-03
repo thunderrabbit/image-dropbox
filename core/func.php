@@ -27,7 +27,12 @@ function update_hook($entry, $field, $from, $to)
 			values (%d,'%s',%d,'%s','%s','%s')", $entry, $host, time(), $field, 
 			$from, $to);
 	if(!$db->query($sql))
-		throw Exception('update_hook: query error');
+		throw new DBException('update_hook: query error');
+}
+
+function debug_hook($msg)
+{
+	trigger_error($msg, E_USER_ERROR);
 }
 
 function tagField($db,$limit=null)
