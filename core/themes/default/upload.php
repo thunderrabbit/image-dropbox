@@ -11,7 +11,7 @@ unset( $_SESSION['upload_errors'] );
 ?>
 
 <h2>Upload</h2>
-<form action="http<?=($secure)? 's' : '';?>://<?=DB_URL;?><?=DB_LOC;?>/submit/" enctype="multipart/form-data" method="post">
+<form action="http<?=(DB_SECURE)? 's' : '';?>://<?=DB_URL;?><?=DB_LOC;?>/submit/" enctype="multipart/form-data" method="post">
 <table id="form_table">
 	<tr>
 		<td>title</td>

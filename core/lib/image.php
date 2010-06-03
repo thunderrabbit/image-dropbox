@@ -7,6 +7,17 @@ define('CROP_TOP', 1 );
 define('CROP_MIDDLE', 2 );
 define('CROP_BOTTOM', 3 );
 
+require_once DB_PATH . '/core/lib/entry.php';
+
+class ImageException extends Exception {
+	public $rollback;
+
+	public function __construct($message = null, $rollback=false, $code = 0) {
+		$this->rollback = $rollback;
+		parent::__construct($message, $code);
+	}
+}
+
 class image {
 	private $db;
 	private $size;
@@ -22,7 +33,6 @@ class image {
 	private $image;
 	private $file;
 	private $block;
-	private $errors;
 	private $custom;
 	private $custom_crop;
 	private $custom_size;
@@ -32,7 +42,6 @@ class image {
 		$this->db = $db;	
 		$this->block = 65535;
 		$this->custom_mode = CROP_MIDDLE;
-		$this->errors = array();
 	}
 
 	public function __destruct() { 
@@ -40,17 +49,9 @@ class image {
 			imagedestroy( $this->image );	
 		}
 	}
-	
+
 	public function getentryid() {
 		return $this->entryid;
-	}
-
-	public function geterrors() {
-		return $this->errors;
-	}
-
-	public function seterror($error) {
-		$this->errors[] = ucwords( $error );
 	}
 
 	public function start() {
@@ -72,8 +73,7 @@ class image {
 				if ( $_POST['title'] ) {
 					$this->title = $this->db->safe( $_POST['title'] );
 				} else {
-					$this->seterror('Missing Title');	
-					return false;
+					throw new ImageException(DB_STR_IMGERR_NOTITLE);
 				}
 				if ( $img = getimagesize( $this->file ) ) {
 					if ( in_array( $img[2], array( 1, 2, 3 ) ) ) {
@@ -82,8 +82,7 @@ class image {
 					$this->width = $img[0];
 					$this->height = $img[1];
 				} else {
-					$this->seterror( 'Unsupported Image' );
-					return false;
+					throw new ImageException(DB_STR_IMGERR_UNSUPPORTED);
 				}
 				$this->size = filesize( $this->file );
 				$this->hash = sha1_file( $this->file );
@@ -110,14 +109,11 @@ class image {
 				}
 
 			} else {
-				$this->seterror('no uploaded file');
-				return false;
+				throw new ImageException(DB_STR_IMGERR_NOFILE);
 			}
 		} else {
-			$this->seterror('no post data');
-			return false;
+			throw new ImageException('no post data');
 		}
-		return true;
 	}
 
 	public function checkduplicate() {
@@ -125,15 +121,11 @@ class image {
 					. $this->hash . '\'' ) ) {
 			$dup = ($rel->num_rows < 1);
 			$rel->free();
-			if ( $dup ) {
-				return true;
-			} else {
-				$this->seterror('duplicate image');
-				return false;
+			if ( ! $dup ) {
+				throw new ImageException(DB_STR_IMGERR_DUP);
 			}
 		} else {
-			$this->seterror('application error while checking for duplicate image');
-			return false;
+			throw new ImageException(DB_STR_IMGERR_APPDUP);
 		}
 	}
 
@@ -158,14 +150,12 @@ class image {
 		}
 
 		if ( !$image = imagecreatetruecolor( $out[0], $out[1] ) ) {
-			$this->seterror('application error while creating thumbmail');
-			return false;
+			throw new ImageException(DB_STR_IMGERR_APPTHUMB);
 		}
 		if ( !imagecopyresampled( $image, $this->image, 0, 0, 0, 0,
 							$out[0], $out[1],
 							$this->width, $this->height ) ) {
-			$this->seterror('application error while creating thumbmail');
-			return false;
+			throw new ImageException(DB_STR_IMGERR_APPTHUMB);
 		}
 
 		if ( $crop ) {
@@ -210,31 +200,25 @@ class image {
 		return $xy;
 	}
 	
-	public function createentry( $authenticated = false ) {
-		$sql = sprintf( 'INSERT INTO `entries` (`title`,`type`,`size`,`width`,`height`,
-						 `ip`,`password`,`date`,`safe`,`hash`,`views`) VALUES
-						 (\'%s\',%d,%d,%d,%d,\'%s\',\'%s\',UNIX_TIMESTAMP(),%d,\'%s\',0)',
-						 $this->title,
-						 $this->type,
-						 $this->size,
-						 $this->width,
-						 $this->height,
-						 $this->host,
-						 $this->password,
-						 $this->worksafe,
-						 $this->hash);
-		if ( $this->db->query( $sql ) ) {
-			$this->entryid = $this->db->insert_id;
-			if ( $authenticated ) {
-				$sql = sprintf( 'UPDATE entries SET user=%d WHERE id=%d', $_SESSION['auth_id'], $this->entryid );
-				if ( ! $this->db->query( $sql ) ) {
-					$this->seterror('application error while assigning entry to logged in user');
-				}
-			}
+	public function createentry($authenticated=false) {
+		try {
+			$user = ($authenticated) ? $_SESSION['auth_id'] : NULL;
+			$entry = new Entry($this->db);
+			$entry->update('title', $this->title);
+			$entry->update('type', $this->type);
+			$entry->update('size', $this->size);
+			$entry->update('width', $this->width);
+			$entry->update('height', $this->height);
+			$entry->update('ip', $this->host);
+			$entry->update('password', $this->password);
+			$entry->update('safe', $this->worksafe);
+			$entry->update('hash', $this->hash);
+			$entry->update('user', $user);
+			$entry->save();
+			$this->entryid = $entry->get_id();
 			return true;
-		} else {
-			$this->seterror('application error while creating entry');
-			return false;
+		} catch(Exception $e) {
+			throw new ImageException('application error while creating entry',true);
 		}
 	}
 
@@ -247,16 +231,14 @@ class image {
 			if ( $this->custom ) {
 				if ( !$resize = $this->resize( array( $this->custom_size, $this->custom_size ),
 												$this->custom_crop, $this->custom_mode ) ) {
-					$this->seterror('application error while create custom thumbnail');
-					return false;
+					throw new ImageException(DB_STR_IMGERR_APPCUSTTHUMB,true);
 				}
 			} else {
 				return true;
 			}
 		} else {
 			if( !$resize = $this->resize( array(100,100) ) ) {
-				$this->seterror('application error while creating thumbnail');
-				return false;
+				throw new ImageException(DB_STR_IMGERR_APPTHUMB,true);
 			}
 		}
 		$data = $resize[1];
@@ -270,8 +252,7 @@ class image {
 		if ( $this->db->query( $sql ) ) {
 			return true;
 		} else {
-			$this->seterror('application error while creating thumbmail');
-			return false;
+			throw new ImageException(DB_STR_IMGERR_APPTHUMB,true);
 		}
 	}
 
@@ -284,8 +265,7 @@ class image {
 							$this->db->real_escape_string( 
 								fread( $fp, $this->block ) ) );
 			if ( !$this->db->query( $sql ) ) {
-				$this->seterror('application error while writing image');
-				return false;
+				throw new ImageException(DB_STR_IMGERR_APPWRITE,true);
 			}
 		}
 
@@ -295,58 +275,36 @@ class image {
 	}
 
 	public function createtags() {
-		for ( $i = 0, $c = count( $this->tags ); $i < $c; ++$i ) {
-			$current = $this->db->real_escape_string( str_replace( ' ', '_', 
-						strtolower( trim( $this->tags[$i] ) ) ) );
-			$sql = sprintf( 'SELECT `id` FROM `tags` WHERE `name` = \'%s\'',
-							$current );
-			if ( $result = $this->db->query( $sql ) ) {
-				$exists = ( $result->num_rows > 0 );
-			} else {
-				$this->seterror('application error while setting tags');
-				return false;
-			}
-
-			if ( $exists ) {
-				$row = $result->fetch_assoc();
-				$tag_id = $row['id'];
-				$sql = sprintf( 'UPDATE `tags` SET `date` = UNIX_TIMESTAMP() 
-								WHERE `id`=%d', $tag_id );
-				if ( !$this->db->query( $sql ) ) {
-					$this->seterror('application error while setting tags');
-					return false;
-				}
-			} else {
-				$sql = sprintf( 'INSERT INTO `tags` (`name`,`date`) VALUES
-								(\'%s\',UNIX_TIMESTAMP())', $current );
-				if ( !$this->db->query( $sql ) ) {
-					$this->seterror('application error while setting tags');
-					return false;
-				} else {
-					$tag_id = $this->db->insert_id;
-				}
-			}
-			
-			$result->free();
-
-			$sql = sprintf( 'INSERT INTO `tagmap` (`tag`,`entry`) VALUES (%d,%d)',
-							$tag_id, $this->entryid );
-			if ( !$this->db->query( $sql ) ) {
-				$this->seterror('application error while setting tags');
-				return false;
-			}
+		try {
+			$tags = new Tags($this->db, $this->entryid);
+			$tags->update($this->tags);
+			$tags->save();
+			return true;
+		} catch(Exception $e) {
+			throw new ImageException('application error while setting tags',true);
 		}
-		return true;
 	}
 
 	public function loadimage() {
 		if ($this->image = imagecreatefromstring( file_get_contents( $this->file ) )) {
 			return true;
 		} else {
-			$this->seterror('application error while reading uploaded image data');
-			return false;
+			throw new ImageException(DB_STR_IMGERR_APPREAD, true);
 		}
 	}
-
+	
+	public function upload($authenticated) {
+		$this->checkpost($authenticated);
+		$this->checkduplicate();
+		$this->start();
+		$this->createentry($authenticated);
+		$this->createtags();
+		$this->loadimage();
+		$this->createthumb();
+		$this->createthumb(1);
+		$this->createdata();
+		$this->createpreview();
+		$this->commit();
+	}
 }
 ?>

@@ -1,7 +1,11 @@
 <div id="statistics">
 <h2>Statistics</h2>
+<? if($stats_date) : ?>
 <p>Stats are generated once an hour</p>
 <p>stats last generated: <?=date( 'Y-m-d @ H:i:s', $stats_date );?> UTC</p>
+<? else : ?>
+<p>Generating stats for the first time...
+<? endif; ?>
 <table>
 	<tr>
 		<td>Number of uploaded images:</td>

@@ -1,6 +1,6 @@
 	<div id="form">
 		<h2>Edit</h3>
-		<form action="http<?=($secure) ? 's' : '';?>://<?=DB_URL;?><?=DB_LOC;?>/update/<?=$id;?>/" method="post">
+		<form action="http<?=(DB_SECURE) ? 's' : '';?>://<?=DB_URL;?><?=DB_LOC;?>/update/<?=$id;?>/" method="post">
 		<table id="form_table">
 			<tr>
 				<td>title</td>

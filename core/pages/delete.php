@@ -12,16 +12,14 @@ if ( $_POST ) {
 			( $entry['password'] == sha1( strval( $_POST['password'] ) ) ) ) {
 		$sql = sprintf("delete from entries where id=%d", $id );
 		$db->query( $sql );
-		header('Location: http://' . DB_URL . DB_LOC . '/');
-		exit();
+		redirect();
 	}
 
-	header('Location: http://' . DB_URL . DB_LOC .  "/view/$id/");
-	exit();
+	redirect('view', $id);
 
 } else {
 	// display form
-	$conrim = false;
+	$confrim = false;
 	if ( $authenticated ) {
 		$sql = sprintf("select id from entries where id=%d and user=%d", $id, $_SESSION['auth_id'] );
 		if ( $db->exists( $sql ) ) {
@@ -29,8 +27,11 @@ if ( $_POST ) {
 		}
 	}
 	if ( $confirm ) {
+		include DB_PATH . '/core/themes/' . DB_THEME . '/confirm.php';
+	} else {
 		include DB_PATH . '/core/themes/' . DB_THEME . '/delete.php';
 	}
+
 }
 
 ?>
