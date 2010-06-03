@@ -7,10 +7,27 @@ function fail()
 
 function redirect() {
 	global $db;
-	$path = (func_num_args() > 0) ? implode('/', func_get_args()) : '/';
+	$path = '/';
+	if(func_num_args() > 0) {
+		$args = func_get_args();
+		$path .= implode('/', $args);
+	}
 	header('Location: http://' . DB_URL . DB_LOC . $path);
 	$db->close();
 	exit();
+}
+
+function update_hook($entry, $field, $from, $to)
+{
+	global $db;
+
+	$host = gethostbyaddr($_SERVER['REMOTE_ADDR']) . ' (' . 
+			$_SERVER['REMOTE_ADDR'] . ')';
+	$sql = sprintf( "insert into updates (entry,ip,date,field,`from`,`to`) 
+			values (%d,'%s',%d,'%s','%s','%s')", $entry, $host, time(), $field, 
+			$from, $to);
+	if(!$db->query($sql))
+		throw Exception('update_hook: query error');
 }
 
 function tagField($db,$limit=null)

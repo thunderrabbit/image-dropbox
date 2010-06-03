@@ -27,10 +27,11 @@ if ( $_POST ) {
 		}
 	}
 	if ( $confirm ) {
-		include DB_PATH . '/core/themes/' . DB_THEME . '/confirmdelete.php';
+		include DB_PATH . '/core/themes/' . DB_THEME . '/confirm.php';
 	} else {
 		include DB_PATH . '/core/themes/' . DB_THEME . '/delete.php';
 	}
+
 }
 
 ?>
