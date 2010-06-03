@@ -28,7 +28,11 @@ if ( $_POST ) {
 			$confirm = true;
 		}
 	}
-	include DB_PATH . '/core/themes/' . DB_THEME . '/delete.php';
+	if ( $confirm ) {
+		include DB_PATH . '/core/themes/' . DB_THEME . '/confirmdelete.php';
+	} else {
+		include DB_PATH . '/core/themes/' . DB_THEME . '/delete.php';
+	}
 }
 
 ?>
