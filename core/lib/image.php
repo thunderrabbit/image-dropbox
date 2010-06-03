@@ -7,6 +7,8 @@ define('CROP_TOP', 1 );
 define('CROP_MIDDLE', 2 );
 define('CROP_BOTTOM', 3 );
 
+require_once DB_PATH . '/core/lib/entry.php';
+
 class ImageException extends Exception {
 	public $rollback;
 
@@ -198,29 +200,23 @@ class image {
 		return $xy;
 	}
 	
-	public function createentry( $authenticated = false ) {
-		$sql = sprintf( 'INSERT INTO `entries` (`title`,`type`,`size`,`width`,`height`,
-						 `ip`,`password`,`date`,`safe`,`hash`,`views`) VALUES
-						 (\'%s\',%d,%d,%d,%d,\'%s\',\'%s\',UNIX_TIMESTAMP(),%d,\'%s\',0)',
-						 $this->title,
-						 $this->type,
-						 $this->size,
-						 $this->width,
-						 $this->height,
-						 $this->host,
-						 $this->password,
-						 $this->worksafe,
-						 $this->hash);
-		if ( $this->db->query( $sql ) ) {
-			$this->entryid = $this->db->insert_id;
-			if ( $authenticated ) {
-				$sql = sprintf( 'UPDATE entries SET user=%d WHERE id=%d', $_SESSION['auth_id'], $this->entryid );
-				if ( ! $this->db->query( $sql ) ) {
-					throw new ImageException('application error while assigning entry to logged in user',true);
-				}
-			}
+	public function createentry($authenticated=false) {
+		try {
+			$user = ($authenticated) ? $_SESSION['auth_id'] : NULL;
+			$entry = new Entry();
+			$entry->update('title', $this->title);
+			$entry->update('type', $this->type);
+			$entry->update('size', $this->size);
+			$entry->update('width', $this->width);
+			$entry->update('height', $this->height);
+			$entry->update('host', $this->host);
+			$entry->update('password', $this->password);
+			$entry->update('safe', $this->worksafe);
+			$entry->update('hash', $this->hash);
+			$entry->update('user', $user);
+			$entry->save();
 			return true;
-		} else {
+		} catch(Exception $e) {
 			throw new ImageException('application error while creating entry',true);
 		}
 	}
@@ -278,44 +274,14 @@ class image {
 	}
 
 	public function createtags() {
-		for ( $i = 0, $c = count( $this->tags ); $i < $c; ++$i ) {
-			$current = $this->db->real_escape_string( str_replace( ' ', '_', 
-						strtolower( trim( $this->tags[$i] ) ) ) );
-			$sql = sprintf( 'SELECT `id` FROM `tags` WHERE `name` = \'%s\'',
-							$current );
-			if ( $result = $this->db->query( $sql ) ) {
-				$exists = ( $result->num_rows > 0 );
-			} else {
-				throw new ImageException('application error while setting tags',true);
-			}
-
-			if ( $exists ) {
-				$row = $result->fetch_assoc();
-				$tag_id = $row['id'];
-				$sql = sprintf( 'UPDATE `tags` SET `date` = UNIX_TIMESTAMP() 
-								WHERE `id`=%d', $tag_id );
-				if ( !$this->db->query( $sql ) ) {
-					throw new ImageException('application error while setting tags',true);
-				}
-			} else {
-				$sql = sprintf( 'INSERT INTO `tags` (`name`,`date`) VALUES
-								(\'%s\',UNIX_TIMESTAMP())', $current );
-				if ( !$this->db->query( $sql ) ) {
-					throw new ImageException('application error while setting tags',true);
-				} else {
-					$tag_id = $this->db->insert_id;
-				}
-			}
-			
-			$result->free();
-
-			$sql = sprintf( 'INSERT INTO `tagmap` (`tag`,`entry`) VALUES (%d,%d)',
-							$tag_id, $this->entryid );
-			if ( !$this->db->query( $sql ) ) {
-				throw new ImageException('application error while setting tags');
-			}
+		try {
+			$tags = new Tags($this->id);
+			$tags->update($this->tags);
+			$tags->save();
+			return true;
+		} catch(Exception $e) {
+			throw new ImageException('application error while setting tags');
 		}
-		return true;
 	}
 
 	public function loadimage() {

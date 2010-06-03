@@ -13,6 +13,19 @@ function redirect() {
 	exit();
 }
 
+function update_hook($entry, $field, $from, $to)
+{
+	global $db;
+
+	$host = gethostbyaddr($_SERVER['REMOTE_ADDR']) . ' (' . 
+			$_SERVER['REMOTE_ADDR'] . ')';
+	$sql = sprintf( "insert into updates (entry,ip,date,field,`from`,`to`) 
+			values (%d,'%s',%d,'%s','%s','%s')", $entry, $host, time(), $field, 
+			$from, $to);
+	if(!$db->query($sql))
+		throw Exception('update_hook: query error');
+}
+
 function tagField($db,$limit=null)
 {
 	$sql = 'select t.name, m.tag, count(m.tag) as num from tagmap as m, tags as t where t.id=m.tag group by tag order by date desc';
