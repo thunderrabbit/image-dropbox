@@ -7,7 +7,11 @@ function fail()
 
 function redirect() {
 	global $db;
-	$path = (func_num_args() > 0) ? implode('/', func_get_args()) : '/';
+	$path = '/';
+	if(func_num_args() > 0) {
+		$args = func_get_args();
+		$path .= implode('/', $args);
+	}
 	header('Location: http://' . DB_URL . DB_LOC . $path);
 	$db->close();
 	exit();
