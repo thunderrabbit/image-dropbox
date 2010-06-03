@@ -38,8 +38,8 @@ class Entry {
 	public function update($field, $value)
 	{
 		$value = $this->db->safe($value);
-		if(!is_set($this->data[$field]) || $this->data[$field] != $value)
-			$this->data_updates[$field] = $value;
+		if(!isset($this->data[$field]) || $this->data[$field] != $value)
+			$this->updates[$field] = $value;
 	}
 
 	public function get($field)
@@ -50,24 +50,33 @@ class Entry {
 
 	public function save()
 	{
-		if(count($this->updates) < 1)
+		if(count($this->updates) < 1 && (!$this->tags->updates()))
 			throw new Exception('no changes');
 
 		if(is_null($this->id)) {
-			$sql = sprintf('INSERT INTO entries (%s) VALUES (%s)',
-				implode(',', array_keys($this->updates)),
-				implode(',', $this->updates));
-			if(!$this->db->query($sql))
-				throw new Exception('error in insert query');
-		} else {
-			foreach($this->updates as $key => $val) {
-				$updates[] = $key . "='" . $val . "'";
-				update_hook($this->id, $key, $this->data[$key], $val);
+			if(count($this->updates) > 1) {
+				$fields = implode(',', array_keys($this->updates));
+				$values = implode("','", $this->updates);
+			} else {
+				$fields = key($this->updates);
+				$values = $this->updates[0];
 			}
-			$sql = sprintf('UPDATE entries SET %s WHERE id=%d', 
-					implode(',', $updates), $this->id);
+			$sql = sprintf("INSERT INTO entries (%s,date,views) VALUES 
+					('%s',UNIX_TIMESTAMP(),0)", $fields, $values);
 			if(!$this->db->query($sql))
-				throw new Exception('error in update query');
+				throw new Exception('error in insert query ' . $sql );
+			$this->id = $this->db->insert_id;
+		} else {
+			if(count($this->updates) > 0) {
+				foreach($this->updates as $key => $val) {
+					$updates[] = $key . "='" . $val . "'";
+					update_hook($this->id, $key, $this->data[$key], $val);
+				}
+				$sql = sprintf('UPDATE entries SET %s WHERE id=%d', 
+						implode(',', $updates), $this->id);
+				if(!$this->db->query($sql))
+					throw new Exception('error in update query');
+			}
 		}
 
 		if(!is_null($this->tags))
@@ -84,6 +93,11 @@ class Entry {
 	{
 		if(sha1($password) != $this->data['password'])
 			throw new Exception('invalid password');
+	}
+
+	public function get_id()
+	{
+		return $this->id;
 	}
 }
 

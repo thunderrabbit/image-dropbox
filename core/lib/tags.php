@@ -16,29 +16,34 @@ class Tags {
 		}
 	}
 
+	public function updates()
+	{
+		return (count($this->add) > 0 || count($this->del) > 0);
+	}
+
 	private function associate($tag)
 	{
 		$sql = sprintf("select id from tags where name='%s'", $tag);
 		if(!$result = $this->db->query($sql))
-			throw new Exception('error in select query');
+			throw new Exception('associate - error in select query');
 
 		if($result->num_rows != 0) {
 			$row = $result->fetch_array();
 			$id = $row[0];
 			$sql = sprintf('update tags set date=UNIX_TIMESTAMP() where id=%d', $id);
 			if(!$this->db->query($sql))
-				throw new Exception('error in update query');
+				throw new Exception('associate - error in update query');
 		} else {
 			$sql = sprintf("insert into tags (name,date) values ('%s',UNIX_TIMESTAMP())", $tag);
 			if(!$this->db->query($sql))
-				throw new Exception('error in insert query');
+				throw new Exception('associate - error in insert query');
 			$id = $this->db->insert_id;
 		}
 		$result->free();
 
 		$sql = sprintf('insert into tagmap (tag,entry) values (%d,%d)', $id, $this->id);
 		if(!$this->db->query($sql))
-			throw new Exception('error in insert query');
+			throw new Exception('associate - error in insert query');
 	}
 
 	private function disassociate($tag)
@@ -83,7 +88,7 @@ class Tags {
 		if(is_null($id))
 			throw new Exception('no entry id to load tags for');
 
-		$sql = sprintf("SELECT t.nam FROM tags t, tagmap m WHERE m.entry=%d &&
+		$sql = sprintf("SELECT t.name FROM tags t, tagmap m WHERE m.entry=%d &&
 						t.id=m.tag ORDER BY t.name", $id);
 		if(!$result = $this->db->query($sql))
 			throw new Exception('error in tag select query');

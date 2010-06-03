@@ -1,9 +1,11 @@
 <?php
 
+require_once DB_PATH . '/core/lib/entry.php';
+
 if ( $_POST ) {
 	$id = intval($entry);
 	try {
-		$entry = new Entry($id);
+		$entry = new Entry($db, $id);
 		$entry->check_pass($_POST['password']);
 		$entry->update_tags($_POST['tags']);
 		$entry->update('title', $_POST['title']);
