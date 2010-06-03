@@ -25,12 +25,7 @@ if ( $entry['width'] > 800 ) {
 $sql = sprintf( "select id from thumbs where entry=%d && custom=1", $id );
 $result = $db->query($sql);
 $custom = ( $result->num_rows == 1 );
-
 $display_id = ($entry['child']) ? $entry['child'] : $id;
-
-$sql = sprintf( "select t.name from tags t, tagmap m where m.entry=%d && t.id=m.tag", $id );
-
-$info = $result->fetch_assoc();
 
 $filename = $id . '.' . imgtypetoext( $entry['type'] );
 
@@ -43,7 +38,8 @@ if ( $entry['user'] > 0 ) {
 	$user = $entry['ip'];
 }
 
-if ( ! $result = $db->query( $sql ) ) {
+$sql = sprintf( "select t.name from tags t, tagmap m where m.entry=%d && t.id=m.tag", $id );
+if (!$tags = $db->query( $sql ) ) {
 	die( "Query Error" );
 }
 
