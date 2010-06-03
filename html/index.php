@@ -8,6 +8,7 @@ require DB_PATH . "/core/db.php";
 require DB_PATH . "/core/session.php";
 require DB_PATH . "/core/lib/auth.php";
 require DB_PATH . "/core/func.php";
+require DB_PATH . '/core/themes/' . DB_THEME . '/strings.php';
 
 $auth = new Auth($db);
 
