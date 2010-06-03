@@ -9,15 +9,6 @@ define('CROP_BOTTOM', 3 );
 
 require_once DB_PATH . '/core/lib/entry.php';
 
-class ImageException extends Exception {
-	public $rollback;
-
-	public function __construct($message = null, $rollback=false, $code = 0) {
-		$this->rollback = $rollback;
-		parent::__construct($message, $code);
-	}
-}
-
 class image {
 	private $db;
 	private $size;
