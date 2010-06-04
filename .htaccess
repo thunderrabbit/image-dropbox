@@ -8,16 +8,21 @@ RewriteBase /
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^image/([^/]*)/?(.*)?$ image-dropbox/html/image.php?mode=image&id=$1&args=$2 [L,QSA]
+RewriteRule ^image/([^/]*)/?(.*)?$ monty.bear/html/image.php?mode=image&id=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^thumb/([^/]*)/?(.*)?$ image-dropbox/html/image.php?mode=thumb&id=$1&args=$2 [L,QSA]
+RewriteRule ^thumb/([^/]*)/?(.*)?$ monty.bear/html/image.php?mode=thumb&id=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^api/([^/]*)/?(.*)?$ image-dropbox/html/api.php?cmd=$1&args=$2 [L,QSA]
+RewriteRule ^api/([^/]*)/?(.*)?$ monty.bear/html/api.php?cmd=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)/?$ image-dropbox/html/index.php?args=$1 [L,QSA]
+RewriteRule ^$ html/
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)/?$ monty.bear/html/index.php?args=$1 [L,QSA]
+
 
