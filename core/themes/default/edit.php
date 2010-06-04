@@ -14,11 +14,15 @@
 				<td>worksafe</td>
 				<td>
 					<input type="radio" <? if ($rating == 1) echo 'checked="checked"'; ?> name="rating" value="1" /> Yes 
-					<input type="radio" <? if ($rating == 0) echo 'checked="checked"'; ?> name="rating" value="0" /> No</td>
+					<input type="radio" <? if ($rating == 0) echo 'checked="checked"'; ?> name="rating" value="0" /> No
+				</td>
+			</tr>
+			<? if($pass): ?>
 			<tr>
 				<td>password</td>
 				<td><input type="password" name="password" value="" /></td>
 			</tr>
+			<? endif; ?>
 			<tr>
 				<td>&nbsp;</td>
 				<td><input type="submit" value="Update" /></td>

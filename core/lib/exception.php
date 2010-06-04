@@ -5,6 +5,7 @@ class DBException extends Exception {
 		debug_hook($message);
 		parent::__construct($message, $code);
 	}
+}
 
 class ImageException extends DBException {
 	public $rollback;

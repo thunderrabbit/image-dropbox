@@ -6,7 +6,8 @@ if ( $_POST ) {
 	$id = intval($entry);
 	try {
 		$entry = new Entry($db, $id);
-		$entry->check_pass($_POST['password']);
+		if(!($authenticated && $entry->get('user') == $_SESSION['auth_id']))
+			$entry->check_pass($_POST['password']);
 		$entry->update_tags($_POST['tags']);
 		$entry->update('title', $_POST['title']);
 		$entry->update('safe', intval($_POST['rating']));

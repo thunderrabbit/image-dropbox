@@ -4,6 +4,7 @@ $ts = microtime(true);
 
 // Bring in the needed stuff and setup the connection to the database
 require '../core/conf.php';
+require DB_PATH . "/core/lib/exception.php";
 require DB_PATH . "/core/db.php";
 require DB_PATH . "/core/session.php";
 require DB_PATH . "/core/lib/auth.php";

@@ -2,7 +2,7 @@
 
 $id = intval( $entry );
 
-$sql = sprintf( "select title,safe from entries where id=%d", $id );
+$sql = sprintf( "select title,safe,user from entries where id=%d", $id );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die("Query Error");
@@ -11,6 +11,7 @@ if ( ! $result = $db->query( $sql ) ) {
 $entry = $result->fetch_assoc();
 $title = $entry['title'];
 $rating = $entry['safe'];
+$pass = true;
 
 $sql = sprintf( "select t.name from tags t, tagmap m where m.entry=%d && t.id=m.tag", $id );
 
@@ -24,6 +25,9 @@ $tags = '';
 for($i = 0; $row = $result->fetch_assoc(); ++$i ) {
 	$tags .= ( $i > 0 ) ? ',' . str_replace('_',' ',$row['name']) : str_replace('_',' ',$row['name']);
 }
+
+if($authenticated && $_SESSION['auth_id'] == $entry['user'])
+	$pass = false;
 
 include DB_PATH . '/core/themes/' . DB_THEME . '/edit.php';
 ?>
