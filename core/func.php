@@ -95,10 +95,6 @@ function imgtypetomime( $type ) {
 	return 'image/' . imgtypetoext( $type );
 }
 
-function debug ($text) {
-	print "<br>" . $text;
-}
-
 if (!function_exists('getallheaders'))
 {
     function getallheaders()
