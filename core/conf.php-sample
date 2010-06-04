@@ -13,6 +13,6 @@ define('DB_COMMENTS', false);
 define('DB_THEME', 'default');
 define('DB_LOGFILE', '/cache/errors.log');
 
-define('DB_VERSION', '1.0-rc1');
+define('DB_VERSION', '1.0-rc2');
 
 ?>
