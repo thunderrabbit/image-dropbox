@@ -3,7 +3,18 @@
 $ts = microtime(true);
 
 // Bring in the needed stuff and setup the connection to the database
-require '../core/conf.php';
+$config_file = '../core/conf.php';
+if(file_exists($config_file)) {
+	require '../core/conf.php';
+}
+else
+{
+	print "<p>Config file " . $config_file . " not found.  Cannot continue.  Have you installed image-dropbox properly?";
+	print "<pre>";
+	require '../INSTALL';
+	print "</pre>";
+	exit;
+}
 require DB_PATH . "/core/lib/exception.php";
 require DB_PATH . "/core/db.php";
 require DB_PATH . "/core/session.php";
