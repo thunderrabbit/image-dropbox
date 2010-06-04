@@ -80,7 +80,7 @@ if ( ! $result ) die("Failed Query");
 	</div>
 <?
 $pages = ceil( $num / $count );
-$tagurl = ($tags) ? "/tags/$tags" : '';
+$tagurl = ($tags) ? DB_LOC . "/tags/$tags" : DB_LOC;
 if ( $pages > 1 && $page > 1 )
 	echo "<a href=\"$tagurl/page/" . ($page-1) . "/\">&lt;prev</a>";
 if ( $pages > 1 ) {
