@@ -7,6 +7,12 @@ class dropbox_mysqli extends mysqli
 		return $this->real_escape_string( $string );
 	}
 
+	public function query($query)
+	{
+		debug_hook($query);
+		return parent::query($query);
+	}
+
 	public function select( $query ) {
 		// may add hook in here for memcache support
 		if ( $results = $this->query( $query ) ) {

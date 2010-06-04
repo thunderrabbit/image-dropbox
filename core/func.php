@@ -32,7 +32,7 @@ function update_hook($entry, $field, $from, $to)
 
 function debug_hook($msg)
 {
-	trigger_error($msg, E_NOTICE);
+	trigger_error($msg);
 }
 
 function tagField($db,$limit=null)

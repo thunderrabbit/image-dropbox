@@ -269,7 +269,7 @@ class image {
 		try {
 			$tags = new Tags($this->db, $this->entryid);
 			$tags->update($this->tags);
-			$tags->save();
+			$tags->save(false);
 			return true;
 		} catch(Exception $e) {
 			throw new ImageException('application error while setting tags',true);
