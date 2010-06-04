@@ -1,0 +1,6 @@
+<?php
+
+$auth->logout();
+redirect();
+
+?>

@@ -3,7 +3,8 @@
 //$ts = microtime(time);
 
 require '../core/conf.php';
-require $path . '/core/func.php';
+require DB_PATH . '/core/db.php';
+require DB_PATH . '/core/func.php';
 
 $mode = ( $_GET['mode'] == 'thumb' ) ? 'thumb' : 'image';
 $id = intval( $_GET['id'] );
@@ -15,7 +16,7 @@ $row = $result->fetch_assoc();
 $date = $row['date'];
 $size = $row['size'];
 $type = $row['type'];
-$parent_id = ($row['parent']) ? $row['parent'] : $id;
+$parent_id = ( $row['parent'] > 0 ) ? $row['parent'] : $id;
 
 $ar = apache_request_headers();
 
@@ -32,7 +33,7 @@ if ( isset( $ar['If-Modified-Since'] ) &&
 
 $cacheid = sha1( $id . $mode );
 if ( checkcache( $cacheid ) ) {
-	echo file_get_contents( $path . '/cache/' . $cacheid );	
+	echo file_get_contents( DB_PATH . '/cache/' . $cacheid );	
 } else {
 
 if ( $mode == 'thumb' )
@@ -45,7 +46,7 @@ if ( $mode == 'thumb' )
 		header( 'Content-Length: ' . $row['size'] );
 		header( "content-type: image/jpeg" );
 		echo $row['data'];
-		file_put_contents( $path . '/cache/' . $cacheid, $row['data'] );
+		file_put_contents( DB_PATH . '/cache/' . $cacheid, $row['data'] );
 	}
 
 } else {

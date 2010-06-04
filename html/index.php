@@ -4,19 +4,28 @@ $ts = microtime(true);
 
 // Bring in the needed stuff and setup the connection to the database
 require '../core/conf.php';
-require $path . "/core/session.php";
-require $path . "/core/func.php";
+require DB_PATH . "/core/db.php";
+require DB_PATH . "/core/session.php";
+require DB_PATH . "/core/lib/auth.php";
+require DB_PATH . "/core/func.php";
+require DB_PATH . '/core/themes/' . DB_THEME . '/strings.php';
+
+$auth = new Auth($db);
+
+// Check auth
+$authenticated = $auth->check_auth();
 
 // Process arguments
 if ( $_GET['args'] ) {
 	// Args are seperated by '/' to make purdy urls
 	$args = explode('/', $_GET['args'] );
-	
+
+	// This input handling needs to be cleaned up, it is very messy
 	// Loop through the incoming arguments and setup the section/entry/tags variables
 	for ( $i = 0, $c = count( $args ); $i < $c; ++$i ) {
 		// Hackish switch statement with lots of confusing drop throughs
 		switch ( strval( $args[$i] ) ) {
-			// Sections that tage an entry as an argument
+			// Sections that take an entry as an argument
 			case 'page':
 				// the page psudo-section uses the entry arg to as it's current page argument
 				$section = 'home';
@@ -26,6 +35,7 @@ if ( $_GET['args'] ) {
 			case 'comment':
 			case 'track':
 			case 'delete':
+			case 'user':
 				// don't want to overwrite section if it has already been set
 				if ( !$section ) 
 					$section = $args[$i];
@@ -45,6 +55,13 @@ if ( $_GET['args'] ) {
 			case 'submit':
 			case 'hide':
 			case 'search':
+			case 'login':
+			case 'signup':
+			case 'dosignup':
+			case 'dologin':
+			case 'me':
+			case 'changemy':
+			case 'logout':
 				if ( !$section )
 					$section = $args[$i];
 				break;
@@ -69,16 +86,18 @@ if ( !$section ) $section = 'home';
 ob_start(); // temp hack to get redirections on outputless pages to work.
 
 // Output our shit, header followed by section content and lastly the footer. Oh and the debugging poop.
-require $path . "/core/header.php";
-require $path . "/core/pages/" . $section . ".php";
+require DB_PATH . "/core/themes/" . DB_THEME . "/header.php";
+require DB_PATH . "/core/pages/" . $section . ".php";
 
-// Debug script timing
+// Debug script timing, yes there is stuff done after this but not enough to make a difference
 $te = microtime(true);
 $t = round( $te - $ts, 4 );
 echo "<br/>script executed in $t seconds<br/>";
 
-require $path . "/core/footer.php";
+require DB_PATH . "/core/themes/" . DB_THEME . "/footer.php";
 
 ob_flush(); // temp hack to get redirections on outputless pages to work.
+
+$db->close();
 
 ?>
