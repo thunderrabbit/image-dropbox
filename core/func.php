@@ -23,7 +23,7 @@ function update_hook($entry, $field, $from, $to)
 
 	$host = gethostbyaddr($_SERVER['REMOTE_ADDR']) . ' (' . 
 			$_SERVER['REMOTE_ADDR'] . ')';
-	$sql = sprintf( "insert into updates (entry,ip,date,field,`from`,`to`) 
+	$sql = sprintf( "insert into updates (`entry`,`ip`,`date`,`change`,`from`,`to`) 
 			values (%d,'%s',%d,'%s','%s','%s')", $entry, $host, time(), $field, 
 			$from, $to);
 	if(!$db->query($sql))
@@ -32,7 +32,7 @@ function update_hook($entry, $field, $from, $to)
 
 function debug_hook($msg)
 {
-	trigger_error($msg, E_USER_ERROR);
+	trigger_error($msg);
 }
 
 function tagField($db,$limit=null)

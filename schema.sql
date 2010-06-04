@@ -3,45 +3,29 @@ SET foreign_key_checks = 0;
 --
 -- Table structure for table `data`
 --
-DROP TABLE IF EXISTS `robox`.`data`;
-CREATE TABLE `robox`.`data` (
+CREATE TABLE `data` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
   `entryid` int(11) NOT NULL,
   `filedata` blob NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY  (`id`),
   FOREIGN KEY (entryid) REFERENCES entries (id) on delete cascade
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `namespace`
 --
-DROP TABLE IF EXISTS `robox`.`namespace`;
-CREATE TABLE `robox`.`namespace` (
-`id` int(11) NOT NULL auto_increment,
-`name` varchar(255) not null,
-`protected` tinyint default 0,
-`password` varchar(40) default NULL,
-PRIMARY KEY (`id`)
+CREATE TABLE `namespace` (
+	`id` int(11) NOT NULL auto_increment,
+	`name` varchar(255) not null,
+	`protected` tinyint default 0,
+	`password` varchar(40) default NULL,
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `collection`
 --
-DROP TABLE IF EXISTS `robox`.`collection`;
-CREATE TABLE `robox`.`collection` (
-`id` int(11) NOT NULL auto_increment,
-`title` varchar(25) default NULL,
-`description` varchar(255) default NULL,
-`user` int(11) default NULL,
-PRIMARY KEY (`id`),
-FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB;
-
---
--- Table structure for table `collection`
---
-DROP TABLE IF EXISTS `robox`.`collection`;
-CREATE TABLE `robox`.`collection` (
+CREATE TABLE `collection` (
 	`id` int(11) NOT NULL auto_increment,
 	`title` varchar(25) default NULL,
 	`description` varchar(255) default NULL,
@@ -53,8 +37,7 @@ CREATE TABLE `robox`.`collection` (
 --
 -- Table structure for table `entries`
 --
-DROP TABLE IF EXISTS `robox`.`entries`;
-CREATE TABLE `robox`.`entries` (
+CREATE TABLE `entries` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) default NULL,
   `type` varchar(25) default NULL,
@@ -63,7 +46,7 @@ CREATE TABLE `robox`.`entries` (
   `safe` tinyint(4) default 1,
   `height` int(11) default NULL,
   `date` int(10) unsigned default NULL,
-  `views` int(10) unsigned default NULL,
+  `views` int(10) unsigned default 0,
   `ip` varchar(255) default NULL,
   `password` varchar(40) default NULL,
   `hash` varchar(40) default NULL,
@@ -71,7 +54,7 @@ CREATE TABLE `robox`.`entries` (
   `child` int(11) default NULL,
   `namespace` int(11) default NULL,
   `user` int(11) default NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY  (`id`),
   KEY (`namespace`),
   FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,
   FOREIGN KEY (user) REFERENCES users (id) on delete set null,
@@ -82,22 +65,20 @@ CREATE TABLE `robox`.`entries` (
 --
 -- Table structure for table `thumbs`
 --
-DROP TABLE IF EXISTS `robox`.`thumbs`;
-CREATE TABLE `robox`.`thumbs` (
-`id` int(11) NOT NULL AUTO_INCREMENT,
-`entry` int(11) NOT NULL,
-`custom` tinyint default 0,
-`data` blob,
-`size` int(11) NOT NULL,
-PRIMARY KEY (`id`),
-FOREIGN KEY (`entry`) REFERENCES `entries` (`id`) on delete cascade
+CREATE TABLE `thumbs` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`entry` int(11) NOT NULL,
+	`custom` tinyint default 0,
+	`data` blob,
+	`size` int(11) NOT NULL,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`entry`) REFERENCES `entries` (`id`) on delete cascade
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `tagmap`
 --
-DROP TABLE IF EXISTS `robox`.`tagmap`;
-CREATE TABLE `robox`.`tagmap` (
+CREATE TABLE `tagmap` (
   `tag` int(11) NOT NULL,
   `entry` int(11) NOT NULL,
   FOREIGN KEY (tag) REFERENCES tags (id) on delete cascade,
@@ -107,73 +88,69 @@ CREATE TABLE `robox`.`tagmap` (
 --
 -- Table structure for table `tags`
 --
-DROP TABLE IF EXISTS `robox`.`tags`;
-CREATE TABLE `robox`.`tags` (
+CREATE TABLE `tags` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `date` int(11) unsigned default 0,
   `namespace` int(11) default NULL,
   FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB;
 
 
 --
 -- Table structure for table `updates`
 --
-DROP TABLE IF EXISTS `robox`.`updates`;
-CREATE TABLE `robox`.`updates` (
-`id` int(11) NOT NULL auto_increment,
-`entry` int(11) default NULL,
-`ip` varchar(255) NOT NULL,
-`date` int(10) unsigned NOT NULL,
-`change` varchar(50) NOT NULL,
-`from` text NOT NULL,
-`to` text NOT NULL,
-   `namespace` int(11) default NULL,
-   FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,
-FOREIGN KEY (entry) REFERENCES entries (id) on delete set null,
-PRIMARY KEY (`id`)
+CREATE TABLE `updates` (
+	`id` int(11) NOT NULL auto_increment,
+	`entry` int(11) default NULL,
+	`ip` varchar(255) NOT NULL,
+	`date` int(10) unsigned NOT NULL,
+	`change` varchar(50) NOT NULL,
+	`field` varchar(50) NOT NULL,
+	`from` text NOT NULL,
+	`to` text NOT NULL,
+  	`namespace` int(11) default NULL,
+  	FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,
+	FOREIGN KEY (entry) REFERENCES entries (id) on delete set null,
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `comments`
 --
-DROP TABLE IF EXISTS `robox`.`comments`;
-CREATE TABLE `robox`.`comments` (
-`id` int(11) NOT NULL auto_increment,
-`entry` int(11) NOT NULL,
-`date` int(10) unsigned NOT NULL,
-`ip` varchar(255) NOT NULL,
-`name` varchar(50) NOT NULL,
-`content` text NOT NULL,
-   `namespace` int(11) default NULL,
-   FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,
-FOREIGN KEY (entry) REFERENCES entries (id) on delete cascade,
-PRIMARY KEY (`id`)
+CREATE TABLE `comments` (
+	`id` int(11) NOT NULL auto_increment,
+	`entry` int(11) NOT NULL,
+	`date` int(10) unsigned NOT NULL,
+	`ip` varchar(255) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`content` text NOT NULL,
+  	`namespace` int(11) default NULL,
+  	FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,
+	FOREIGN KEY (entry) REFERENCES entries (id) on delete cascade,
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `users`
 --
-DROP TABLE IF EXISTS `robox`.`users`;
-CREATE TABLE `robox`.`users` (
-`id` int(11) NOT NULL auto_increment,
-`username` varchar(25) NOT NULL,
-`password` varchar(40) NOT NULL,
-`salt` varchar(40) NOT NULL,
-`email` varchar(255) NOT NULL,
-`email_hash` varchar(32) NOT NULL,
-`alias` varchar(50) NOT NULL,
-`joindate` int(11) unsigned NOT NULL,
-PRIMARY KEY (`id`)
+CREATE TABLE `users` (
+	`id` int(11) NOT NULL auto_increment,
+	`username` varchar(12) NOT NULL,
+	`password` varchar(40) NOT NULL,
+	`salt` varchar(40) NOT NULL,
+	`email` varchar(255) NOT NULL,
+	`email_hash` varchar(32) NOT NULL,
+	`alias` varchar(50) NOT NULL,
+	`joindate` int(11) unsigned NOT NULL,
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `namespacemap`
 --
-DROP TABLE IF EXISTS `robox`.`namespacemap`;
-CREATE TABLE `robox`.`namespacemap` (
+CREATE TABLE `namespacemap` (
   `namespace` int(11) NOT NULL,
   `user` int(11) NOT NULL,
   `privileges` int(11) default 1,

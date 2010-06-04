@@ -193,7 +193,6 @@ class image {
 	
 	public function createentry($authenticated=false) {
 		try {
-			$user = ($authenticated) ? $_SESSION['auth_id'] : NULL;
 			$entry = new Entry($this->db);
 			$entry->update('title', $this->title);
 			$entry->update('type', $this->type);
@@ -204,7 +203,8 @@ class image {
 			$entry->update('password', $this->password);
 			$entry->update('safe', $this->worksafe);
 			$entry->update('hash', $this->hash);
-			$entry->update('user', $user);
+			if($authenticated)
+				$entry->update('user', $_SESSION['auth_id']);
 			$entry->save();
 			$this->entryid = $entry->get_id();
 			return true;
@@ -269,7 +269,7 @@ class image {
 		try {
 			$tags = new Tags($this->db, $this->entryid);
 			$tags->update($this->tags);
-			$tags->save();
+			$tags->save(false);
 			return true;
 		} catch(Exception $e) {
 			throw new ImageException('application error while setting tags',true);

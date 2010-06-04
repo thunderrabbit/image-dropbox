@@ -111,7 +111,7 @@ class Tags {
 		$this->del = array_diff($this->list, $new);
 	}
 
-	public function save()
+	public function save($update=true)
 	{
 		foreach($this->add as $tag)
 			$this->associate($tag);
@@ -119,7 +119,8 @@ class Tags {
 		foreach($this->del as $tag)
 			$this->disassociate($tag);
 
-		update_hook($this->id, 'tags', $this->new_string, $this->old_string);
+		if($update)
+			update_hook($this->id, 'tags', $this->new_string, $this->old_string);
 	}
 }
 

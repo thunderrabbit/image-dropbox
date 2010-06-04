@@ -66,6 +66,7 @@ class Entry {
 			if(!$this->db->query($sql))
 				throw new DBException('error in insert query ' . $sql );
 			$this->id = $this->db->insert_id;
+			$update = false;
 		} else {
 			if(count($this->updates) > 0) {
 				foreach($this->updates as $key => $val) {
@@ -77,10 +78,11 @@ class Entry {
 				if(!$this->db->query($sql))
 					throw new DBException('error in update query');
 			}
+			$update = true;
 		}
 
 		if(!is_null($this->tags))
-			$this->tags->save();
+			$this->tags->save($update);
 	}
 
 	public function update_tags($tags)
