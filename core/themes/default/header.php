@@ -8,7 +8,7 @@
 	<body>
 	<div id="container">
 		<div id="header">
-			<h1><?=DB_TITLE?><span class="beta">beta</span></h1>
+			<h1><?=DB_TITLE?></h1>
 			<div id="navigation">
 				<a href="<?=DB_LOC;?>/">home</a> 
 				<a href="<?=DB_LOC;?>/upload/">upload</a>
