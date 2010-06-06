@@ -1,28 +1,21 @@
 
-
 php_flag zlib.output_compression On
-php_value zlib.output_compression_level 5 
+php_value zlib.output_compression_level 5
 
 RewriteEngine on
 RewriteBase /
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^image/([^/]*)/?(.*)?$ monty.bear/html/image.php?mode=image&id=$1&args=$2 [L,QSA]
+RewriteRule ^image/([^/]*)/?(.*)?$ html/image.php?mode=image&id=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^thumb/([^/]*)/?(.*)?$ monty.bear/html/image.php?mode=thumb&id=$1&args=$2 [L,QSA]
+RewriteRule ^thumb/([^/]*)/?(.*)?$ html/image.php?mode=thumb&id=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^api/([^/]*)/?(.*)?$ monty.bear/html/api.php?cmd=$1&args=$2 [L,QSA]
+RewriteRule ^api/([^/]*)/?(.*)?$ html/api.php?cmd=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^$ html/
-
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)/?$ monty.bear/html/index.php?args=$1 [L,QSA]
-
-
+RewriteRule ^(.*)/?$ html/index.php?args=$1 [L,QSA]
