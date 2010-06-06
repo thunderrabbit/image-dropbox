@@ -7,15 +7,15 @@ RewriteBase /
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^image/([^/]*)/?(.*)?$ html/image.php?mode=image&id=$1&args=$2 [L,QSA]
+RewriteRule ^html/image/([^/]*)/?(.*)?$ html/image.php?mode=image&id=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^thumb/([^/]*)/?(.*)?$ html/image.php?mode=thumb&id=$1&args=$2 [L,QSA]
+RewriteRule ^html/thumb/([^/]*)/?(.*)?$ html/image.php?mode=thumb&id=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^api/([^/]*)/?(.*)?$ html/api.php?cmd=$1&args=$2 [L,QSA]
+RewriteRule ^html/api/([^/]*)/?(.*)?$ html/api.php?cmd=$1&args=$2 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)/?$ html/index.php?args=$1 [L,QSA]
