@@ -25,7 +25,7 @@ class Entry {
 		if(is_null($id))
 			throw new DBException('no entry id to load');
 	
-		$sql = sprintf('SELECT * FROM " . DB_PREFIX . "entries WHERE id=%d', $id);
+		$sql = sprintf("SELECT * FROM " . DB_PREFIX . "entries WHERE id=%d", $id);
 		if(!$result = $this->db->query($sql))
 			throw new DBException('error in select query');
 		$this->data = $result->fetch_assoc();
