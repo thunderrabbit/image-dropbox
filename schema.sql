@@ -3,18 +3,18 @@ SET foreign_key_checks = 0;
 --
 -- Table structure for table `data`
 --
-CREATE TABLE `data` (
+CREATE TABLE `monty_data` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
   `entryid` int(11) NOT NULL,
   `filedata` blob NOT NULL,
   PRIMARY KEY  (`id`),
-  FOREIGN KEY (entryid) REFERENCES entries (id) on delete cascade
+  FOREIGN KEY (entryid) REFERENCES monty_entries (id) on delete cascade
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `namespace`
 --
-CREATE TABLE `namespace` (
+CREATE TABLE `monty_namespace` (
 	`id` int(11) NOT NULL auto_increment,
 	`name` varchar(255) not null,
 	`protected` tinyint default 0,
@@ -25,19 +25,19 @@ CREATE TABLE `namespace` (
 --
 -- Table structure for table `collection`
 --
-CREATE TABLE `collection` (
+CREATE TABLE `monty_collection` (
 	`id` int(11) NOT NULL auto_increment,
 	`title` varchar(25) default NULL,
 	`description` varchar(255) default NULL,
 	`user` int(11) default NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE SET NULL
+	FOREIGN KEY (`user`) REFERENCES `monty_users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `entries`
 --
-CREATE TABLE `entries` (
+CREATE TABLE `monty_entries` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) default NULL,
   `type` varchar(25) default NULL,
@@ -56,44 +56,44 @@ CREATE TABLE `entries` (
   `user` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY (`namespace`),
-  FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,
-  FOREIGN KEY (user) REFERENCES users (id) on delete set null,
-  FOREIGN KEY (parent) REFERENCES entries (id) on delete cascade,
-  FOREIGN KEY (child) REFERENCES entries (id) on delete set null
+  FOREIGN KEY (namespace) REFERENCES monty_namespace (id) on delete set null,
+  FOREIGN KEY (user) REFERENCES monty_users (id) on delete set null,
+  FOREIGN KEY (parent) REFERENCES monty_entries (id) on delete cascade,
+  FOREIGN KEY (child) REFERENCES monty_entries (id) on delete set null
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `thumbs`
 --
-CREATE TABLE `thumbs` (
+CREATE TABLE `monty_thumbs` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`entry` int(11) NOT NULL,
 	`custom` tinyint default 0,
 	`data` blob,
 	`size` int(11) NOT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`entry`) REFERENCES `entries` (`id`) on delete cascade
+	FOREIGN KEY (`entry`) REFERENCES `monty_entries` (`id`) on delete cascade
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `tagmap`
 --
-CREATE TABLE `tagmap` (
+CREATE TABLE `monty_tagmap` (
   `tag` int(11) NOT NULL,
   `entry` int(11) NOT NULL,
-  FOREIGN KEY (tag) REFERENCES tags (id) on delete cascade,
-  FOREIGN KEY (entry) REFERENCES entries (id) on delete cascade
+  FOREIGN KEY (tag) REFERENCES monty_tags (id) on delete cascade,
+  FOREIGN KEY (entry) REFERENCES monty_entries (id) on delete cascade
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `tags`
 --
-CREATE TABLE `tags` (
+CREATE TABLE `monty_tags` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `date` int(11) unsigned default 0,
   `namespace` int(11) default NULL,
-  FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,
+  FOREIGN KEY (namespace) REFERENCES monty_namespace (id) on delete set null,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB;
 
@@ -101,7 +101,7 @@ CREATE TABLE `tags` (
 --
 -- Table structure for table `updates`
 --
-CREATE TABLE `updates` (
+CREATE TABLE `monty_updates` (
 	`id` int(11) NOT NULL auto_increment,
 	`entry` int(11) default NULL,
 	`ip` varchar(255) NOT NULL,
@@ -111,15 +111,15 @@ CREATE TABLE `updates` (
 	`from` text NOT NULL,
 	`to` text NOT NULL,
   	`namespace` int(11) default NULL,
-  	FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,
-	FOREIGN KEY (entry) REFERENCES entries (id) on delete set null,
+  	FOREIGN KEY (namespace) REFERENCES monty_namespace (id) on delete set null,
+	FOREIGN KEY (entry) REFERENCES monty_entries (id) on delete set null,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `comments`
 --
-CREATE TABLE `comments` (
+CREATE TABLE `monty_comments` (
 	`id` int(11) NOT NULL auto_increment,
 	`entry` int(11) NOT NULL,
 	`date` int(10) unsigned NOT NULL,
@@ -127,15 +127,15 @@ CREATE TABLE `comments` (
 	`name` varchar(50) NOT NULL,
 	`content` text NOT NULL,
   	`namespace` int(11) default NULL,
-  	FOREIGN KEY (namespace) REFERENCES namespace (id) on delete set null,
-	FOREIGN KEY (entry) REFERENCES entries (id) on delete cascade,
+  	FOREIGN KEY (namespace) REFERENCES monty_namespace (id) on delete set null,
+	FOREIGN KEY (entry) REFERENCES monty_entries (id) on delete cascade,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table `users`
 --
-CREATE TABLE `users` (
+CREATE TABLE `monty_users` (
 	`id` int(11) NOT NULL auto_increment,
 	`username` varchar(12) NOT NULL,
 	`password` varchar(40) NOT NULL,
@@ -150,12 +150,12 @@ CREATE TABLE `users` (
 --
 -- Table structure for table `namespacemap`
 --
-CREATE TABLE `namespacemap` (
+CREATE TABLE `monty_namespacemap` (
   `namespace` int(11) NOT NULL,
   `user` int(11) NOT NULL,
   `privileges` int(11) default 1,
-  FOREIGN KEY (`namespace`) REFERENCES `namespace` (`id`) on delete cascade,
-  FOREIGN KEY (`user`) REFERENCES `users` (`id`) on delete cascade
+  FOREIGN KEY (`namespace`) REFERENCES `monty_namespace` (`id`) on delete cascade,
+  FOREIGN KEY (`user`) REFERENCES `monty_users` (`id`) on delete cascade
 ) ENGINE=InnoDB;
 
 SET foreign_key_checks = 1;
