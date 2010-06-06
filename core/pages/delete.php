@@ -4,13 +4,13 @@ $id = intval( $entry );
 
 if ( $_POST ) {
 
-	$sql = sprintf("select password,user from entries where id=%d", $id );
+	$sql = sprintf("select password,user from " . DB_PREFIX . "entries where id=%d", $id );
 	$result = $db->query( $sql );
 	$entry = $result->fetch_assoc();
 
 	if ( ( $authenticated && ( $_SESSION['auth_id'] == $entry['user'] ) ) || 
 			( $entry['password'] == sha1( strval( $_POST['password'] ) ) ) ) {
-		$sql = sprintf("delete from entries where id=%d", $id );
+		$sql = sprintf("delete from " . DB_PREFIX . "entries where id=%d", $id );
 		$db->query( $sql );
 		redirect();
 	}
@@ -21,7 +21,7 @@ if ( $_POST ) {
 	// display form
 	$confirm = false;
 	if ( $authenticated ) {
-		$sql = sprintf("select id from entries where id=%d and user=%d", $id, $_SESSION['auth_id'] );
+		$sql = sprintf("select id from " . DB_PREFIX . "entries where id=%d and user=%d", $id, $_SESSION['auth_id'] );
 		if ( $db->exists( $sql ) ) {
 			$confirm = true;
 		}

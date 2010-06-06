@@ -1,6 +1,6 @@
 <?php
 
-$sql = sprintf("SELECT * FROM users WHERE username='%s'", $db->safe($entry));
+$sql = sprintf("SELECT * FROM " . DB_PREFIX . "users WHERE username='%s'", $db->safe($entry));
 if ( ! $result = $db->query( $sql ) ) die('Failed Query');
 
 $user = $result->fetch_assoc();

@@ -108,8 +108,7 @@ class image {
 	}
 
 	public function checkduplicate() {
-		if ( $rel = $this->db->query('SELECT id FROM entries WHERE hash=\'' 
-					. $this->hash . '\'' ) ) {
+		if ( $rel = $this->db->query("SELECT id FROM " . DB_PREFIX . "entries WHERE hash='" . $this->hash . "'") ) {
 			$dup = ($rel->num_rows < 1);
 			$rel->free();
 			if ( ! $dup ) {
@@ -234,8 +233,8 @@ class image {
 		}
 		$data = $resize[1];
 
-		$sql = sprintf( 'INSERT INTO `thumbs` (`data`,`entry`,`custom`,`size`)
-						 VALUES (\'%s\',%d,%d,%d)',
+		$sql = sprintf("INSERT INTO `" . DB_PREFIX . "thumbs` (`data`,`entry`,`custom`,`size`)
+						 VALUES ('%s',%d,%d,%d)",
 						 $this->db->real_escape_string( $data ),
 						 $this->entryid,
 						 $custom,
@@ -251,8 +250,8 @@ class image {
 		$fp = fopen( $this->file, 'rb' );
 
 		while( !feof( $fp ) ) {
-			$sql = sprintf('INSERT INTO `data` (`entryid`,`filedata`) VALUES
-							(%d,\'%s\')', $this->entryid,
+			$sql = sprintf("INSERT INTO `" . DB_PREFIX . "data` (`entryid`,`filedata`) VALUES
+							(%d,'%s')", $this->entryid,
 							$this->db->real_escape_string( 
 								fread( $fp, $this->block ) ) );
 			if ( !$this->db->query( $sql ) ) {

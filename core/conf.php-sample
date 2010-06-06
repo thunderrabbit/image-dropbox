@@ -44,6 +44,7 @@ define('DB_HOST', '');		// name of host for database
 define('DB_DB', '');  		// name of database
 define('DB_USER', '');		// username for this database
 define('DB_PASS', '');		// password for this user
+define('DB_PREFIX', '');	// prefix table names allows multiple installs with one DB
 
 /********************************************************************************************/
 /*

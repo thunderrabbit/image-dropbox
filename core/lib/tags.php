@@ -23,25 +23,25 @@ class Tags {
 
 	private function associate($tag)
 	{
-		$sql = sprintf("select id from tags where name='%s'", $tag);
+		$sql = sprintf("select id from " . DB_PREFIX . "tags where name='%s'", $tag);
 		if(!$result = $this->db->query($sql))
 			throw new DBException('associate - error in select query');
 
 		if($result->num_rows != 0) {
 			$row = $result->fetch_array();
 			$id = $row[0];
-			$sql = sprintf('update tags set date=UNIX_TIMESTAMP() where id=%d', $id);
+			$sql = sprintf("update " . DB_PREFIX . "tags set date=UNIX_TIMESTAMP() where id=%d", $id);
 			if(!$this->db->query($sql))
 				throw new DBException('associate - error in update query');
 		} else {
-			$sql = sprintf("insert into tags (name,date) values ('%s',UNIX_TIMESTAMP())", $tag);
+			$sql = sprintf("insert into " . DB_PREFIX . "tags (name,date) values ('%s',UNIX_TIMESTAMP())", $tag);
 			if(!$this->db->query($sql))
 				throw new DBException('associate - error in insert query');
 			$id = $this->db->insert_id;
 		}
 		$result->free();
 
-		$sql = sprintf('insert into tagmap (tag,entry) values (%d,%d)', $id, $this->id);
+		$sql = sprintf("insert into " . DB_PREFIX . "tagmap (tag,entry) values (%d,%d)", $id, $this->id);
 		if(!$this->db->query($sql))
 			throw new DBException('associate - error in insert query');
 	}
@@ -50,22 +50,22 @@ class Tags {
 	{
 		// remove tagmap entry (since we already asked for the tag ids should
 		// really store that data for use here
-		$sql = sprintf("select id from tags where name='%s'", $tag);
+		$sql = sprintf("select id from " . DB_PREFIX . "tags where name='%s'", $tag);
 		if(!$result = $this->db->query($sql))
 			throw new DBException('error in select query');
 		$row = $result->fetch_assoc();
 		$result->free();
 		
-		$sql = sprintf('delete from tagmap where tag=%d and entry=%d', $row['id'], $this->id);
+		$sql = sprintf("delete from " . DB_PREFIX . "tagmap where tag=%d and entry=%d", $row['id'], $this->id);
 		if(!$this->db->query($sql))
 			throw new DBException('error in delete query');
 
-		$sql = sprintf('select * from tagmap where tag=%d', $row['id']);
+		$sql = sprintf("select * from " . DB_PREFIX . "tagmap where tag=%d", $row['id']);
 		if(!$result = $this->db->query($sql))
 			throw new DBException('error in select query');
 	
 		if($result->num_rows == 0) {
-			$sql = sprintf('delete from tags where id=%d', $row['id']);
+			$sql = sprintf("delete from " . DB_PREFIX . "tags where id=%d", $row['id']);
 			if(!$this->db->query($sql))
 				throw new DBException('error in delete query');
 		}
@@ -88,7 +88,7 @@ class Tags {
 		if(is_null($id))
 			throw new DBException('no entry id to load tags for');
 
-		$sql = sprintf("SELECT t.name FROM tags t, tagmap m WHERE m.entry=%d &&
+		$sql = sprintf("SELECT t.name FROM " . DB_PREFIX . "tags t, " . DB_PREFIX . "tagmap m WHERE m.entry=%d &&
 						t.id=m.tag ORDER BY t.name", $id);
 		if(!$result = $this->db->query($sql))
 			throw new DBException('error in tag select query');

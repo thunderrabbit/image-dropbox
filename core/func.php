@@ -23,7 +23,7 @@ function update_hook($entry, $field, $from, $to)
 
 	$host = gethostbyaddr($_SERVER['REMOTE_ADDR']) . ' (' . 
 			$_SERVER['REMOTE_ADDR'] . ')';
-	$sql = sprintf( "insert into updates (`entry`,`ip`,`date`,`change`,`from`,`to`) 
+	$sql = sprintf( "insert into " . DB_PREFIX . "updates (`entry`,`ip`,`date`,`change`,`from`,`to`) 
 			values (%d,'%s',%d,'%s','%s','%s')", $entry, $host, time(), $field, 
 			$from, $to);
 	if(!$db->query($sql))
@@ -38,7 +38,7 @@ function debug_hook($msg)
 
 function tagField($db,$limit=null)
 {
-	$sql = 'select t.name, m.tag, count(m.tag) as num from tagmap as m, tags as t where t.id=m.tag group by tag order by date desc';
+	$sql = "select t.name, m.tag, count(m.tag) as num from " . DB_PREFIX . "tagmap as m, " . DB_PREFIX . "tags as t where t.id=m.tag group by tag order by date desc";
 	$sql .= ( !is_null( $limit ) ) ? ' LIMIT ' . $limit : null;
 	$max_size = 250;
 	$min_size = 100;

@@ -25,7 +25,7 @@ class Entry {
 		if(is_null($id))
 			throw new DBException('no entry id to load');
 	
-		$sql = sprintf('SELECT * FROM entries WHERE id=%d', $id);
+		$sql = sprintf('SELECT * FROM " . DB_PREFIX . "entries WHERE id=%d', $id);
 		if(!$result = $this->db->query($sql))
 			throw new DBException('error in select query');
 		$this->data = $result->fetch_assoc();
@@ -61,7 +61,7 @@ class Entry {
 				$fields = key($this->updates);
 				$values = $this->updates[0];
 			}
-			$sql = sprintf("INSERT INTO entries (%s,date,views) VALUES 
+			$sql = sprintf("INSERT INTO " . DB_PREFIX . "entries (%s,date,views) VALUES 
 					('%s',UNIX_TIMESTAMP(),0)", $fields, $values);
 			if(!$this->db->query($sql))
 				throw new DBException('error in insert query ' . $sql );
@@ -73,7 +73,7 @@ class Entry {
 					$updates[] = $key . "='" . $val . "'";
 					update_hook($this->id, $key, $this->data[$key], $val);
 				}
-				$sql = sprintf('UPDATE entries SET %s WHERE id=%d', 
+				$sql = sprintf("UPDATE " . DB_PREFIX . "entries SET %s WHERE id=%d", 
 						implode(',', $updates), $this->id);
 				if(!$this->db->query($sql))
 					throw new DBException('error in update query');

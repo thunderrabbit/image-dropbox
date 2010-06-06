@@ -4,7 +4,7 @@ require '../core/conf.php';
 require $path . "/core/func.php";
 
 //select all tags
-$sql = "select * from tags";
+$sql = "select * from " . DB_PREFIX . "tags";
 $result = $db->query( $sql );
 
 // find ones that have extra whitespace
@@ -27,13 +27,13 @@ foreach( $ws_tags as $ws ) {
 		}
 	}
 	if ( $found ) {
-		$sql = sprintf( "update tagmap set tag=%d where tag=%d", $found, $ws['id'] );
+		$sql = sprintf( "update " . DB_PREFIX . "tagmap set tag=%d where tag=%d", $found, $ws['id'] );
 		$db->query( $sql );
 		print $sql."<br/>";
-		$sql = sprintf( "delete from tags where id=%d", $ws['id'] );
+		$sql = sprintf( "delete from " . DB_PREFIX . "tags where id=%d", $ws['id'] );
 		$db->query( $sql );
 	} else {
-		$sql = sprintf( "update tags set name='%s' where id=%d", substr($ws['name'],1), $ws['id'] );
+		$sql = sprintf( "update " . DB_PREFIX . "tags set name='%s' where id=%d", substr($ws['name'],1), $ws['id'] );
 		$db->query( $sql );
 		print $sql."<br/>";
 	}

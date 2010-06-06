@@ -3,7 +3,7 @@
 require '../core/conf.php';
 require $path . '/core/func.php';
 
-$sql = "select * from thumbs where custom=0";
+$sql = "select * from " . DB_PREFIX . "thumbs where custom=0";
 $result = $db->query( $sql );
 
 while ( $thumb = $result->fetch_assoc() ) {
@@ -33,7 +33,7 @@ while ( $thumb = $result->fetch_assoc() ) {
 	imagedestroy( $ithumb );
 
 	$size = strlen( $output );
-	$sql = sprintf("update thumbs set size=%d,data='%s' where id=%d", $size, $db->real_escape_string( $output ), $thumb['id']);
+	$sql = sprintf("update " . DB_PREFIX . "thumbs set size=%d,data='%s' where id=%d", $size, $db->real_escape_string( $output ), $thumb['id']);
 	$db->query( $sql );
 }
 

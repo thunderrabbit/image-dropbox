@@ -10,7 +10,7 @@ if(DB_COMMENTS) {
 			$host = gethostbyaddr( $_SERVER['REMOTE_ADDR'] ) . ' (' . $_SERVER['REMOTE_ADDR'] . ')';
 
 			if ( $content ) {
-				$sql = sprintf( "insert into comments (entry,name,content,ip,date) values (%d,'%s','%s','%s',%d)",
+				$sql = sprintf( "insert into " . DB_PREFIX . "comments (entry,name,content,ip,date) values (%d,'%s','%s','%s',%d)",
 								$id,$db->safe($name), $db->safe($content), $host, time() );
 				if ( !$db->query( $sql ) )
 				  {

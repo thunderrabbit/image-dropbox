@@ -8,7 +8,7 @@ if ( $tags ) {
                 switch ( $value{0} ) {
                         case '-': # don't show entries with these tags
                                 $tag = substr( $tag, 1 );
-                                $joins .= " left outer join tagmap t{$k} on t{$k}.entry=entries.id && t{$k}.tag=(SELECT id FROM tags WHERE name='$tag') ";
+                                $joins .= " left outer join " . DB_PREFIX . "tagmap t{$k} on t{$k}.entry=" . DB_PREFIX . "entries.id && t{$k}.tag=(SELECT id FROM " . DB_PREFIX . "tags WHERE name='$tag') ";
                                 $where[] = " t{$k}.tag is null ";
                                 break;
                         case '~':
@@ -35,10 +35,10 @@ if ( $tags ) {
 							}
                         default: # show entries with these tags
 							//if ( substr( $value, -1, 1 ) == '*' )
-							//	$joins .= " inner join tagmap t{$k} on t{$k}.entry=entries.id && t{$k}.tag=(SELECT id FROM tags WHERE name like '%" .
+							//	$joins .= " inner join " . DB_PREFIX . "tagmap t{$k} on t{$k}.entry=" . DB_PREFIX . "entries.id && t{$k}.tag=(SELECT id FROM " . DB_PREFIX . "tags WHERE name like '%" .
 							//			substr($tag, 0, -1) . "%') ";
 							//else
-                                $joins .= " inner join tagmap t{$k} on t{$k}.entry=entries.id && t{$k}.tag=(SELECT id FROM tags WHERE name='$tag') ";
+                                $joins .= " inner join " . DB_PREFIX . "tagmap t{$k} on t{$k}.entry=" . DB_PREFIX . "entries.id && t{$k}.tag=(SELECT id FROM " . DB_PREFIX . "tags WHERE name='$tag') ";
                             break;
                 }
         }
@@ -57,7 +57,7 @@ $direction = 'desc';
 $count = 50;
 $offset = $count * ($page - 1);
 
-$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title,type from entries %s where parent is null %s order by %s %s limit %d offset %d",
+$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title,type from " . DB_PREFIX . "entries %s where parent is null %s order by %s %s limit %d offset %d",
                         $joins, $where, $sort, $direction, $count, $offset );
 #print $sql;
 $result = $db->query( $sql );

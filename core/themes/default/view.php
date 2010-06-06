@@ -40,7 +40,7 @@
 	<br/>
 	<h3>Comments:</h3>
 	<?php
-	$sql = sprintf( "select * from comments where entry=%d order by date desc", $id );
+	$sql = sprintf( "select * from " . DB_PREFIX . "comments where entry=%d order by date desc", $id );
 	$result = $db->query( $sql );
 	while( $row = $result->fetch_assoc() ) {
 	?>

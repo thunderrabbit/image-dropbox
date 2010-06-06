@@ -2,7 +2,7 @@
 
 $id = intval( $entry );
 
-$sql = sprintf( "select title,safe,user from entries where id=%d", $id );
+$sql = sprintf( "select title,safe,user from " . DB_PREFIX . "entries where id=%d", $id );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die("Query Error");
@@ -13,7 +13,7 @@ $title = $entry['title'];
 $rating = $entry['safe'];
 $pass = true;
 
-$sql = sprintf( "select t.name from tags t, tagmap m where m.entry=%d && t.id=m.tag", $id );
+$sql = sprintf( "select t.name from " . DB_PREFIX . "tags t, " . DB_PREFIX . "tagmap m where m.entry=%d && t.id=m.tag", $id );
 
 $info = $result->fetch_assoc();
 

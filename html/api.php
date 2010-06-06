@@ -5,7 +5,7 @@ require $path . '/core/func.php';
 
 function tags($db)
 {
-	$sql = 'select name from tags';
+	$sql = "select name from " . DB_PREFIX . "tags";
 	if ( ! $result = $db->query( $sql ) ) die( 'Failed Query' );
 
 	while( $row = $result->fetch_assoc() ) 
@@ -14,7 +14,7 @@ function tags($db)
 
 function images($db)
 {
-	$sql = 'select id from entries';
+	$sql = "select id from " . DB_PREFIX . "entries";
 	if ( ! $result = $db->query( $sql ) ) die( 'Failed Query' );
 	while( $row = $result->fetch_assoc() )
 		print "http://dropbox.easytospell.net/images/$row[id]/$row[id].jpg\n";

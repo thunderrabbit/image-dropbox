@@ -10,7 +10,7 @@ $mode = ( $_GET['mode'] == 'thumb' ) ? 'thumb' : 'image';
 $id = intval( $_GET['id'] );
 
 
-$sql = 'SELECT date,size,parent,type FROM entries WHERE id=' . $id;
+$sql = "SELECT date,size,parent,type FROM " . DB_PREFIX . "entries WHERE id=" . $id;
 $result = $db->query( $sql );
 $row = $result->fetch_assoc();
 $date = $row['date'];
@@ -38,7 +38,7 @@ if ( checkcache( $cacheid ) ) {
 
 if ( $mode == 'thumb' )
 {
-	$sql = 'SELECT data,size FROM thumbs WHERE entry=' . $id . ' && custom=' .
+	$sql = "SELECT data,size FROM " . DB_PREFIX . "thumbs WHERE entry=" . $id . ' && custom=' .
 		( ( $_GET['args'] && substr( $_GET['args'], 0, 6 ) == 'custom' ) ? 1 : 0 );
 
 	if ( $result = $db->query( $sql ) ) {
@@ -50,9 +50,9 @@ if ( $mode == 'thumb' )
 	}
 
 } else {
-	$sql = sprintf( "UPDATE entries SET views=views+1 WHERE id=%d", $parent_id );
+	$sql = sprintf( "UPDATE " . DB_PREFIX . "entries SET views=views+1 WHERE id=%d", $parent_id );
 	if ( !$db->query( $sql ) ) die( "Query Error" );
-	$sql = sprintf( "SELECT id FROM data WHERE entryid=%d order by id", $id );
+	$sql = sprintf( "SELECT id FROM " . DB_PREFIX . "data WHERE entryid=%d order by id", $id );
 	$result = $db->query( $sql );
 	header('Content-Length: ' . $size );
 	header("content-type: " . imgtypetomime($type) );
@@ -60,7 +60,7 @@ if ( $mode == 'thumb' )
 		$chunks[] = $row[0];
 	$size = count( $chunks );
 	for( $i = 0; $i < $size; ++$i ) {
-		$sql = sprintf( "select filedata from data where id=%d", $chunks[$i] );
+		$sql = sprintf( "select filedata from " . DB_PREFIX . "data where id=%d", $chunks[$i] );
 		$result = $db->query( $sql );
 		$row = $result->fetch_array();
 		echo $row[0];

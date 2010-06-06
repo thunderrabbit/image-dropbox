@@ -3,7 +3,7 @@
 if (!$authenticated)
 	redirect();
 
-$sql = sprintf("SELECT * FROM users WHERE id=%d", $_SESSION['auth_id']);
+$sql = sprintf("SELECT * FROM " . DB_PREFIX . "users WHERE id=%d", $_SESSION['auth_id']);
 if ( ! $result = $db->query( $sql ) ) die('Failed Query');
 
 $user = $result->fetch_assoc();

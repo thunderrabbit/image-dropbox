@@ -34,7 +34,7 @@ class Auth {
 
 	public function login($username, $password)
 	{
-		$sql = sprintf("SELECT * FROM users WHERE username='%s'",
+		$sql = sprintf("SELECT * FROM " . DB_PREFIX . "users WHERE username='%s'",
 				$this->db->safe($username));
 		$result = $this->db->query($sql);
 		$user = $result->fetch_assoc();
@@ -80,7 +80,7 @@ class Auth {
 		$alias = $this->db->safe($alias);
 		$email = $this->db->safe($email);
 
-		$sql = sprintf("SELECT username FROM users WHERE username='%s'", 
+		$sql = sprintf("SELECT username FROM " . DB_PREFIX . "users WHERE username='%s'", 
 					$username);
 
 		if($this->db->exists($sql))
@@ -98,7 +98,7 @@ class Auth {
 		$salt = sha1($username);
 		$password_hash = sha1($password1 . $salt);
 		$email_hash = md5($email);
-		$sql = sprintf("INSERT INTO users (username,alias,email,email_hash,
+		$sql = sprintf("INSERT INTO " . DB_PREFIX . "users (username,alias,email,email_hash,
 						password,salt,joindate) VALUES ('%s','%s','%s','%s',
 						'%s','%s',UNIX_TIMESTAMP())", $username, $alias, 
 						$email, $email_hash, $password_hash, $salt);
