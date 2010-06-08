@@ -2,8 +2,10 @@
 
 // If there are tags
 if ( $tags ) {
-        $taglist = split( ' ', $tags );
-        foreach ( $taglist as $k => $value ) {
+	$value = strtok($tags, " \n\t");
+	$k == 0;
+	while($value) {
+		$k++;
                 $tag = $db->real_escape_string( strval( $value ) );
                 switch ( $value{0} ) {
                         case '-': # don't show entries with these tags
@@ -41,6 +43,7 @@ if ( $tags ) {
                                 $joins .= " inner join " . DB_PREFIX . "tagmap t{$k} on t{$k}.entry=" . DB_PREFIX . "entries.id && t{$k}.tag=(SELECT id FROM " . DB_PREFIX . "tags WHERE name='$tag') ";
                             break;
                 }
+		$value = strtok(' \n\t');
         }
         if ( $where ) 
                 $where = ' && ' . implode( ' && ', $where );
