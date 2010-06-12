@@ -24,7 +24,7 @@
 	<br/>
 	Views: <?=$entry['views']; ?>
 	<br/>
-	Dimentions: <?=$entry['width']?>x<?=$entry['height']?>
+	Dimensions: <?=$entry['width']?>x<?=$entry['height']?>
 	<br/>
 	Size: <?=floor($entry['size']/1024)?>kb
 	<br/>
