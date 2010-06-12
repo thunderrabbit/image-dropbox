@@ -36,7 +36,7 @@
 	<a href="<?=DB_LOC;?>/edit/<?=$id;?>/">Edit Info</a>&nbsp;
 	<a href="<?=DB_LOC;?>/delete/<?=$id;?>/">Delete</a>&nbsp;
 	<br/>
-	<a href="<?=DB_LOC;?>/image/<?=$id;?>/<?=$filename;?>"><img alt="<?=$title;?>" width="<?=$width?>" height="<?=$height?>" src="<?=DB_LOC;?>/image/<?=$display_id;?>/<?=$filename;?>" /></a>
+	<a href="<?=DB_LOC;?>/image/<?=$id;?>/<?=$filename;?>"><img alt="<?=$entry['title'];?>" width="<?=$width?>" height="<?=$height?>" src="<?=DB_LOC;?>/image/<?=$display_id;?>/<?=$filename;?>" /></a>
 	<br/>
 	<h3>Comments:</h3>
 	<?php
