@@ -49,6 +49,9 @@ class Auth {
 		$_SESSION['auth_salt'] = $user['salt'];
 		$_SESSION['auth_email'] = $user['email'];
 		$_SESSION['auth_email_hash'] = $user['email_hash'];
+		if(isset($user['admin']) && $user['admin'])
+			$_SESSION['auth_admin'] = true;
+
 		$this->set_auth_cookie();
 	}
 
@@ -62,6 +65,7 @@ class Auth {
 		unset($_SESSION['auth_salt']);
 		unset($_SESSION['auth_email']);
 		unset($_SESSION['auth_email_hash']);
+		unset($_SESSION['auth_admin']);
 	}
 
 	private function valid_alias($alias)

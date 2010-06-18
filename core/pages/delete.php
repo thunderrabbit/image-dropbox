@@ -8,7 +8,8 @@ if ( $_POST ) {
 	$result = $db->query( $sql );
 	$entry = $result->fetch_assoc();
 
-	if ( ( $authenticated && ( $_SESSION['auth_id'] == $entry['user'] ) ) || 
+	if ( ( $authenticated && ( $_SESSION['auth_admin'] ) ) || 
+		( $authenticated && ( $_SESSION['auth_id'] == $entry['user'] ) ) || 
 			( $entry['password'] == sha1( strval( $_POST['password'] ) ) ) ) {
 		$sql = sprintf("delete from " . DB_PREFIX . "entries where id=%d", $id );
 		$db->query( $sql );
