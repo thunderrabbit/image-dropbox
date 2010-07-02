@@ -6,7 +6,7 @@ if ( $_POST ) {
 	$id = intval($entry);
 	try {
 		$entry = new Entry($db, $id);
-		if(!($authenticated && $entry->get('user') == $_SESSION['auth_id']))
+		if(!($authenticated && ($entry->get('user') == $_SESSION['auth_id'] || $_SESSION['auth_admin'])))
 			$entry->check_pass($_POST['password']);
 		$entry->update_tags($_POST['tags']);
 		$entry->update('title', $_POST['title']);
