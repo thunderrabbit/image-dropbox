@@ -8,7 +8,7 @@
 			</tr>
 			<tr>
 				<td>tags</td>
-				<td><input type="text" name="tags" value="<?=stripslashes( $tags ); ?>" /></td>
+				<td><textarea rows="3" cols="30" name="tags"><?=stripslashes( $tags ); ?></textarea></td>
 			</tr>
 			<tr>
 				<td>worksafe</td>
