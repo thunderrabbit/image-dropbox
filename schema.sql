@@ -40,6 +40,7 @@ CREATE TABLE `monty_collection` (
 CREATE TABLE `monty_entries` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) default NULL,
+  `description` text,
   `type` varchar(25) default NULL,
   `size` bigint(20) default NULL,
   `width` int(11) default NULL,
