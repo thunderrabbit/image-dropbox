@@ -3,7 +3,7 @@
 $id = intval( $entry );
 $_SESSION['verify.' . $id ] = sha1(time().$id);
 
-$sql = sprintf( "select title,width,height,size,date,views,ip,safe,hash,child,type,user from " . DB_PREFIX . "entries where id=%d", $id );
+$sql = sprintf( "select title,description,width,height,size,date,views,ip,safe,hash,child,type,user from " . DB_PREFIX . "entries where id=%d", $id );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die("Query Error");

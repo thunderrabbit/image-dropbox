@@ -2,7 +2,7 @@
 
 $id = intval( $entry );
 
-$sql = sprintf( "select title,safe,user from " . DB_PREFIX . "entries where id=%d", $id );
+$sql = sprintf( "select title,description,safe,user from " . DB_PREFIX . "entries where id=%d", $id );
 
 if ( ! $result = $db->query( $sql ) ) {
 	die("Query Error");
@@ -10,6 +10,7 @@ if ( ! $result = $db->query( $sql ) ) {
 
 $entry = $result->fetch_assoc();
 $title = $entry['title'];
+$description = $entry['description'];
 $rating = $entry['safe'];
 $pass = true;
 

@@ -20,6 +20,8 @@
 	<br/>
 	Worksafe: <?=($entry['safe'] == 1) ? 'Yes' : 'No'; ?>
 	<br/>
+	Description: <?=$entry['description']; ?>
+	<br/>
 	Uploaded: <?=date('Y-m-d @ H:i:s', $entry['date']);?> UTC
 	<br/>
 	Views: <?=$entry['views']; ?>

@@ -19,6 +19,7 @@ class image {
 	private $height;
 	private $type;
 	private $title;
+	private $description;
 	private $tags;
 	private $entryid;
 	private $image;
@@ -65,6 +66,9 @@ class image {
 					$this->title = $this->db->safe( $_POST['title'] );
 				} else {
 					throw new ImageException(DB_STR_IMGERR_NOTITLE);
+				}
+				if ( $_POST['description'] ) {
+					$this->description = $this->db->safe( $_POST['description'] );
 				}
 				if ( $img = getimagesize( $this->file ) ) {
 					if ( in_array( $img[2], array( 1, 2, 3 ) ) ) {
@@ -194,6 +198,7 @@ class image {
 		try {
 			$entry = new Entry($this->db);
 			$entry->update('title', $this->title);
+			$entry->update('description', $this->description);
 			$entry->update('type', $this->type);
 			$entry->update('size', $this->size);
 			$entry->update('width', $this->width);

@@ -11,6 +11,10 @@
 				<td><textarea rows="3" cols="30" name="tags"><?=stripslashes( $tags ); ?></textarea></td>
 			</tr>
 			<tr>
+				<td>description</td>
+				<td><textarea name="description" rows="8" cols="50"><?=stripslashes( $description ); ?></textarea></td>
+			</tr>
+			<tr>
 				<td>worksafe</td>
 				<td>
 					<input type="radio" <? if ($rating == 1) echo 'checked="checked"'; ?> name="rating" value="1" /> Yes 

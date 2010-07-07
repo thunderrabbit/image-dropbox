@@ -22,6 +22,10 @@ unset( $_SESSION['upload_errors'] );
 		<td><textarea rows="3" cols="30" name="tags"></textarea></td>
 	</tr>
 	<tr>
+		<td>description</td>
+		<td><textarea name="description" rows="8" cols="50"><?=stripslashes( $description ); ?></textarea></td>
+	</tr>
+	<tr>
 		<td>file</td>
 		<td><input type="file" name="image" /></td>
 	</tr>
