@@ -19,7 +19,7 @@ unset( $_SESSION['upload_errors'] );
 	</tr>
 	<tr>
 		<td>tags</td>
-		<td><textarea rows="3" cols="30" name="tags"></textarea></td>
+		<td><textarea rows="3" cols="30" name="tags"><?=DB_DEFAULT_TAGS?></textarea></td>
 	</tr>
 	<tr>
 		<td>description</td>
