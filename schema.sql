@@ -138,6 +138,7 @@ CREATE TABLE `monty_comments` (
 CREATE TABLE `monty_users` (
 	`id` int(11) NOT NULL auto_increment,
 	`username` varchar(12) NOT NULL,
+	`admin` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'for now, 0 for nothing, 1 for admin',
 	`password` varchar(40) NOT NULL,
 	`salt` varchar(40) NOT NULL,
 	`email` varchar(255) NOT NULL,
