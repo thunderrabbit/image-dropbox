@@ -2,51 +2,7 @@
 
 // If there are tags
 if ( $tags ) {
-	$value = strtok($tags, " \n\t");
-	$k == 0;
-	while($value) {
-		$k++;
-                $tag = $db->real_escape_string( strval( $value ) );
-                switch ( $value{0} ) {
-                        case '-': # don't show entries with these tags
-                                $tag = substr( $tag, 1 );
-                                $joins .= " left outer join " . DB_PREFIX . "tagmap t{$k} on t{$k}.entry=" . DB_PREFIX . "entries.id && t{$k}.tag=(SELECT id FROM " . DB_PREFIX . "tags WHERE name='$tag') ";
-                                $where[] = " t{$k}.tag is null ";
-                                break;
-                        case '~':
-                                # not implemented yet
-                                break;
-						case 's': # sorting
-							if ( ( strlen( $value ) > 2 ) && $value{1} == ':' ) {
-								switch ( substr( $value, 2 ) ) {
-									case 's':
-									case 'size':
-										$sort = 'size';
-										break;
-									case 'v':
-									case 'views':
-										$sort = 'views';
-										break;
-									case 'd':
-									case 'date':
-									default:
-										$sort = 'date';
-										break;
-								}
-								break;
-							}
-                        default: # show entries with these tags
-							//if ( substr( $value, -1, 1 ) == '*' )
-							//	$joins .= " inner join " . DB_PREFIX . "tagmap t{$k} on t{$k}.entry=" . DB_PREFIX . "entries.id && t{$k}.tag=(SELECT id FROM " . DB_PREFIX . "tags WHERE name like '%" .
-							//			substr($tag, 0, -1) . "%') ";
-							//else
-                                $joins .= " inner join " . DB_PREFIX . "tagmap t{$k} on t{$k}.entry=" . DB_PREFIX . "entries.id && t{$k}.tag=(SELECT id FROM " . DB_PREFIX . "tags WHERE name='$tag') ";
-                            break;
-                }
-		$value = strtok(' \n\t');
-        }
-        if ( $where ) 
-                $where = ' && ' . implode( ' && ', $where );
+	tagParse($db,$tags,$joins,$where,$sort);
 }
 
 if ( isset( $_SESSION['hide'] ) )
@@ -62,7 +18,7 @@ $offset = $count * ($page - 1);
 
 $sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title,type from " . DB_PREFIX . "entries %s where parent is null %s order by %s %s limit %d offset %d",
                         $joins, $where, $sort, $direction, $count, $offset );
-#print $sql;
+print $sql;
 $result = $db->query( $sql );
 $num = array_pop( $db->query( "SELECT FOUND_ROWS()" )->fetch_row() );
 if ( ! $result ) die("Failed Query");

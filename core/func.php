@@ -71,6 +71,56 @@ function tagField($db,$limit=null)
 	<?php
 }
 
+function tagParse(&$db,&$tags,&$joins,&$where,&$sort)
+{
+	$value = strtok($tags, " \n\t");
+	$k == 0;
+	while($value) {
+		$k++;
+                $tag = $db->real_escape_string( strval( $value ) );
+                switch ( $value{0} ) {
+                        case '-': # don't show entries with these tags
+                                $tag = substr( $tag, 1 );
+                                $joins .= " left outer join " . DB_PREFIX . "tagmap t{$k} on t{$k}.entry=" . DB_PREFIX . "entries.id && t{$k}.tag=(SELECT id FROM " . DB_PREFIX . "tags WHERE name='$tag') ";
+                                $where[] = " t{$k}.tag is null ";
+                                break;
+                        case '~':
+                                # not implemented yet
+                                break;
+						case 's': # sorting
+							if ( ( strlen( $value ) > 2 ) && $value{1} == ':' ) {
+								switch ( substr( $value, 2 ) ) {
+									case 's':
+									case 'size':
+										$sort = 'size';
+										break;
+									case 'v':
+									case 'views':
+										$sort = 'views';
+										break;
+									case 'd':
+									case 'date':
+									default:
+										$sort = 'date';
+										break;
+								}
+								break;
+							}
+                        default: # show entries with these tags
+							//if ( substr( $value, -1, 1 ) == '*' )
+							//	$joins .= " inner join " . DB_PREFIX . "tagmap t{$k} on t{$k}.entry=" . DB_PREFIX . "entries.id && t{$k}.tag=(SELECT id FROM " . DB_PREFIX . "tags WHERE name like '%" .
+							//			substr($tag, 0, -1) . "%') ";
+							//else
+                                $joins .= " inner join " . DB_PREFIX . "tagmap t{$k} on t{$k}.entry=" . DB_PREFIX . "entries.id && t{$k}.tag=(SELECT id FROM " . DB_PREFIX . "tags WHERE name='$tag') ";
+                            break;
+                }
+		$value = strtok(' \n\t');
+        }
+        if ( $where ) 
+                $where = ' && ' . implode( ' && ', $where );
+
+}
+
 function checkcache( $cache_id ) {
 	return ( file_exists( DB_PATH . '/cache/' . $cache_id ) );
 }
