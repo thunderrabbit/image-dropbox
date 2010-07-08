@@ -71,7 +71,7 @@ function tagField($db,$limit=null)
 	<?php
 }
 
-function tagParse(&$db,&$tags,&$sql,&$count)
+function tagParse(&$db,&$tags,&$sql,$count,$entry=0)
 {
 	if ( $tags ) {
 		$value = strtok($tags, " \n\t");
@@ -129,12 +129,20 @@ function tagParse(&$db,&$tags,&$sql,&$count)
 	if ( !$sort )
 		$sort = 'date';
 	$direction = 'desc';
-	$count = 50;
 	$offset = $count * ($page - 1);
-	
-	$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title,type from " . DB_PREFIX . "entries %s where parent is null %s order by %s %s limit %d offset %d",
-	                        $joins, $where, $sort, $direction, $count, $offset );
-	print $sql;
+
+	if($count)
+	{	
+		$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title,type from " . DB_PREFIX . "entries %s where parent is null %s group by `id` order by %s %s limit %d offset %d",
+		                        $joins, $where, $sort, $direction, $count, $offset );
+	}
+	else
+	{
+		$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title,type from " . DB_PREFIX . "entries %s where parent is null %s group by `id` order by %s %s",
+		                        $joins, $where, $sort, $direction );
+	}
+
+#	print $sql;
 }
 
 function checkcache( $cache_id ) {

@@ -8,7 +8,7 @@
 	<div class="tags">
 	Tags: 
 	<?
-	for($i = 0; $row = $tags->fetch_assoc(); ++$i ) {
+	for($i = 0; $row = $tag_result->fetch_assoc(); ++$i ) {
 		if ( $i > 0 ) echo ', ';
 		echo '<a href="' . DB_LOC . '/tags/' . urlencode( $row['name'] ) . '/">' . str_replace('_',' ',$row['name']) . '</a>';
 	}
@@ -18,7 +18,17 @@
 	<a href="<?=DB_LOC;?>/track/<?=$id;?>/">Track Changes</a>&nbsp;
 	<a href="<?=DB_LOC;?>/edit/<?=$id;?>/">Edit Info</a>&nbsp;
 	<a href="<?=DB_LOC;?>/delete/<?=$id;?>/">Delete</a>&nbsp;
-	<br/>
+<? if($prev_id || $next_id) : ?>
+	<div class="prev_next">
+<? if($prev_id) : ?>
+	<a href="http://<?=DB_URL;?><?=DB_LOC;?>/view/<?=$prev_id;?>/<?=($tags ? 'tags/'.$tags : '')?>">prev</a>
+<? endif;($prev_id); ?>
+<? if($next_id) : ?>
+	<a href="http://<?=DB_URL;?><?=DB_LOC;?>/view/<?=$next_id;?>/<?=($tags ? 'tags/'.$tags : '')?>">next</a>
+<? endif;($next_id); ?>
+	</div>
+<? endif; // ($prev_id || $next_id) : ?>
+
 	<a href="<?=DB_LOC;?>/image/<?=$id;?>/<?=$filename;?>"><img alt="<?=$entry['title'];?>" width="<?=$width?>" height="<?=$height?>" src="<?=DB_LOC;?>/image/<?=$display_id;?>/<?=$filename;?>" /></a>
 	<br/>
 	<h3>Comments:</h3>

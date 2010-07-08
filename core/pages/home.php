@@ -1,10 +1,12 @@
 <?php
 
 // defined in /core/func.php
-tagParse($db,$tags,$sql,$count);
+$count = 50;
+tagParse($db,$tags,$sql,$count,$entry);
 
 $result = $db->query( $sql );
 $num = array_pop( $db->query( "SELECT FOUND_ROWS()" )->fetch_row() );
+
 if ( ! $result ) die("Failed Query");
 
 ?>
@@ -16,7 +18,7 @@ if ( ! $result ) die("Failed Query");
 	</div>
 	<div id="images">
 	<? for($i = 1; $row = $result->fetch_assoc(); ++$i ) { ?>	
-		<a title="<?=$row['title'];?>" href="<?=DB_LOC;?>/view/<?=$row['id'];?>/">
+		<a title="<?=$row['title'];?>" href="<?=DB_LOC;?>/view/<?=$row['id'];?>/<?=($tags ? 'tags/'.$tags : '')?>">
 			<img src="<?=DB_LOC;?>/thumb/<?=$row['id'];?>/<?=$row['id'];?>.<?=imgtypetoext($row['type']);?>" alt="<?=$row['title'];?>" />
 		</a>
 	<? } ?>
