@@ -1,11 +1,11 @@
 	<div id="content">
-	<h2>View</h2>
+
+	<div class="title"><?=$entry['title'];?></div>
 	<? if ( $custom ): ?>
 	Custom Thumbnail: http://<?=DB_URL;?><?=DB_LOC;?>/thumb/<?=$id;?>/custom/<?=$filename;?>
 	<br/>
 	<? endif; ?>
-	Title: <?=$entry['title'];?>
-	<br/>
+	<div class="tags">
 	Tags: 
 	<?
 	for($i = 0; $row = $tags->fetch_assoc(); ++$i ) {
@@ -13,8 +13,8 @@
 		echo '<a href="' . DB_LOC . '/tags/' . urlencode( $row['name'] ) . '/">' . str_replace('_',' ',$row['name']) . '</a>';
 	}
 	?>
-	<br/>
-	<?=$entry['description']; ?>
+	</div>
+	<div class="description"><?=$entry['description']; ?></div>
 	<a href="<?=DB_LOC;?>/track/<?=$id;?>/">Track Changes</a>&nbsp;
 	<a href="<?=DB_LOC;?>/edit/<?=$id;?>/">Edit Info</a>&nbsp;
 	<a href="<?=DB_LOC;?>/delete/<?=$id;?>/">Delete</a>&nbsp;
