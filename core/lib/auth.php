@@ -68,9 +68,9 @@ class Auth {
 		unset($_SESSION['auth_admin']);
 	}
 
-	private function valid_alias($alias)
+	private function valid_username($username)
 	{
-		return preg_match('/^[a-zA-Z0-9\-_.]+$/', $alias);
+		return preg_match('/^[a-zA-Z0-9\-_.]+$/', $username);
 	}
 
 	public function signup($username, $password1, $password2, $alias, $email)
@@ -90,8 +90,8 @@ class Auth {
 		if($this->db->exists($sql))
 			throw new DBException('username already exists');
 
-		if(!$this->valid_alias($alias))
-			throw new DBException('invalid characters in alias');
+		if(!$this->valid_username($username))
+			throw new DBException('invalid characters in username');
 
 		if($password1 != $password2)
 			throw new DBException('passwords do not match');

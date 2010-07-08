@@ -4,7 +4,7 @@
 if ( $_SESSION['signup_errors'] ) {
 ?>
 <h3>Errors</h3>
-<p class="error"><?php print implode('</p><p class="error">', $_SESSION['login_errors']); ?></p>
+<p class="error"><?php print implode('</p><p class="error">', $_SESSION['signup_errors']); ?></p>
 <?php
 unset( $_SESSION['signup_errors'] );
 }
