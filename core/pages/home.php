@@ -1,24 +1,8 @@
 <?php
 
-// If there are tags
-if ( $tags ) {
-	tagParse($db,$tags,$joins,$where,$sort);
-}
+// defined in /core/func.php
+tagParse($db,$tags,$sql,$count);
 
-if ( isset( $_SESSION['hide'] ) )
-	$where .= ' && safe=1 ';
-
-$page = ($entry) ? $entry : 1;
-
-if ( !$sort )
-	$sort = 'date';
-$direction = 'desc';
-$count = 50;
-$offset = $count * ($page - 1);
-
-$sql = sprintf( "select SQL_CALC_FOUND_ROWS id,title,type from " . DB_PREFIX . "entries %s where parent is null %s order by %s %s limit %d offset %d",
-                        $joins, $where, $sort, $direction, $count, $offset );
-print $sql;
 $result = $db->query( $sql );
 $num = array_pop( $db->query( "SELECT FOUND_ROWS()" )->fetch_row() );
 if ( ! $result ) die("Failed Query");

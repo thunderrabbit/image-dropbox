@@ -1,5 +1,8 @@
 <?php
 
+// defined in /core/func.php
+tagParse($db,$tags,$sql,$count);
+
 $id = intval( $entry );
 $_SESSION['verify.' . $id ] = sha1(time().$id);
 
