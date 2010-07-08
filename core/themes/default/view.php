@@ -12,7 +12,7 @@
 	<br/>
 	Tags: 
 	<?
-	for($i = 0; $row = $tags->fetch_assoc(); ++$i ) {
+	for($i = 0; $row = $tag_result->fetch_assoc(); ++$i ) {
 		if ( $i > 0 ) echo ', ';
 		echo '<a href="' . DB_LOC . '/tags/' . urlencode( $row['name'] ) . '/">' . str_replace('_',' ',$row['name']) . '</a>';
 	}
