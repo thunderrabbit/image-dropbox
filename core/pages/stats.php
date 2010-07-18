@@ -6,7 +6,7 @@ $stats_date = file_exists($stats_file) ? filemtime($stats_file) : 0;
 // GENERATE STATISTICS (once an hour)
 if ( ( time() - $stats_date >= 3600 ) ) {
 
-$sql = "SELECT count(*) count FROM entries";
+$sql = "SELECT count(*) count FROM " . DB_PREFIX . "entries";
 $result = $db->query( $sql );
 $row = $result->fetch_array();
 $num_images = $row[0];
