@@ -9,11 +9,11 @@
 	<a href="<?=DB_LOC;?>/track/">changes</a>
 	[<a href="<?=DB_LOC;?>/hide/"><?=($_SESSION['hide']) ? '' : 'not ';?>worksafe</a>]
 	<br/>
-	<span id="copy">&copy;<?=date('Y');?> <a href="http://www.easytospell.net">Richard Marshall</a> v<?=DB_VERSION;?></span>
-	</div>
-	</div>
 	<? if(file_exists(DB_PATH . '/core/local_footer.php')) {
 		include DB_PATH . '/core/local_footer.php';
 	} ?>
+	<span id="copy">&copy;<?=date('Y');?> <a href="http://www.easytospell.net">Richard Marshall</a> v<?=DB_VERSION;?></span>
+	</div>
+	</div>
 </body>
 </html>
