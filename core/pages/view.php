@@ -6,34 +6,29 @@ $_SESSION['verify.' . $id ] = sha1(time().$id);
 // defined in /core/func.php
 tagParse($db,$tags,$sql,0);	// 0 = don't limit the number of returned images (for prev/next calculation purposes)
 
-$found_prev = false;
+$found_next = false;
 $trailing_id = null;	// will be the id we saw in previous iteration of loop
 
 $result = $db->query( $sql );
-	 for($i = 1; $row = $result->fetch_assoc(); ++$i ) { 
-#if($trailing_id && $row['id'] == $id)
-#{
-#	$prev_id = $trailing_id;
-#	$found_prev = true;
-#}
+for($i = 1; $row = $result->fetch_assoc(); ++$i ) { 
 
-if($row['id'] == $id)
-{
-	if($trailing_id) {
-		$prev_id = $trailing_id;
+	if($row['id'] == $id)
+	{
+		if($trailing_id) {
+			$next_id = $trailing_id;
+		}
+		$found_next = true;
 	}
-	$found_prev = true;
-}
-
-if($found_prev && $id != $row['id'])
-{
-	$next_id = $row['id'];
-	break;
-}
-
-$trailing_id = $row['id'];
-
-}
+	
+	if($found_next && $id != $row['id'])
+	{
+		$prev_id = $row['id'];
+		break;
+	}
+	
+	$trailing_id = $row['id'];
+	
+	}
 
 $sql = sprintf( "select title,description,width,height,size,date,views,ip,safe,hash,child,type,user from " . DB_PREFIX . "entries where id=%d", $id );
 
