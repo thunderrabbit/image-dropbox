@@ -14,7 +14,7 @@
 	}
 	?>
 	</div>
-	<div class="description"><?=$entry['description']; ?></div>
+	<div class="description"><?=$description; ?></div>
 	<a href="<?=DB_LOC;?>/track/<?=$id;?>/">Track Changes</a>&nbsp;
 	<a href="<?=DB_LOC;?>/edit/<?=$id;?>/">Edit Info</a>&nbsp;
 	<a href="<?=DB_LOC;?>/delete/<?=$id;?>/">Delete</a>&nbsp;

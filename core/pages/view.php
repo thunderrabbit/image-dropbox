@@ -59,6 +59,8 @@ $result = $db->query($sql);
 $custom = ( $result->num_rows == 1 );
 $display_id = ($entry['child']) ? $entry['child'] : $id;
 
+$description = str_replace(array("\\r\\n", "\\r", "\\n"), "<br />", $entry['description']);   # nl2br doesn't work for some reason
+
 $filename = $id . '.' . imgtypetoext( $entry['type'] );
 
 if ( $entry['user'] > 0 ) {
