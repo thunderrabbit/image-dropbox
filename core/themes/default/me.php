@@ -11,7 +11,7 @@
 	</tr>
 </table>
 <h3>Update Password:</h3>
-<form action="https://<?=DB_URL;?>/<?=DB_LOC;?>changemy/password/" method="post">
+<form action="http<?=(DB_SECURE) ? 's' : '';?>://<?=DB_URL;?><?=DB_LOC;?>/changemy/password/" method="post">
 <table>
 	<tr>
 		<td>Current Password:</td>
