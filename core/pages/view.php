@@ -54,7 +54,8 @@ $result = $db->query($sql);
 $custom = ( $result->num_rows == 1 );
 $display_id = ($entry['child']) ? $entry['child'] : $id;
 
-$description = str_replace(array("\\r\\n", "\\r", "\\n"), "<br />", $entry['description']);   # nl2br doesn't work for some reason
+# $description = nl2br($entry['description']);
+$description = str_replace(array("\r\n", "\r", "\n", "\\r\\n", "\\r", "\\n"), "<br />", $entry['description']);   # nl2br doesn't work for some reason on my browser
 
 $filename = $id . '.' . imgtypetoext( $entry['type'] );
 
